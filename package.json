@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/res-app",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -36,7 +36,9 @@
     "@things-factory/i18n-ui": "*",
     "@things-factory/more-ui": "*",
     "@things-factory/setting-ui": "*",
-    "@things-scene/mqtt": "*"
+    "@things-scene/mqtt": "*",
+    "@things-scene/random": "*",
+    "@things-scene/switch": "^1.0.0-beta.1"
   },
   "devDependencies": {}
 }
