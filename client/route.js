@@ -6,5 +6,9 @@ export default function route(page) {
     case 'home':
       import('./pages/home')
       return page
+
+    case 'sheet':
+      import('./pages/sheet')
+      return page
   }
 }

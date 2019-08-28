@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/res-app",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -33,8 +33,10 @@
     "@things-factory/board-service": "*",
     "@things-factory/board-ui": "*",
     "@things-factory/context-ui": "*",
+    "@things-factory/grist-ui": "*",
     "@things-factory/i18n-ui": "*",
     "@things-factory/more-ui": "*",
+    "@things-factory/resource-ui": "*",
     "@things-factory/setting-ui": "*",
     "@things-scene/mqtt": "*",
     "@things-scene/random": "*",

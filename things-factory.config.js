@@ -7,6 +7,10 @@ export default {
     {
       tagname: 'home-page',
       page: 'home'
+    },
+    {
+      tagname: 'sheet-page',
+      page: 'sheet'
     }
   ],
   route

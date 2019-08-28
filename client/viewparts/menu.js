@@ -1,4 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
+import gql from 'graphql-tag'
+import { client, gqlBuilder } from '@things-factory/shell'
 
 export class MenuPart extends LitElement {
   static get styles() {
@@ -39,17 +41,55 @@ export class MenuPart extends LitElement {
     `
   }
 
+  static get properties() {
+    return {
+      sheets: Array
+    }
+  }
+
   render() {
     return html`
-      ${[1, 2, 3, 4, 5].map(
-        id => html`
+      ${(this.sheets || []).map(sheet => {
+        var board = sheet.board || {}
+
+        return html`
           <div>
-            <a href="/board-viewer/${id}" viewer>Menu ${id}</a>
-            <a href="/board-modeller/${id}" modeller><mwc-icon>edit</mwc-icon></a>
+            <a href="/board-viewer/${board.id}" viewer>${sheet.name}</a>
+            <a href="/board-modeller/${board.id}" modeller><mwc-icon>edit</mwc-icon></a>
           </div>
         `
-      )}
+      })}
     `
+  }
+
+  firstUpdated() {
+    this.fetchSheets()
+  }
+
+  async fetchSheets() {
+    this.sheets = (await client.query({
+      query: gql`
+        {
+          sheets(${gqlBuilder.buildArgs({
+            filters: [],
+            pagination: {},
+            sortings: []
+          })}) {
+            items {
+              id
+              name
+              description
+              board {
+                id
+                name
+                description
+              }
+            }
+            total
+          }
+        }
+      `
+    })).data.sheets.items
   }
 }
 
