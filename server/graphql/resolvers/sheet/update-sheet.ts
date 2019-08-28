@@ -5,7 +5,9 @@ import { Board } from '@things-factory/board-service'
 export const updateSheet = {
   async updateSheet(_: any, { name, patch }, context: any) {
     const repository = getRepository(Sheet)
-    const sheet = await repository.findOne({ name })
+    const sheet = await repository.findOne({
+      where: { domain: context.domain, name }
+    })
 
     var board = sheet.board
 

@@ -1,8 +1,9 @@
 import { LitElement, html, css } from 'lit-element'
 import gql from 'graphql-tag'
-import { client, gqlBuilder } from '@things-factory/shell'
+import { store, client, gqlBuilder } from '@things-factory/shell'
+import { connect } from 'pwa-helpers/connect-mixin.js'
 
-export class MenuPart extends LitElement {
+export class MenuPart extends connect(store)(LitElement) {
   static get styles() {
     return css`
       :host {
@@ -17,6 +18,10 @@ export class MenuPart extends LitElement {
         padding: 2px 4px;
       }
 
+      div[active] {
+        background-color: var(--primary-background-color);
+      }
+
       div:hover {
         background-color: var(--primary-background-color);
       }
@@ -25,6 +30,10 @@ export class MenuPart extends LitElement {
         font-size: 1.3em;
         text-decoration: none;
         color: var(--primary-text-color);
+      }
+
+      [viewer] {
+        flex: 1;
       }
 
       [modeller] {
@@ -43,7 +52,8 @@ export class MenuPart extends LitElement {
 
   static get properties() {
     return {
-      sheets: Array
+      sheets: Array,
+      boardId: String
     }
   }
 
@@ -53,7 +63,7 @@ export class MenuPart extends LitElement {
         var board = sheet.board || {}
 
         return html`
-          <div>
+          <div ?active=${this.boardId == board.id}>
             <a href="/board-viewer/${board.id}" viewer>${sheet.name}</a>
             <a href="/board-modeller/${board.id}" modeller><mwc-icon>edit</mwc-icon></a>
           </div>
@@ -90,6 +100,10 @@ export class MenuPart extends LitElement {
         }
       `
     })).data.sheets.items
+  }
+
+  stateChanged(state) {
+    this.boardId = state.route.resourceId
   }
 }
 
