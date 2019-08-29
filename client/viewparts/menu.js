@@ -58,8 +58,10 @@ export class MenuPart extends connect(store)(LitElement) {
   }
 
   render() {
+    var sheets = (this.sheets || []).filter(sheet => sheet.active)
+
     return html`
-      ${(this.sheets || []).map(sheet => {
+      ${sheets.map(sheet => {
         var board = sheet.board || {}
 
         return html`
@@ -89,6 +91,7 @@ export class MenuPart extends connect(store)(LitElement) {
               id
               name
               description
+              active
               board {
                 id
                 name

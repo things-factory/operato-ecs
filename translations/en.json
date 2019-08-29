@@ -1,3 +1,7 @@
 {
-  "text.sheet management": "sheet management"
+  "text.sheet management": "sheet management",
+  "field.board": "board",
+  "button.commit": "commit",
+  "button.delete": "delete",
+  "button.reload": "reload"
 }

@@ -5,9 +5,15 @@ import gql from 'graphql-tag'
 import { store, PageView, isMobileDevice, client, gqlBuilder } from '@things-factory/shell'
 
 import '@things-factory/grist-ui'
-import { i18next } from '@things-factory/i18n-base'
+import { i18next, localize } from '@things-factory/i18n-base'
 
-class Sheet extends connect(store)(PageView) {
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array)
+  }
+}
+
+class Sheet extends connect(store)(localize(i18next)(PageView)) {
   static get properties() {
     return {
       config: Object
@@ -28,6 +34,32 @@ class Sheet extends connect(store)(PageView) {
     `
   }
 
+  get context() {
+    return {
+      title: i18next.t('text.sheet management'),
+      actions: [
+        {
+          title: i18next.t('button.reload'),
+          action: () => {
+            this.onReload()
+          }
+        },
+        {
+          title: i18next.t('button.delete'),
+          action: () => {
+            this.onDelete()
+          }
+        },
+        {
+          title: i18next.t('button.commit'),
+          action: () => {
+            this.onCommit()
+          }
+        }
+      ]
+    }
+  }
+
   render() {
     return html`
       <data-grist
@@ -35,12 +67,6 @@ class Sheet extends connect(store)(PageView) {
         .config=${this.config}
         .fetchHandler=${this.fetchHandler}
       ></data-grist>
-
-      <div buttons>
-        <input type="button" name="reload" value="reload" @click=${e => this.onReload()} />
-        <input type="button" name="delete" value="delete" @click=${e => this.onDelete()} />
-        <input type="button" name="commit" value="commit" @click=${e => this.onCommit()} />
-      </div>
     `
   }
 
@@ -50,35 +76,93 @@ class Sheet extends connect(store)(PageView) {
 
   stateChanged(state) {}
 
-  onCommit() {
-    console.log('dirties', this.grist.dirtyRecords)
-    this.grist.dirtyRecords.forEach(async record => {
-      var patch = {
-        description: record.description,
-        active: record.active,
-        boardId: record.board && record.board.id
-      }
+  async onCommit() {
+    var grist = this.grist
 
-      await client.mutate({
-        mutation: gql`
-          mutation UpdateSheet($name: String!, $patch: SheetPatch!) {
-            updateSheet(name: $name, patch: $patch) {
-              id
-              name
-            }
-          }
-        `,
-        variables: {
-          name: record.name,
-          patch: patch
+    var modifiedList = grist.dirtyRecords.filter(record => record['__dirty__'] == 'M')
+    var addedList = grist.dirtyRecords.filter(record => record['__dirty__'] == '+')
+
+    await Promise.all(
+      modifiedList.map(async record => {
+        var patch = {
+          description: record.description,
+          active: record.active,
+          boardId: record.board && record.board.id
         }
+
+        return await client.mutate({
+          mutation: gql`
+            mutation($name: String!, $patch: SheetPatch!) {
+              updateSheet(name: $name, patch: $patch) {
+                id
+                name
+              }
+            }
+          `,
+          variables: {
+            name: record.name,
+            patch: patch
+          }
+        })
       })
-    })
+    )
+
+    await Promise.all(
+      addedList.map(async record => {
+        var sheet = {
+          name: record.name,
+          description: record.description,
+          active: record.active,
+          boardId: record.board && record.board.id
+        }
+
+        return await client.mutate({
+          mutation: gql`
+            mutation CreateSheet($sheet: NewSheet!) {
+              createSheet(sheet: $sheet) {
+                id
+                name
+              }
+            }
+          `,
+          variables: {
+            sheet
+          }
+        })
+      })
+    )
+
+    grist.fetch()
   }
 
-  onReload() {}
+  onReload() {
+    this.grist.fetch()
+  }
 
-  onDelete() {}
+  async onDelete() {
+    var grist = this.grist
+
+    var deletedList = grist.selected
+
+    await Promise.all(
+      deletedList.map(async record => {
+        var name = record.name
+
+        return await client.mutate({
+          mutation: gql`
+            mutation DeleteSheet($name: String!) {
+              deleteSheet(name: $name)
+            }
+          `,
+          variables: {
+            name
+          }
+        })
+      })
+    )
+
+    grist.fetch()
+  }
 
   async activated(active) {
     if (!active) {
@@ -217,6 +301,7 @@ class Sheet extends connect(store)(PageView) {
                 name
                 description
               }
+              active
               createdAt
               updatedAt
               creator {
