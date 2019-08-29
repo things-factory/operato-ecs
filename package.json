@@ -33,6 +33,7 @@
     "@things-factory/board-service": "*",
     "@things-factory/board-ui": "*",
     "@things-factory/context-ui": "*",
+    "@things-factory/export-ui": "*",
     "@things-factory/grist-ui": "*",
     "@things-factory/i18n-ui": "*",
     "@things-factory/more-ui": "*",

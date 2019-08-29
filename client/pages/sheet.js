@@ -56,7 +56,14 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
             this.onCommit()
           }
         }
-      ]
+      ],
+      exportable: {
+        accept: ['json'],
+        name: 'sheet-list',
+        data: () => {
+          return this.grist.data
+        }
+      }
     }
   }
 
@@ -118,7 +125,7 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
 
         return await client.mutate({
           mutation: gql`
-            mutation CreateSheet($sheet: NewSheet!) {
+            mutation($sheet: NewSheet!) {
               createSheet(sheet: $sheet) {
                 id
                 name
@@ -150,7 +157,7 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
 
         return await client.mutate({
           mutation: gql`
-            mutation DeleteSheet($name: String!) {
+            mutation($name: String!) {
               deleteSheet(name: $name)
             }
           `,
