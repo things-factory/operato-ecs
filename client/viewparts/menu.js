@@ -79,7 +79,7 @@ export class MenuPart extends connect(store)(LitElement) {
   }
 
   async fetchSheets() {
-    this.sheets = (await client.query({
+    var sheets = (await client.query({
       query: gql`
         {
           sheets(${gqlBuilder.buildArgs({
@@ -103,10 +103,16 @@ export class MenuPart extends connect(store)(LitElement) {
         }
       `
     })).data.sheets.items
+
+    store.dispatch({
+      type: 'UPDATE_SHEETS',
+      sheets: sheets
+    })
   }
 
   stateChanged(state) {
     this.boardId = state.route.resourceId
+    this.sheets = state.sheets.sheets
   }
 }
 

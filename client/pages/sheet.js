@@ -320,6 +320,11 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
       `
     })).data.sheets
 
+    store.dispatch({
+      type: 'UPDATE_SHEETS',
+      sheets: response.items
+    })
+
     return {
       records: response.items,
       total: response.total

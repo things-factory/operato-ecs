@@ -4,8 +4,13 @@ import { appendViewpart, VIEWPART_POSITION } from '@things-factory/layout-base'
 import { ADD_MORENDA } from '@things-factory/more-base'
 
 import './viewparts/menu'
+import sheets from './reducers/sheets'
 
 export default function bootstrap() {
+  store.addReducers({
+    sheets
+  })
+
   appendViewpart({
     name: 'menu-part',
     viewpart: {
