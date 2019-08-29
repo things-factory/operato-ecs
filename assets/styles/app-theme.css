@@ -131,7 +131,7 @@ body {
   --subtitle-text-color: var(--primary-color);
   --subtitle-border-bottom: 1px solid var(--primary-color);
 
-  --app-grid-template-area: 'nav header header' 'nav main aside' 'nav footer aside';
+  --app-grid-template-area: 'header header header' 'nav main aside' 'nav footer aside';
 
   /* form style */
   --form-border: none;
