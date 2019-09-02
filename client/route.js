@@ -10,5 +10,9 @@ export default function route(page) {
     case 'sheet':
       import('./pages/sheet')
       return page
+
+    case 'users':
+      import('./pages/system/system-user')
+      return page
   }
 }

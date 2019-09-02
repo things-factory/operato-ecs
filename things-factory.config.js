@@ -11,6 +11,10 @@ export default {
     {
       tagname: 'sheet-page',
       page: 'sheet'
+    },
+    {
+      tagname: 'system-user',
+      page: 'users'
     }
   ],
   route
