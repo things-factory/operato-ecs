@@ -22,6 +22,16 @@ export default function bootstrap() {
     position: VIEWPART_POSITION.NAVBAR
   })
 
+  appendViewpart({
+    name: 'popup-part',
+    viewpart: {
+      show: false,
+      hovering: 'edge',
+      backdrop: true
+    },
+    position: VIEWPART_POSITION.NAVBAR
+  })
+
   /* add sheet management page morenda */
   store.dispatch({
     type: ADD_MORENDA,
