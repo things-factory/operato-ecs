@@ -55,7 +55,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
         },
         {
           title: i18next.t('button.commit'),
-          action: this._updateUser.bind(this)
+          action: this._updateUsers.bind(this)
         }
       ]
     }
