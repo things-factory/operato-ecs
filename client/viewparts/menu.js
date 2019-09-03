@@ -9,8 +9,7 @@ export class MenuPart extends connect(store)(LitElement) {
       :host {
         display: block;
         min-width: 150px;
-
-        margin: 4px;
+        margin: 1px;
       }
 
       div {

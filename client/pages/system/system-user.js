@@ -52,6 +52,10 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
         {
           title: i18next.t('button.create_user'),
           action: this._createUser.bind(this)
+        },
+        {
+          title: i18next.t('button.commit'),
+          action: this._updateUser.bind(this)
         }
       ]
     }
@@ -190,6 +194,17 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
             editable: false
           },
           width: 200
+        },{
+          type: 'select',
+          name: 'role',
+          header: i18next.t('field.role'),
+          record: {
+            align: 'center',
+            options: ['admin', 'user'],
+            editable: true
+          },
+          sortable: true,
+          width: 120
         },
         {
           type: 'object',
@@ -296,6 +311,37 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
       this.dataGrist.fetch()
       this._currentPopupName = null
     }
+  }
+
+  async _updateUsers() {
+    var grist = this.dataGrist;
+
+    var modifiedList = grist.dirtyRecords.filter(record => record['__dirty__'] == 'M')
+
+    await Promise.all(
+      modifiedList.map(async record => {
+        var patch = {
+          id: record.id,
+          description: record.description,
+          userType: record.userType,
+        }
+
+        return await client.mutate({
+          mutation: gql`
+            mutation($name: String!, $patch: UserPatch!) {
+              updateUser(email: $name, patch: $patch) {
+                email
+                userType
+              }
+            }
+          `,
+          variables: {
+            name: record.name,
+            patch: patch
+          }
+        })
+      })
+    )
   }
 }
 
