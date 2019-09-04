@@ -13,6 +13,10 @@ export default {
       page: 'sheet'
     },
     {
+      tagname: 'show-board',
+      page: 'show-board'
+    },
+    {
       tagname: 'system-user',
       page: 'users'
     }

@@ -50,7 +50,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
       title: i18next.t('title.user'),
       actions: [
         {
-          title: i18next.t('button.create_user'),
+          title: i18next.t('button.create'),
           action: this._createUser.bind(this)
         },
         {
