@@ -50,12 +50,12 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
       title: i18next.t('title.user'),
       actions: [
         {
-          title: i18next.t('button.create'),
-          action: this._createUser.bind(this)
-        },
-        {
           title: i18next.t('button.commit'),
           action: this._updateUsers.bind(this)
+        },
+        {
+          title: i18next.t('button.delete'),
+          action: this._deleteUsers.bind(this)
         }
       ]
     }
@@ -132,39 +132,17 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
     this.config = {
       columns: [
         { type: 'gutter', gutterName: 'sequence' },
-        {
-          type: 'gutter',
-          gutterName: 'button',
-          icon: 'reorder',
-          handlers: {
-            click: (columns, data, column, record, rowIndex) => {
-              openPopup(
-                html`
-                  <system-user-detail .email="${record.email}" style="width: 90vw; height: 70vh;"></system-user-detail>
-                `
-              )
-            }
-          }
-        },
-        {
-          type: 'gutter',
-          gutterName: 'button',
-          icon: 'delete',
-          handlers: {
-            click: (columns, data, column, record, rowIndex) => {
-              if (confirm(i18next.t('text.sure_to_delete'))) {
-                this._deleteUser(record.email)
-              }
-            }
-          }
-        },
+        { type: 'gutter', gutterName: 'row-selector', multiple: true },
         {
           type: 'object',
           name: 'domain',
           header: i18next.t('field.domain'),
           record: {
-            editable: false,
-            align: 'center'
+            align: 'center',
+            editable: true,
+            options: {
+              queryName: 'domains'
+            }
           },
           width: 250
         },
@@ -173,7 +151,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
           name: 'name',
           header: i18next.t('field.name'),
           record: {
-            editable: false
+            editable: true
           },
           width: 150
         },
@@ -182,7 +160,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
           name: 'email',
           header: i18next.t('field.email'),
           record: {
-            editable: false
+            editable: true
           },
           width: 150
         },
@@ -191,27 +169,25 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
           name: 'description',
           header: i18next.t('field.description'),
           record: {
-            editable: false
-          },
-          width: 200
-        },{
-          type: 'select',
-          name: 'role',
-          header: i18next.t('field.role'),
-          record: {
-            align: 'center',
-            options: ['admin', 'user'],
             editable: true
           },
-          sortable: true,
-          width: 120
+          width: 200
+        },
+        {
+          type: 'string',
+          name: 'password',
+          header: i18next.t('field.password'),
+          record: {
+            editable: true
+          },
+          width: 200
         },
         {
           type: 'object',
           name: 'updater',
           header: i18next.t('field.updater'),
           record: {
-            editable: false
+            editable: true
           },
           width: 180
         },
@@ -220,7 +196,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
           name: 'updatedAt',
           header: i18next.t('field.updated_at'),
           record: {
-            editable: false
+            editable: true
           },
           width: 180
         }
@@ -247,6 +223,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
               name
               description
               email
+              password
               updater {
                 id
                 name
@@ -286,24 +263,30 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
       })
   }
 
-  _createUser() {
-    openPopup(
-      html`
-        <system-create-user style="width: 90vw; height: 70vh;"></system-create-user>
-      `
-    )
-  }
+  async _deleteUsers(email) {
+    if (confirm(i18next.t('text.sure_to_delete'))) {
+      const emails = this.dataGrist.selected.map(record => record.email)
+      if (emails && emails.length > 0) {
+        const response = await client.query({
+          query: gql`
+                mutation {
+                  deleteUser(${gqlBuilder.buildArgs({ emails })})
+                }
+              `
+        })
 
-  async _deleteUser(email) {
-    await client.query({
-      query: gql`
-        mutation {
-          deleteUser(${gqlBuilder.buildArgs({
-            email
-          })})
+        if (!response.errors) {
+          this.dataGrist.fetch()
+          await document.dispatchEvent(
+            new CustomEvent('notify', {
+              detail: {
+                message: i18next.t('text.info_delete_successfully')
+              }
+            })
+          )
         }
-      `
-    })
+      }
+    }
   }
 
   async stateChanged(state) {
@@ -314,34 +297,33 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
   }
 
   async _updateUsers() {
-    var grist = this.dataGrist;
-
-    var modifiedList = grist.dirtyRecords.filter(record => record['__dirty__'] == 'M')
-
-    await Promise.all(
-      modifiedList.map(async record => {
-        var patch = {
-          id: record.id,
-          description: record.description,
-          userType: record.userType,
+    let patches = this.dataGrist.dirtyRecords
+    if (patches && patches.length) {
+      patches = patches.map(user => {
+        let patchField = user.id ? { id: user.id } : {}
+        const dirtyFields = user.__dirtyfields__
+        for (let key in dirtyFields) {
+          patchField[key] = dirtyFields[key].after
         }
+        patchField.cuFlag = user.__dirty__
 
-        return await client.mutate({
-          mutation: gql`
-            mutation($name: String!, $patch: UserPatch!) {
-              updateUser(email: $name, patch: $patch) {
-                email
-                userType
+        return patchField
+      })
+
+      const response = await client.query({
+        query: gql`
+            mutation {
+              updateMultipleUser(${gqlBuilder.buildArgs({
+                patches
+              })}) {
+                name
               }
             }
-          `,
-          variables: {
-            name: record.name,
-            patch: patch
-          }
-        })
+          `
       })
-    )
+
+      if (!response.errors) this.dataGrist.fetch()
+    }
   }
 }
 

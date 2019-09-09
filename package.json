@@ -45,5 +45,8 @@
     "@things-scene/random": "*",
     "@things-scene/switch": "^1.0.0-beta.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@things-factory/board-app": "^0.1.47",
+    "@things-factory/board-test": "^0.1.29"
+  }
 }
