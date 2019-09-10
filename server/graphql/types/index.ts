@@ -1,7 +1,8 @@
 import * as Sheet from './sheet'
+import * as Order from './order'
 
-export const queries = [Sheet.Query]
+export const queries = [Sheet.Query, Order.Query]
 
-export const mutations = [Sheet.Mutation]
+export const mutations = [Sheet.Mutation, Order.Mutation]
 
-export const types = [...Sheet.Types]
+export const types = [...Sheet.Types, ...Order.Types]
