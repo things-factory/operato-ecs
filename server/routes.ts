@@ -1,6 +1,11 @@
 import koaBodyParser from 'koa-bodyparser'
 import { Order } from './entities/order'
 import { getRepository } from 'typeorm'
+import { ordersResolver } from './graphql/resolvers/order/orders'
+
+process.on('bootstrap-module-history-fallback' as any, (app, fallbackOption) => {
+  fallbackOption.whiteList.push('/create_order', '/get_orders', '/delete_all_order')
+})
 
 process.on('bootstrap-module-route' as any, (app, routes) => {
   const bodyParserOption = {
@@ -14,9 +19,11 @@ process.on('bootstrap-module-route' as any, (app, routes) => {
 
   routes.post('/create_order', koaBodyParser(bodyParserOption), async (context, next) => {
     try {
-      const order = context.request.body
-      const newOrder = await getRepository(Order).save(order)
-      return newOrder
+      const order = JSON.parse(context.request.body.orders)
+      context.body = await getRepository(Order).save(order)
+
+      // const orders = JSON.parse(context.request.body.orders)
+      // context.body = await getRepository(Order).save(orders)
     } catch (e) {
       context.status = 401
       context.body = {
@@ -26,12 +33,12 @@ process.on('bootstrap-module-route' as any, (app, routes) => {
     }
   })
 
-  routes.get('/get_order/:model', async (context, next) => {
+  routes.get('/get_orders', async (context, next) => {
     try {
-      const order = context.request.body
-      const getOrder = await getRepository(Order).find(order)
-      // context.type = 'text/plain'
-      return getOrder
+      const getOrders = await getRepository(Order).find()
+      context.type = 'application/json'
+      context.body = getOrders
+      // return context
     } catch (e) {
       context.status = 401
       context.body = {
@@ -41,12 +48,12 @@ process.on('bootstrap-module-route' as any, (app, routes) => {
     }
   })
 
-  routes.post('/reset_order', async (context, next) => {
+  routes.delete('/delete_all_order', async (context, next) => {
     try {
       const order = context.request.body
-      await getRepository(Order).remove(order)
       context.type = 'text/plain'
-      return 'Complete'
+      context.body = await getRepository(Order).clear()
+      return context
     } catch (e) {
       context.status = 401
       context.body = {

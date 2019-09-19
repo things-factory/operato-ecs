@@ -25,7 +25,7 @@ export class Order {
   @Column({
     nullable: true
   })
-  sku_cd: string
+  skuCd: string
 
   @ManyToOne(type => Domain)
   domain: Domain
