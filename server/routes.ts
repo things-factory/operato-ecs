@@ -1,10 +1,10 @@
 import koaBodyParser from 'koa-bodyparser'
 import { Order } from './entities/order'
-import { getRepository } from 'typeorm'
+import { getConnection, getRepository } from 'typeorm'
 import { ordersResolver } from './graphql/resolvers/order/orders'
 
 process.on('bootstrap-module-history-fallback' as any, (app, fallbackOption) => {
-  fallbackOption.whiteList.push('/create_order', '/get_orders', '/delete_all_order')
+  fallbackOption.whiteList.push('/create_order', '/get_orders', '/update_orders')
 })
 
 process.on('bootstrap-module-route' as any, (app, routes) => {
@@ -19,11 +19,19 @@ process.on('bootstrap-module-route' as any, (app, routes) => {
 
   routes.post('/create_order', koaBodyParser(bodyParserOption), async (context, next) => {
     try {
-      const order = JSON.parse(context.request.body.orders)
-      context.body = await getRepository(Order).save(order)
-
-      // const orders = JSON.parse(context.request.body.orders)
-      // context.body = await getRepository(Order).save(orders)
+      const order = await getRepository(Order).query(
+        `select * from orders where sku_cd = '${context.request.body.skuCd}'`
+      )
+      if (order.length <= 0) {
+        await getRepository(Order).save(context.request.body)
+      } else {
+        await getConnection()
+          .createQueryBuilder()
+          .update(Order)
+          .set({ qty: () => 'qty+1' })
+          .where('sku_cd = :skuCd', { skuCd: context.request.body.skuCd })
+          .execute()
+      }
     } catch (e) {
       context.status = 401
       context.body = {
@@ -38,7 +46,6 @@ process.on('bootstrap-module-route' as any, (app, routes) => {
       const getOrders = await getRepository(Order).find()
       context.type = 'application/json'
       context.body = getOrders
-      // return context
     } catch (e) {
       context.status = 401
       context.body = {
@@ -48,12 +55,19 @@ process.on('bootstrap-module-route' as any, (app, routes) => {
     }
   })
 
-  routes.delete('/delete_all_order', async (context, next) => {
+  routes.post('/update_orders', async (context, next) => {
     try {
-      const order = context.request.body
-      context.type = 'text/plain'
-      context.body = await getRepository(Order).clear()
-      return context
+      const orders = JSON.parse(context.request.body.orders)
+      let ids = orders.map(function(order) {
+        return order.id
+      })
+      let maxOrderId = await getRepository(Order).query(`select max(order_id)+0 from orders`)
+      await getConnection()
+        .createQueryBuilder()
+        .update(Order)
+        .set({ orderId: maxOrderId + 1 })
+        .where('id = :id', { id: ids })
+        .execute()
     } catch (e) {
       context.status = 401
       context.body = {

@@ -17,10 +17,13 @@ export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column({
+  @Column('float', {
     nullable: true
   })
-  orderDetailId: string
+  orderId: number
+
+  @Column('float')
+  qty: number
 
   @Column({
     nullable: true
