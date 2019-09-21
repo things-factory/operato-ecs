@@ -9,26 +9,30 @@ export class MenuPart extends connect(store)(LitElement) {
       :host {
         display: block;
         min-width: 150px;
-        margin: 1px;
       }
 
       div {
         display: flex;
-        padding: 2px 4px;
+        padding: 10px 9px 7px 9px;
+        border-bottom: var(--menu-tree-toplevel-border-bottom);
       }
 
-      div[active] {
-        background-color: var(--primary-background-color);
-      }
-
+      div[active],
       div:hover {
-        background-color: var(--primary-background-color);
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+
+      div[active] a,
+      div:hover a {
+        font: var(--menu-tree-toplevel-active-font);
+        color: #fff;
       }
 
       a {
-        font-size: 1.3em;
         text-decoration: none;
-        color: var(--primary-text-color);
+
+        font: var(--menu-tree-toplevel-font);
+        color: var(--menu-tree-toplevel-color);
       }
 
       [viewer] {
@@ -39,12 +43,8 @@ export class MenuPart extends connect(store)(LitElement) {
         margin-left: auto;
       }
 
-      [modeller]:hover {
-        background-color: tomato;
-      }
-
       mwc-icon {
-        font-size: 0.8em;
+        font-size: 1em;
       }
     `
   }

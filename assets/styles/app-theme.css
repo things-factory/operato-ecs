@@ -1,14 +1,14 @@
 body {
   /* common style */
-  --primary-color: #22a6a7;
-  --secondary-color: #394e64;
+  --primary-color: #7283c9;
+  --secondary-color: #5f6267;
   --focus-color: #fff;
   --primary-background-color: var(--secondary-color);
-  --secondary-background-color: #283644;
+  --secondary-background-color: #4c567f;
   --main-section-background-color: #f4f7fb;
   --focus-background-color: var(--primary-color);
-  --primary-text-color: #111;
-  --secondary-text-color: #017e7f;
+  --primary-text-color: var(--secondary-color);
+  --secondary-text-color: #475590;
 
   --border-radius: 4px;
   --border-dark-color: 1px solid rgba(0, 0, 0, 0.15);
@@ -30,7 +30,7 @@ body {
   --status-danger-color: #d14946;
   --stauts-info-color: #398ace;
 
-  --scrollbar-thumb-color: rgba(57, 78, 100, 0.5);
+  --scrollbar-thumb-color: rgba(76, 86, 127, 0.4);
   --scrollbar-thumb-hover-color: var(--primary-color);
 
   /* layout style */
@@ -54,10 +54,11 @@ body {
   --menu-bar-line: solid 3px rgba(0, 0, 0, 0.2);
   --menu-tools-background-color: var(--secondary-color);
   --menu-tools-iconbutton-size: var(--icon-tiny-size);
-  --menu-tools-color: #87cfd0;
+  --menu-tools-color: #8ba2fe;
   --menu-tools-active-color: #fff;
-  --menu-tree-toplevel-color: #d0fdee;
-  --menu-tree-toplevel-font: normal 15px var(--theme-font);
+  --menu-tree-toplevel-color: #dee4fe;
+  --menu-tree-toplevel-font: normal 16px var(--theme-font);
+  --menu-tree-toplevel-active-font: bold 16px var(--theme-font);
   --menu-tree-toplevel-icon-size: 5px;
   --menu-tree-toplevel-icon-border: 2px solid var(--menu-tree-toplevel-color);
   --menu-tree-toplevel-border-bottom: 1px solid rgba(0, 0, 0, 0.15);
@@ -71,7 +72,7 @@ body {
 
   --context-toolbar-background-color: var(--main-section-background-color);
   --context-toolbar-button-background-color: #fff;
-  --context-toolbar-border: 1px solid rgba(57, 78, 100, 0.5);
+  --context-toolbar-border: 1px solid rgba(76, 86, 127, 0.5);
   --context-toolbar-border-hover: 1px solid var(--primary-color);
   --context-toolbar-button-height: 36px;
   --context-toolbar-button-margin: 5px 0;
@@ -100,7 +101,7 @@ body {
   --context-ui-box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.2);
   --context-ui-border-radius: 10px;
   --context-ui-padding: 10px;
-  --context-ui-list-color: #d0fdee;
+  --context-ui-list-color: #dee4fe;
   --context-ui-list-border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   --context-ui-list-border-hover-bottom: 1px solid var(--primary-color);
   --context-ui-list-padding: 5px;
@@ -183,11 +184,11 @@ body {
   --grist-title-icon-margin: 0 3px 2px 0;
   --grist-title-icon-size: 14px;
   --grist-title-with-grid-padding: 0;
-  --grid-header-background-color: rgba(18, 105, 105, 0.05);
-  --grid-header-border-color: rgba(18, 105, 105, 0.3);
+  --grid-header-background-color: rgba(96, 113, 187, 0.1);
+  --grid-header-border-color: rgba(96, 113, 187, 0.3);
   --grid-record-background-color: #fff;
   --grid-record-odd-background-color: #f6f6f6;
-  --grid-footer-background-color: rgba(34, 166, 167, 0.7);
+  --grid-footer-background-color: rgba(95, 109, 165, 0.7);
   --grid-header-color: var(--secondary-text-color);
   --grid-header-font: normal 1em/1.5 var(--theme-font);
   --grid-header-fontsize: 13px;
@@ -225,7 +226,7 @@ body {
   --grist-input-zoom: 1;
   --grist-input-progress-border: 1px solid rgba(255, 255, 255, 0.5);
   --grist-input-progress-background: rgba(0, 0, 0, 0.1);
-  --grist-input-progress-bar-background: #4ac5fd;
+  --grist-input-progress-bar-background: var(--primary-color);
   --grist-input-progress-bar-color: #fff;
 
   --record-view-header-height: var(--header-bar-height);
