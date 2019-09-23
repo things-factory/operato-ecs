@@ -25,13 +25,12 @@ process.on('bootstrap-module-route' as any, (app, routes) => {
       if (order.length <= 0) {
         await getRepository(Order).save(context.request.body)
       } else {
-        await getConnection()
-          .createQueryBuilder()
-          .update(Order)
-          .set({ qty: () => 'qty+1' })
-          .where('sku_cd = :skuCd', { skuCd: context.request.body.skuCd })
-          .execute()
+        await getRepository(Order).query(
+          `update orders set qty='${order[0].qty + 1}'where sku_cd = '${context.request.body.skuCd}'`
+        )
       }
+      context.type = 'application/json'
+      context.body = order
     } catch (e) {
       context.status = 401
       context.body = {
@@ -58,14 +57,18 @@ process.on('bootstrap-module-route' as any, (app, routes) => {
   routes.post('/update_orders', async (context, next) => {
     try {
       const orders = JSON.parse(context.request.body.orders)
-      let ids = orders.map(function(order) {
-        return order.id
+      let ids = []
+      orders.map(function(order) {
+        ids.push(order.id)
       })
-      let maxOrderId = await getRepository(Order).query(`select max(order_id)+0 from orders`)
+      //새로운 주문번호 업데이트
+      let newOrderId = await getRepository(Order).query(`select max(order_id) max from orders`)[0]
+      if (!newOrderId) newOrderId = 0
+      // await getRepository(Order).query(`update orders set order_id = '${newOrderId + 1}',status='W'`)
       await getConnection()
         .createQueryBuilder()
         .update(Order)
-        .set({ orderId: maxOrderId + 1 })
+        .set({ orderId: newOrderId + 1 })
         .where('id = :id', { id: ids })
         .execute()
     } catch (e) {

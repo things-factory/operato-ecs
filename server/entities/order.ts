@@ -30,6 +30,11 @@ export class Order {
   })
   skuCd: string
 
+  @Column({
+    nullable: true
+  })
+  status: string
+
   @ManyToOne(type => Domain)
   domain: Domain
 
