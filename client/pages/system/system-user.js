@@ -168,7 +168,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
           width: 200
         },
         {
-          type: 'string',
+          type: 'password',
           name: 'password',
           header: i18next.t('field.password'),
           record: {
