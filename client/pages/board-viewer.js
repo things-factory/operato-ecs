@@ -3,7 +3,6 @@ import gql from 'graphql-tag'
 
 import { connect } from 'pwa-helpers/connect-mixin.js'
 import { store, PageView, client } from '@things-factory/shell'
-import { buildLabelPrintCommand } from '@things-factory/label-base'
 import { provider } from '@things-factory/board-ui'
 import './things-scene-components.import'
 
@@ -38,7 +37,7 @@ class BoardViewerPage extends connect(store)(PageView) {
 
   get context() {
     return {
-      title: this._board && "test"
+      title: this._board && 'test'
     }
   }
 
