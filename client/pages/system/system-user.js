@@ -47,7 +47,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
 
   get context() {
     return {
-      title: i18next.t('title.user'),
+      title: i18next.t('text.user management'),
       actions: [
         {
           title: i18next.t('button.commit'),
@@ -79,12 +79,6 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
     `
   }
 
-  activated(active) {
-    if (active && JSON.parse(active) && this.dataGrist) {
-      this.dataGrist.fetch()
-    }
-  }
-
   get searchForm() {
     return this.shadowRoot.querySelector('search-form')
   }
@@ -93,7 +87,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
     return this.shadowRoot.querySelector('data-grist')
   }
 
-  firstUpdated() {
+  async pageInitialized() {
     this._searchFields = [
       {
         name: 'domain',
@@ -201,6 +195,18 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
           width: 180
         }
       ]
+    }
+
+    await this.updateComplete
+
+    this.dataGrist.fetch()
+  }
+
+  async pageUpdated(changes, lifecycle) {
+    if (this.active) {
+      await this.updateComplete
+
+      this.dataGrist.fetch()
     }
   }
 

@@ -76,8 +76,6 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
     return this.shadowRoot.querySelector('data-grist')
   }
 
-  stateChanged(state) {}
-
   async onCommit() {
     var grist = this.grist
 
@@ -166,11 +164,7 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
     grist.fetch()
   }
 
-  async activated(active) {
-    if (!active) {
-      return
-    }
-
+  async pageInitialized() {
     this.config = {
       columns: [
         {
@@ -294,6 +288,14 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
     await this.updateComplete
 
     this.grist.fetch()
+  }
+
+  async pageUpdated(changes, lifecycle) {
+    if (this.active) {
+      await this.updateComplete
+
+      this.grist.fetch()
+    }
   }
 
   async fetchHandler({ page, limit, sorters = [] }) {

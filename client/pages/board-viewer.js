@@ -10,8 +10,7 @@ class BoardViewerPage extends connect(store)(PageView) {
   static get properties() {
     return {
       _board: Object,
-      _boardId: String,
-      _baseUrl: String
+      _boardId: String
     }
   }
 
@@ -47,22 +46,22 @@ class BoardViewerPage extends connect(store)(PageView) {
     `
   }
 
-  updated(changes) {
-    if (changes.has('_boardId')) {
-      this.shadowRoot.querySelector('board-viewer').closeScene()
-      this.refresh()
-    }
+  get boardViewer() {
+    return this.shadowRoot.querySelector('board-viewer')
   }
 
-  stateChanged(state) {
-    this._baseUrl = state.app.baseUrl
-    this._boardId = state.route.resourceId
+  updated(changes) {
+    if (changes.has('_boardId')) {
+      this.boardViewer && this.boardViewer.closeScene()
+      this.refresh()
+    }
   }
 
   async refresh() {
     if (!this._boardId) {
       return
     }
+
     var response = await client.query({
       query: gql`
         query FetchBoardById($id: String!) {
@@ -86,10 +85,12 @@ class BoardViewerPage extends connect(store)(PageView) {
     this.updateContext()
   }
 
-  async activated(active) {
-    if (!active) {
+  pageUpdated(changes, lifecycle) {
+    if (this.active) {
+      this._boardId = lifecycle.resourceId
+    } else {
       this._boardId = null
-      this.shadowRoot.querySelector('board-viewer').closeScene()
+      this.boardViewer.closeScene()
     }
   }
 }
