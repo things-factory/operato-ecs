@@ -19,7 +19,10 @@
 
     <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="application-name" content="Things Factory" />
+    <meta name="application-name" content="Things RES" />
+    <meta name="application-description" content="Reimagining Robotics - Robot Execution System" />
+    <meta name="application-copyright" content="Copyright © hatiolab.com. All Rights Reserved." />
+    <link rel="application-icon" href="assets/manifest/icon-96x96.png" />
 
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -27,14 +30,14 @@
     <meta name="apple-mobile-web-app-title" content="Things Factory" />
 
     <!-- Homescreen icons -->
-    <link rel="apple-touch-icon" href="assets/images/manifest/icon-48x48.png" />
-    <link rel="apple-touch-icon" sizes="72x72" href="assets/images/manifest/icon-72x72.png" />
-    <link rel="apple-touch-icon" sizes="96x96" href="assets/images/manifest/icon-96x96.png" />
-    <link rel="apple-touch-icon" sizes="144x144" href="assets/images/manifest/icon-144x144.png" />
-    <link rel="apple-touch-icon" sizes="192x192" href="assets/images/manifest/icon-192x192.png" />
+    <link rel="apple-touch-icon" href="assets/manifest/icon-48x48.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/manifest/icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="96x96" href="assets/manifest/icon-96x96.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/manifest/icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="assets/manifest/icon-192x192.png" />
 
     <!-- Tile icon for Windows 8 (144x144 + tile color) -->
-    <meta name="msapplication-TileImage" content="assets/images/manifest/icon-144x144.png" />
+    <meta name="msapplication-TileImage" content="assets/manifest/icon-144x144.png" />
     <meta name="msapplication-TileColor" content="#3f51b5" />
     <meta name="msapplication-tap-highlight" content="no" />
 
@@ -43,7 +46,7 @@
     <meta name="twitter:site" content="@username" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="things-app" />
-    <meta property="og:image" content="assets/images/manifest/icon-144x144.png" />
+    <meta property="og:image" content="assets/manifest/icon-144x144.png" />
 
     <!-- Performance tip: hint to the browser to start the handshake for the fonts site -->
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
@@ -87,5 +90,87 @@
     <script src="node_modules/web-animations-js/web-animations-next.min.js"></script>
     <script src="node_modules/@hatiolab/things-scene/things-scene-min.js"></script>
     <!-- Built with love using PWA Starter Kit -->
+
+    <script src="licenses/things-lic.js"></script>
+
+    <script>
+      function urlBase64ToUint8Array(base64String) {
+        var padding = '='.repeat((4 - (base64String.length % 4)) % 4)
+        var base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/')
+
+        var rawData = window.atob(base64)
+        var outputArray = new Uint8Array(rawData.length)
+
+        for (var i = 0; i < rawData.length; ++i) {
+          outputArray[i] = rawData.charCodeAt(i)
+        }
+        return outputArray
+      }
+
+      navigator.serviceWorker.ready
+        .then(function(registration) {
+          console.log('service worker registered')
+
+          return registration.pushManager.getSubscription()
+        })
+        .then(function(subscription) {
+          if (subscription) {
+            console.log('Already subscribed', subscription.endpoint)
+            // setUnsubscribeButton()
+            unsubscribe()
+          }
+          subscribe()
+        })
+
+      function subscribe() {
+        navigator.serviceWorker.ready
+          .then(async function(registration) {
+            const response = await fetch('./vapidPublicKey')
+            const vapidPublicKey = await response.text()
+
+            const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey)
+
+            return registration.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: convertedVapidKey
+            })
+          })
+          .then(function(subscription) {
+            console.log('Subscribed', subscription.endpoint)
+            return fetch('register', {
+              method: 'post',
+              headers: {
+                'Content-type': 'application/json'
+              },
+              body: JSON.stringify({
+                subscription: subscription
+              })
+            })
+          })
+          .then(() => {})
+      }
+
+      function unsubscribe() {
+        navigator.serviceWorker.ready
+          .then(function(registration) {
+            return registration.pushManager.getSubscription()
+          })
+          .then(function(subscription) {
+            return subscription.unsubscribe().then(function() {
+              console.log('Unsubscribed', subscription.endpoint)
+              return fetch('unregister', {
+                method: 'post',
+                headers: {
+                  'Content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                  subscription: subscription
+                })
+              })
+            })
+          })
+          .then(() => {})
+      }
+    </script>
   </body>
 </html>
