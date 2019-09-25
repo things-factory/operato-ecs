@@ -170,6 +170,9 @@ body {
   --input-field-font: normal 14px var(--theme-font);
   --form-grid-gap: 12px 5px;
 
+  --custom-input-barcode-field-font: normal 18px var(--theme-font);
+  --custom-input-barcode-field-padding: 2px 2px 2px 9px;
+
   --search-panel-background-color: rgba(0, 0, 0, 0.1);
   --search-panel-search-iconbutton-size: var(--icon-default-size);
   --search-form-icon-color: var(--primary-color);
@@ -293,6 +296,10 @@ body {
 
   --card-list-template: repeat(3, minmax(auto, 100%));
   --card-list-rows-height: 200px;
+  --card-list-background-color: rgba(0, 0, 0, 0.07);
+  --card-list-border-radius: var(--border-radius);
+  --popup-content-background-color: var(--main-section-background-color);
+  --popup-content-padding: 10px 20px;
 
   /* board modeler page style */
   --edit-toolbar-background-color: var(--primary-color);
@@ -334,6 +341,11 @@ body {
   --profile-brand-height: 45px;
   --profile-brand-padding: 30px auto 20px auto;
   --profile-wrap-max-width: 550px;
+  --change-password-field-font: normal 16px var(--theme-font);
+  --change-password-field-border: 1px solid rgba(0, 0, 0, 0.2);
+  --change-password-field-border-radius: var(--border-radius);
+  --change-password-field-padding: 2px 9px;
+  --change-password-field-width: 100%;
 
   /* setting style */
   --setting-title-font: var(--subtitle-font);
@@ -383,6 +395,9 @@ body {
 
     --card-list-template: repeat(1, minmax(auto, 100%));
     --card-list-rows-height: 240px;
+
+    --change-password-field-width: 80%;
+    --change-password-field-font: normal 20px var(--theme-font);
   }
 }
 @media (min-width: 461px) and (max-width: 1024px) {
@@ -404,5 +419,13 @@ body {
 
     --card-list-template: repeat(2, minmax(auto, 100%));
     --card-list-rows-height: 160px;
+
+    --change-password-field-width: 70%;
+    --change-password-field-font: normal 20px var(--theme-font);
+  }
+}
+@media only screen and (max-width: 925px) {
+  body {
+    --form-container-padding: 0 15px;
   }
 }
