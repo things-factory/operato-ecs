@@ -221,15 +221,13 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
           width: 200
         },
         {
-          type: 'object',
+          type: 'board',
           name: 'board',
           header: i18next.t('field.board'),
           record: {
             align: 'center',
             editable: true,
-            options: {
-              queryName: 'boards'
-            }
+            options: {}
           },
           width: 240
         },
