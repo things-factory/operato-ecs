@@ -6,7 +6,7 @@ export const sheetResolver = {
     const repository = getRepository(Sheet)
 
     return await getRepository(Sheet).findOne({
-      where: { domain: context.domain, name, relations: ['domain', 'board', 'creator', 'updater'] }
+      where: { domain: context.state.domain, name, relations: ['domain', 'board', 'creator', 'updater'] }
     })
   }
 }

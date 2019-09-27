@@ -84,7 +84,9 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
 
     await Promise.all(
       modifiedList.map(async record => {
+        var originalName = record.__origin__.name
         var patch = {
+          name: record.name,
           description: record.description,
           active: record.active,
           boardId: record.board && record.board.id
@@ -100,7 +102,7 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
             }
           `,
           variables: {
-            name: record.name,
+            name: originalName,
             patch: patch
           }
         })

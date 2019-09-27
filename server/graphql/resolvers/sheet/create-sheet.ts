@@ -7,7 +7,7 @@ export const createSheet = {
     var board = await getRepository(Board).findOne({ id: sheet.boardId })
 
     return await getRepository(Sheet).save({
-      domain: context.domain,
+      domain: context.state.domain,
       creator: context.state.user,
       updater: context.state.user,
       ...sheet,
