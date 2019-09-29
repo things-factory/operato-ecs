@@ -150,7 +150,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
           width: 150
         },
         {
-          type: 'string',
+          type: 'email',
           name: 'email',
           header: i18next.t('field.email'),
           record: {
