@@ -9,6 +9,7 @@ import '@things-factory/board-ui'
 import { fetchDashboardSettings } from './fetch-dashboard-settings'
 
 const HOME_BOARD = 'home'
+const HOME_DESCRIPTION = 'home dashboard'
 
 export class DashboardSettingLet extends connect(store)(localize(i18next)(LitElement)) {
   static get styles() {
@@ -116,7 +117,7 @@ export class DashboardSettingLet extends connect(store)(localize(i18next)(LitEle
               title: i18next.t('title.home dashboard'),
               board: this.homeBoard,
               key: HOME_BOARD,
-              description: 'home dashboard'
+              description: HOME_DESCRIPTION
             }
           ].map(
             field => html`
