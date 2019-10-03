@@ -4,5 +4,7 @@
   "field.board": "보드",
   "button.commit": "저장",
   "button.delete": "삭제",
-  "button.reload": "수정취소"
+  "button.reload": "수정취소",
+  "title.dashboard setting": "대시보드 설정",
+  "title.home dashboard": "홈 대시보드"
 }

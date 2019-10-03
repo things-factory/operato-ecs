@@ -2,7 +2,7 @@ import { html, css } from 'lit-element'
 import { connect } from 'pwa-helpers/connect-mixin.js'
 
 import gql from 'graphql-tag'
-import { store, navigate, PageView, isMobileDevice, client, gqlBuilder } from '@things-factory/shell'
+import { store, PageView, isMobileDevice, client, gqlBuilder } from '@things-factory/shell'
 
 import '@things-factory/grist-ui'
 import { i18next, localize } from '@things-factory/i18n-base'
@@ -232,20 +232,6 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
             options: {}
           },
           width: 240
-        },
-        {
-          type: 'gutter',
-          gutterName: 'button',
-          icon: 'edit',
-          handlers: {
-            click: function(columns, data, column, record, rowIndex, field) {
-              var { board } = record
-
-              if (board) {
-                navigate(`board-modeller/${board.id}`)
-              }
-            }
-          }
         },
         {
           type: 'boolean',
