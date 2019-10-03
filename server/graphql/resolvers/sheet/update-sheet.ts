@@ -6,16 +6,19 @@ export const updateSheet = {
   async updateSheet(_: any, { name, patch }, context: any) {
     const repository = getRepository(Sheet)
     const sheet = await repository.findOne({
-      where: { domain: context.domain, name }
+      where: { domain: context.state.domain, name }
     })
 
     var board = sheet.board
 
     if ('boardId' in patch) {
       board = await getRepository(Board).findOne({ id: patch.boardId })
+      delete patch.boardId
     }
 
     return await repository.save({
+      creater: context.state.user,
+      domain: context.state.domain,
       ...sheet,
       ...patch,
       board,

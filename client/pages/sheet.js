@@ -76,8 +76,6 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
     return this.shadowRoot.querySelector('data-grist')
   }
 
-  stateChanged(state) {}
-
   async onCommit() {
     var grist = this.grist
 
@@ -86,7 +84,9 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
 
     await Promise.all(
       modifiedList.map(async record => {
+        var originalName = record.__origin__.name
         var patch = {
+          name: record.name,
           description: record.description,
           active: record.active,
           boardId: record.board && record.board.id
@@ -102,7 +102,7 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
             }
           `,
           variables: {
-            name: record.name,
+            name: originalName,
             patch: patch
           }
         })
@@ -166,11 +166,7 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
     grist.fetch()
   }
 
-  async activated(active) {
-    if (!active) {
-      return
-    }
-
+  async pageInitialized() {
     this.config = {
       columns: [
         {
@@ -227,15 +223,13 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
           width: 200
         },
         {
-          type: 'object',
+          type: 'board',
           name: 'board',
           header: i18next.t('field.board'),
           record: {
             align: 'center',
             editable: true,
-            options: {
-              queryName: 'boards'
-            }
+            options: {}
           },
           width: 240
         },
@@ -294,6 +288,14 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
     await this.updateComplete
 
     this.grist.fetch()
+  }
+
+  async pageUpdated(changes, lifecycle) {
+    if (this.active) {
+      await this.updateComplete
+
+      this.grist.fetch()
+    }
   }
 
   async fetchHandler({ page, limit, sorters = [] }) {

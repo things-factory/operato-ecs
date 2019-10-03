@@ -4,5 +4,7 @@
   "field.board": "board",
   "button.commit": "commit",
   "button.delete": "delete",
-  "button.reload": "reload"
+  "button.reload": "reload",
+  "title.dashboard setting": "dashboard setting",
+  "title.home dashboard": "home dashboard"
 }

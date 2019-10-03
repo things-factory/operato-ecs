@@ -38,14 +38,6 @@ export class MenuPart extends connect(store)(LitElement) {
       [viewer] {
         flex: 1;
       }
-
-      [modeller] {
-        margin-left: auto;
-      }
-
-      mwc-icon {
-        font-size: 1em;
-      }
     `
   }
 
@@ -65,8 +57,7 @@ export class MenuPart extends connect(store)(LitElement) {
 
         return html`
           <div ?active=${this.boardId == board.id}>
-            <a href="/board-viewer/${board.id}" viewer>${sheet.name}</a>
-            <a href="/board-modeller/${board.id}" modeller><mwc-icon>edit</mwc-icon></a>
+            <a href="/show-board/${board.id}" viewer>${sheet.name}</a>
           </div>
         `
       })}
