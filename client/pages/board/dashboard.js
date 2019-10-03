@@ -27,7 +27,7 @@ class Dashboard extends BoardViewerPage {
 
   get context() {
     return {
-      title: this._board && this._board.name
+      title: super.context.title
     }
   }
 
@@ -37,19 +37,13 @@ class Dashboard extends BoardViewerPage {
     this._boardId = (state.dashboard[HOME_BOARD] || { board: {} }).board.id
   }
 
-  render() {
-    if (!this._boardId) {
-      return html`
-        <oops-note
-          icon="insert_chart"
-          title="HOME DASHBOARD"
-          description="There are no home dashboard setting. Pls, click to setting home dashboard."
-          @click=${e => this.onClickDashboardSetting(HOME_BOARD, HOME_DESCRIPTION)}
-        ></oops-note>
-      `
+  get oopsNote() {
+    return {
+      icon: 'insert_chart',
+      title: 'HOME DASHBOARD',
+      description: 'There are no home dashboard setting. Pls, click to setting home dashboard.',
+      click: e => this.onClickDashboardSetting(HOME_BOARD, HOME_DESCRIPTION)
     }
-
-    return super.render()
   }
 
   onClickDashboardSetting(name, description) {
@@ -112,4 +106,4 @@ class Dashboard extends BoardViewerPage {
   }
 }
 
-customElements.define('res-dashboard', Dashboard)
+customElements.define('home-dashboard', Dashboard)

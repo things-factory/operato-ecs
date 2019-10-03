@@ -5,7 +5,7 @@ export default {
   bootstrap,
   routes: [
     {
-      tagname: 'res-dashboard',
+      tagname: 'home-dashboard',
       page: 'dashboard'
     },
     {
