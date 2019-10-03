@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/res-app",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -50,6 +50,7 @@
     "@things-scene/form": "*",
     "@things-scene/gauge": "*",
     "@things-scene/google-map": "*",
+    "@things-scene/graphql": "*",
     "@things-scene/grist": "*",
     "@things-scene/half-roundrect": "*",
     "@things-scene/indoor-map": "things-scene/indoor-map#for-things-factory",

@@ -44,7 +44,8 @@ export class MenuPart extends connect(store)(LitElement) {
   static get properties() {
     return {
       sheets: Array,
-      boardId: String
+      boardId: String,
+      user: Object
     }
   }
 
@@ -57,15 +58,17 @@ export class MenuPart extends connect(store)(LitElement) {
 
         return html`
           <div ?active=${this.boardId == board.id}>
-            <a href="/show-board/${board.id}" viewer>${sheet.name}</a>
+            <a href="/board-viewer/${board.id}" viewer>${sheet.name}</a>
           </div>
         `
       })}
     `
   }
 
-  firstUpdated() {
-    this.fetchSheets()
+  updated(changes) {
+    if (changes.has('user') && this.user) {
+      this.fetchSheets()
+    }
   }
 
   async fetchSheets() {
@@ -103,6 +106,7 @@ export class MenuPart extends connect(store)(LitElement) {
   stateChanged(state) {
     this.boardId = state.route.resourceId
     this.sheets = state.sheets.sheets
+    this.user = state.auth.user
   }
 }
 

@@ -1,4 +1,4 @@
-import { html, css } from 'lit-element'
+import { html } from 'lit-element'
 import { BoardViewerPage } from '@things-factory/board-ui'
 import { UPDATE_DASHBOARD_SETTINGS } from '../../actions/dashboard-settings'
 import { fetchDashboardSettings } from '../../viewparts/fetch-dashboard-settings'
@@ -11,26 +11,6 @@ const HOME_BOARD = 'home'
 const HOME_DESCRIPTION = 'home dashboard'
 
 class Dashboard extends BoardViewerPage {
-  static get styles() {
-    return [
-      css`
-        oops-note {
-          display: block;
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-        }
-      `
-    ].concat(BoardViewerPage.styles)
-  }
-
-  get context() {
-    return {
-      title: super.context.title
-    }
-  }
-
   stateChanged(state) {
     super.stateChanged(state)
 
