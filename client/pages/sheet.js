@@ -318,6 +318,7 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
                 id
                 name
                 description
+                thumbnail
               }
               active
               createdAt
