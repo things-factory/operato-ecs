@@ -45,6 +45,7 @@ export default function bootstrap() {
     name: 'menu-part',
     viewpart: {
       show: true,
+      resizable: true,
       template: html`
         <menu-part></menu-part>
       `
