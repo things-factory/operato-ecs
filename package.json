@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/res-app",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -41,7 +41,7 @@
     "@things-factory/resource-ui": "*",
     "@things-factory/setting-ui": "*",
     "@things-factory/system-ui": "*",
-    "@things-scene/chartjs": "things-scene/chartjs#for-things-factory",
+    "@things-scene/chartjs": "*",
     "@things-scene/clock": "*",
     "@things-scene/clone": "*",
     "@things-scene/compass": "*",
@@ -54,7 +54,7 @@
     "@things-scene/graphql": "*",
     "@things-scene/grist": "*",
     "@things-scene/half-roundrect": "*",
-    "@things-scene/indoor-map": "things-scene/indoor-map#for-things-factory",
+    "@things-scene/indoor-map": "*",
     "@things-scene/label": "*",
     "@things-scene/legend": "*",
     "@things-scene/marker": "*",
@@ -67,7 +67,7 @@
     "@things-scene/switch": "*",
     "@things-scene/tab": "*",
     "@things-scene/table": "*",
-    "@things-scene/visualizer": "things-scene/visualizer#for-things-factory",
+    "@things-scene/visualizer": "*",
     "@things-scene/wheel-sorter": "*"
   },
   "devDependencies": {
