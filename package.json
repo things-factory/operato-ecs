@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/res-app",
-  "version": "0.2.5",
+  "version": "0.9.0",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -29,18 +29,18 @@
     "stop": "kill $(lsof -t -i:3000,3001)"
   },
   "dependencies": {
-    "@things-factory/apptool-ui": "*",
-    "@things-factory/auth-ui-jwt": "*",
-    "@things-factory/board-service": "*",
-    "@things-factory/board-ui": "*",
-    "@things-factory/context-ui": "*",
-    "@things-factory/export-ui": "*",
-    "@things-factory/grist-ui": "*",
-    "@things-factory/i18n-ui": "*",
-    "@things-factory/more-ui": "*",
-    "@things-factory/resource-ui": "*",
-    "@things-factory/setting-ui": "*",
-    "@things-factory/system-ui": "*",
+    "@things-factory/apptool-ui": "^0.9.0",
+    "@things-factory/auth-ui-jwt": "^0.9.0",
+    "@things-factory/board-service": "^0.9.0",
+    "@things-factory/board-ui": "^0.9.0",
+    "@things-factory/context-ui": "^0.9.0",
+    "@things-factory/export-ui": "^0.9.0",
+    "@things-factory/grist-ui": "^0.9.0",
+    "@things-factory/i18n-ui": "^0.9.0",
+    "@things-factory/more-ui": "^0.9.0",
+    "@things-factory/resource-ui": "^0.9.0",
+    "@things-factory/setting-ui": "^0.9.0",
+    "@things-factory/system-ui": "^0.9.0",
     "@things-scene/chartjs": "*",
     "@things-scene/clock": "*",
     "@things-scene/clone": "*",
@@ -71,6 +71,6 @@
     "@things-scene/wheel-sorter": "*"
   },
   "devDependencies": {
-    "@things-factory/board-test": "*"
+    "@things-factory/board-test": "^0.9.0"
   }
 }
