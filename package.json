@@ -68,7 +68,9 @@
     "@things-scene/tab": "*",
     "@things-scene/table": "*",
     "@things-scene/visualizer": "*",
-    "@things-scene/wheel-sorter": "*"
+    "@things-scene/wheel-sorter": "*",
+    "bull": "^3.12.0",
+    "promise-socket": "^6.0.2"
   },
   "devDependencies": {
     "@things-factory/board-test": "^1.0.0-alpha.1"
