@@ -4,7 +4,7 @@ import { getConnection, getRepository } from 'typeorm'
 import { ordersResolver } from './graphql/resolvers/order/orders'
 
 process.on('bootstrap-module-history-fallback' as any, (app, fallbackOption) => {
-  fallbackOption.whiteList.push('/create_order', '/get_orders', '/update_orders')
+  fallbackOption.whiteList.push(`^\/(${['create_order', 'get_orders', 'update_orders'].join('|')})($|[/?#])`)
 })
 
 process.on('bootstrap-module-route' as any, (app, routes) => {
