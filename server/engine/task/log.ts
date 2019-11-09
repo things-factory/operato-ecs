@@ -1,17 +1,18 @@
+import { logger } from '@things-factory/env'
 import { TaskRegistry } from '../task-registry'
 
 async function Log(step) {
-  var { message, level = 'log' } = step
+  var { message, level = 'info' } = step
 
   switch (level) {
     case 'error':
-      console.error(message)
+      logger.error(message)
       return
     case 'warn':
-      console.warn(message)
+      logger.warn(message)
       return
     default:
-      console.log(message)
+      logger.info(message)
   }
 }
 

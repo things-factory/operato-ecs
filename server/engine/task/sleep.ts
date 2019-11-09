@@ -1,10 +1,11 @@
+import { logger } from '@things-factory/env'
 import { sleep } from '../utils'
 import { TaskRegistry } from '../task-registry'
 
 async function Sleep(step) {
   var { delay } = step
 
-  console.log(`sleep ${delay}ms`)
+  logger.info(`sleep ${delay}ms`)
 
   if (delay) {
     await sleep(delay)

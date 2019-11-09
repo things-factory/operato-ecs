@@ -1,3 +1,4 @@
+import { logger } from '@things-factory/env'
 import { sleep } from '../utils'
 import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
@@ -26,7 +27,7 @@ async function onoff(task) {
   }
 
   var sendMessage = HitachiPLCConnector.getWriteCommand(deviceCode, writeStartDevice, writeCoilValue)
-  console.log(sendMessage)
+  logger.info(sendMessage)
 
   await connection.write(sendMessage)
 

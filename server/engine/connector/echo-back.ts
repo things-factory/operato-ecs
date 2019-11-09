@@ -1,7 +1,7 @@
 import net from 'net'
 import PromiseSocket from 'promise-socket'
 
-import { config } from '@things-factory/env'
+import { config, logger } from '@things-factory/env'
 import { Connector } from '../types'
 import { Connections } from '../connections'
 
@@ -12,13 +12,13 @@ export class EchoBack implements Connector {
     return new Promise((resolve, reject) => {
       var server = net.createServer(socket => {
         socket.on('data', function(data) {
-          console.log('Echoing: %s', data.toString())
+          logger.info('Echoing: %s', data.toString())
           socket.write(data.toString())
         })
       })
 
       server.listen(ECHO_SERVER.port, async function() {
-        console.log('Echo-back server listening on %j', server.address())
+        logger.info('Echo-back server listening on %j', server.address())
 
         await Promise.all(
           connectionConfigs.map(async connectionConfig => {
@@ -28,7 +28,7 @@ export class EchoBack implements Connector {
           })
         )
 
-        console.log('666666778777788988', Connections.getConnections())
+        logger.info('666666778777788988', Connections.getConnections())
 
         resolve()
       })

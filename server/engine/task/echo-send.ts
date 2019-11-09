@@ -1,3 +1,4 @@
+import { logger } from '@things-factory/env'
 import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
 
@@ -11,7 +12,7 @@ async function EchoSend(step) {
 
   await connection.write(message)
 
-  console.log(`echo-send : '${message}'`)
+  logger.info(`echo-send : '${message}'`)
 }
 
 TaskRegistry.registerTaskHandler('echo-send', EchoSend)

@@ -1,3 +1,5 @@
+import { logger } from '@things-factory/env'
+
 import { TaskRegistry } from './task-registry'
 import { Step } from './types'
 
@@ -6,7 +8,7 @@ async function process(step) {
 
   var handler = TaskRegistry.getTaskHandler(type)
   if (!handler) {
-    console.error('no task handler for type-', type)
+    logger.error('no task handler for type-', type)
   } else {
     await handler(step)
   }

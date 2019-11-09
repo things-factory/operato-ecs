@@ -1,4 +1,5 @@
 import { TaskRegistry } from '../task-registry'
+import { logger } from '@things-factory/env'
 import { Connections } from '../connections'
 
 async function EchoReceive(step) {
@@ -9,7 +10,7 @@ async function EchoReceive(step) {
   delay && connection.setTimeout(delay)
   var message = await connection.read()
 
-  console.log(`echo-receive : '${message.toString()}'`)
+  logger.info(`echo-receive : '${message.toString()}'`)
 }
 
 TaskRegistry.registerTaskHandler('echo-receive', EchoReceive)
