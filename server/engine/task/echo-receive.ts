@@ -9,7 +9,7 @@ async function EchoReceive(step) {
   delay && connection.setTimeout(delay)
   var message = await connection.read()
 
-  console.log('echo-receive : ', message)
+  console.log(`echo-receive : '${message.toString()}'`)
 }
 
 TaskRegistry.registerTaskHandler('echo-receive', EchoReceive)

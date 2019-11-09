@@ -1,9 +1,8 @@
-import { sleep } from '../utils'
 import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
 
 async function EchoSend(step) {
-  var { connection: connectionName, message, delay } = step
+  var { connection: connectionName, message } = step
 
   var connection = Connections.getConnection(connectionName)
   if (!connection) {
@@ -12,11 +11,7 @@ async function EchoSend(step) {
 
   await connection.write(message)
 
-  console.log('echo-send : ', message)
-
-  if (delay) {
-    await sleep(delay)
-  }
+  console.log(`echo-send : '${message}'`)
 }
 
 TaskRegistry.registerTaskHandler('echo-send', EchoSend)
