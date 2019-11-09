@@ -1,8 +1,7 @@
 import { TaskRegistry } from '../task-registry'
-import { logger } from '@things-factory/env'
 import { Connections } from '../connections'
 
-async function EchoReceive(step) {
+async function EchoReceive(step, { logger }) {
   var { connection: connectionName, message, delay } = step
 
   var connection = Connections.getConnection(connectionName)

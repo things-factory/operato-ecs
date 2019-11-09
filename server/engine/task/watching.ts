@@ -3,7 +3,7 @@ import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
 import { HitachiPLCConnector } from '../connector/hitachi-plc'
 
-async function watching(step) {
+async function watching(step, { logger }) {
   var { ip, plcAddress: address, value, delay } = step
 
   var connection = Connections.getConnection(ip)

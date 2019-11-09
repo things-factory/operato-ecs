@@ -1,7 +1,6 @@
-import { logger } from '@things-factory/env'
 import { TaskRegistry } from '../task-registry'
 
-async function Log(step) {
+async function Log(step, { logger }) {
   var { message, level = 'info' } = step
 
   switch (level) {

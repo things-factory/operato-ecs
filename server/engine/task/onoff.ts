@@ -1,11 +1,10 @@
-import { logger } from '@things-factory/env'
 import { sleep } from '../utils'
 import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
 import { HitachiPLCConnector } from '../connector/hitachi-plc'
 
-async function onoff(task) {
-  var { ip, plcAddress: address, value, delay } = task.options
+async function onoff(step, { logger }) {
+  var { ip, plcAddress: address, value, delay } = step
 
   var connection = Connections.getConnection(ip)
 

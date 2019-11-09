@@ -12,7 +12,6 @@ export class EchoBack implements Connector {
     return new Promise((resolve, reject) => {
       var server = net.createServer(socket => {
         socket.on('data', function(data) {
-          logger.info('Echoing: %s', data.toString())
           socket.write(data.toString())
         })
       })
@@ -27,8 +26,6 @@ export class EchoBack implements Connector {
             Connections.addConnection(connectionConfig.name, socket)
           })
         )
-
-        logger.info('666666778777788988', Connections.getConnections())
 
         resolve()
       })

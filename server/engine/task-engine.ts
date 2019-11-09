@@ -54,7 +54,7 @@ var steps: Step[] = [
 ]
 
 function loadScenarios() {
-  var scenario = new Scenario(steps)
+  var scenario = new Scenario('sample-scenario', steps)
   scenario.start()
 }
 

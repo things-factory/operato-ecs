@@ -2,7 +2,7 @@ import { sleep } from '../utils'
 import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
 
-async function redis_signal(step) {
+async function redis_signal(step, { logger }) {
   var { ip, redis_address: address, value, delay } = step
 
   var connection = Connections.getConnection(ip)

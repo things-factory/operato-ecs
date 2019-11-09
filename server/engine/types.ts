@@ -17,4 +17,4 @@ export interface Step {
   [propName: string]: any
 }
 
-export type TaskHandler = (step: Step) => void
+export type TaskHandler = (step: Step, context: any) => void
