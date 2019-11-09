@@ -1,9 +1,9 @@
-import { sleep } from '@things-factory/shell'
-import TaskRegistry from '../task-registry'
-import Connections from '../connections'
+import { sleep } from '../utils'
+import { TaskRegistry } from '../task-registry'
+import { Connections } from '../connections'
 
-async function redis_signal(task) {
-  var { ip, redis_address: address, value, delay } = task.options
+async function redis_signal(step) {
+  var { ip, redis_address: address, value, delay } = step
 
   var connection = Connections.getConnection(ip)
 

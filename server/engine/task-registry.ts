@@ -1,15 +1,17 @@
-export default class TaskRegistry {
-  static handlers = {}
+import { TaskHandler } from './types'
 
-  static getTaskHandler(type) {
+export class TaskRegistry {
+  static handlers: { [type: string]: TaskHandler } = {}
+
+  static getTaskHandler(type: string): TaskHandler {
     return TaskRegistry.handlers[type]
   }
 
-  static registerTaskHandler(type, handler) {
+  static registerTaskHandler(type: string, handler: TaskHandler) {
     TaskRegistry.handlers[type] = handler
   }
 
-  static unregisterTaskHandler(type) {
+  static unregisterTaskHandler(type: string) {
     delete TaskRegistry.handlers[type]
   }
 }

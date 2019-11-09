@@ -1,8 +1,8 @@
-import TaskRegistry from '../task-registry'
-import Connections from '../connections'
+import { TaskRegistry } from '../task-registry'
+import { Connections } from '../connections'
 
-async function robot_do(task) {
-  var { ip, name: command } = task.options
+async function robot_do(step) {
+  var { ip, name: command } = step
 
   var connection = Connections.getConnection(ip)
 

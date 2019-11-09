@@ -1,10 +1,10 @@
-import { sleep } from '@things-factory/shell'
-import TaskRegistry from '../task-registry'
-import Connections from '../connections'
-import HitachiPLCConnector from '../connection/hitachi-plc'
+import { sleep } from '../utils'
+import { TaskRegistry } from '../task-registry'
+import { Connections } from '../connections'
+import { HitachiPLCConnector } from '../connector/hitachi-plc'
 
-async function watching(task) {
-  var { ip, plcAddress: address, value, delay } = task.options
+async function watching(step) {
+  var { ip, plcAddress: address, value, delay } = step
 
   var connection = Connections.getConnection(ip)
 

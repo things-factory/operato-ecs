@@ -1,7 +1,6 @@
-import './connection'
 import './connector'
+import './task'
 
 export * from './connections'
-export * from './connector'
 export * from './task-engine'
 export * from './task-registry'

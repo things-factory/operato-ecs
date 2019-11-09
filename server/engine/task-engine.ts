@@ -1,67 +1,62 @@
-// var Queue = require('bull')
+/*
+ * task-engine
+ * - connectors configuration을 읽어서 각 connection 들을 연결한다.
+ * - connections connect가 완료되면, 등록된 모든 scenario 들을 읽어서 각각의 queue에 넣는다.
+ * - 각각의 queue에서 발생하는 이벤트들을 핸들링할 수 있도록 subscriber 핸들러를 연결한다. (started, progress, finished)
+ * - scenario stop, resume, add, remove 등을 처리할 수 있는 핸들러를 연결한다.
+ * - started 상태의 queue를 작동시킨다.
+ */
 
-// enum STATE {
-//   CREATED,
-//   READY,
-//   STARTED,
-//   PAUSED,
-//   STOPPED
-// }
+import { Step } from './types'
+import { Scenario } from './scenario'
+import { Connections } from './connections'
 
-// class Task {}
+var steps: Step[] = [
+  {
+    sequence: '1',
+    type: 'echo-send',
+    connection: 'echo@localhost',
+    message: 'echo-1'
+  },
+  {
+    sequence: '2',
+    type: 'echo-receive',
+    connection: 'echo@localhost'
+  },
+  {
+    sequence: '3',
+    type: 'sleep',
+    delay: 3000
+  },
+  {
+    sequence: '4',
+    type: 'echo-send',
+    connection: 'echo@localhost',
+    message: 'echo-2'
+  },
+  {
+    sequence: '5',
+    type: 'echo-receive',
+    connection: 'echo@localhost'
+  }
+]
 
-// class TaskQueue {
-//   queue: Queue
-//   state: STATE
-//   progress: number
-//   tasks: Task[]
+function loadScenarios() {
+  var scenario = new Scenario(steps)
+  scenario.start()
+}
 
-//   constructor(name, tasks) {
-//     this.queue = new Queue(name)
-//     this.state = STATE.CREATED
-//     this.progress = 0
-//     this.tasks = tasks
+export class TaskEngine {
+  static async start() {
+    try {
+      await Connections.ready()
 
-//     this.ready()
-//   }
-
-//   ready() {
-//     if (this.state == STATE.STOPPED || this.state == STATE.CREATED) {
-//       this.tasks.forEach(task => this.queue.add(task))
-//       this.state = STATE.READY
-//     }
-//   }
-
-//   start() {
-//     switch (this.state) {
-//       case STATE.STARTED:
-//         return
-//       case STATE.PAUSED:
-//         this.resume()
-//         return
-//       case STATE.STOPPED:
-//       case STATE.READY:
-//       default:
-//     }
-
-//     this.queue.process(this.process)
-//   }
-
-//   pause() {}
-
-//   resume() {}
-
-//   stop() {
-//     this.queue.this.state = STATE.STOPPED
-//   }
-
-//   process(task) {
-//     task.progress(0)
-//   }
-// }
-
-export default class TaskEngine {
-  static start() {}
+      console.log('connections done:', Connections.getConnections())
+      loadScenarios()
+    } catch (ex) {
+      console.error(ex)
+    }
+  }
 
   static stop() {}
 
