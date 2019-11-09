@@ -58,7 +58,7 @@ export class MenuPart extends connect(store)(LitElement) {
 
         return html`
           <div ?active=${this.boardId == board.id}>
-            <a href="/board-viewer/${board.id}" viewer>${sheet.name}</a>
+            <a href="board-viewer/${board.id}" viewer>${sheet.name}</a>
           </div>
         `
       })}

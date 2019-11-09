@@ -183,20 +183,6 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
           multiple: true
         },
         {
-          type: 'gutter',
-          gutterName: 'button',
-          icon: 'web_asset',
-          handlers: {
-            click: (columns, data, column, record, rowIndex) => {
-              openOverlay('popup-part', {
-                template: html`
-                  <h1 style="display:block;background-color:white;margin:0;height:100%">hahaha</h1>
-                `
-              })
-            }
-          }
-        },
-        {
           type: 'string',
           name: 'id',
           hidden: true
