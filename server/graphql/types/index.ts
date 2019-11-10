@@ -7,4 +7,6 @@ export const queries = [Sheet.Query, Order.Query, Stock.Query, BoardSetting.Quer
 
 export const mutations = [Sheet.Mutation, Order.Mutation, Stock.Mutation]
 
+export const subscriptions = []
+
 export const types = [...Sheet.Types, ...Order.Types, ...Stock.Types, ...BoardSetting.Types]
