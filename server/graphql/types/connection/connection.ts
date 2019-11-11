@@ -6,6 +6,8 @@ export const Connection = gql`
     name: String
     domain: Domain
     description: String
+    type: String
+    endpoint: String
     updater: User
     creator: User
     updatedAt: String

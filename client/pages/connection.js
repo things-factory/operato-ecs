@@ -49,11 +49,11 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
       actions: [
         {
           title: i18next.t('button.commit'),
-          action: this._updateUsers.bind(this)
+          action: this._updateConnections.bind(this)
         },
         {
           title: i18next.t('button.delete'),
-          action: this._deleteUsers.bind(this)
+          action: this._deleteConnections.bind(this)
         }
       ]
     }
@@ -112,10 +112,18 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
         }
       },
       {
-        name: 'email',
+        name: 'type',
         type: 'text',
         props: {
-          placeholder: i18next.t('field.email'),
+          placeholder: i18next.t('field.type'),
+          searchOper: 'like'
+        }
+      },
+      {
+        name: 'endpoint',
+        type: 'text',
+        props: {
+          placeholder: i18next.t('field.endpoint'),
           searchOper: 'like'
         }
       }
@@ -148,15 +156,6 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
           width: 150
         },
         {
-          type: 'email',
-          name: 'email',
-          header: i18next.t('field.email'),
-          record: {
-            editable: true
-          },
-          width: 150
-        },
-        {
           type: 'string',
           name: 'description',
           header: i18next.t('field.description'),
@@ -166,9 +165,18 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
           width: 200
         },
         {
-          type: 'password',
-          name: 'password',
-          header: i18next.t('field.password'),
+          type: 'string',
+          name: 'type',
+          header: i18next.t('field.type'),
+          record: {
+            editable: true
+          },
+          width: 200
+        },
+        {
+          type: 'string',
+          name: 'endpoint',
+          header: i18next.t('field.endpoint'),
           record: {
             editable: true
           },
@@ -212,7 +220,7 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
     const response = await client.query({
       query: gql`
         query {
-          users(${gqlBuilder.buildArgs({
+          responses: connections(${gqlBuilder.buildArgs({
             filters: this._conditionParser(),
             pagination: { page, limit },
             sortings: sorters
@@ -226,8 +234,8 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
               }
               name
               description
-              email
-              password
+              type
+              endpoint
               updater {
                 id
                 name
@@ -242,8 +250,8 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
     })
 
     return {
-      total: response.data.users.total || 0,
-      records: response.data.users.items || []
+      total: response.data.responses.total || 0,
+      records: response.data.responses.items || []
     }
   }
 
@@ -267,14 +275,14 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
       })
   }
 
-  async _deleteUsers(email) {
+  async _deleteConnections(email) {
     if (confirm(i18next.t('text.sure_to_delete'))) {
-      const emails = this.dataGrist.selected.map(record => record.email)
-      if (emails && emails.length > 0) {
+      const names = this.dataGrist.selected.map(record => record.name)
+      if (names && names.length > 0) {
         const response = await client.query({
           query: gql`
                 mutation {
-                  deleteUser(${gqlBuilder.buildArgs({ emails })})
+                  deleteConnection(${gqlBuilder.buildArgs({ name })})
                 }
               `
         })
@@ -300,16 +308,16 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
     }
   }
 
-  async _updateUsers() {
+  async _updateConnections() {
     let patches = this.dataGrist.dirtyRecords
     if (patches && patches.length) {
-      patches = patches.map(user => {
-        let patchField = user.id ? { id: user.id } : {}
-        const dirtyFields = user.__dirtyfields__
+      patches = patches.map(connection => {
+        let patchField = connection.id ? { id: connection.id } : {}
+        const dirtyFields = connection.__dirtyfields__
         for (let key in dirtyFields) {
           patchField[key] = dirtyFields[key].after
         }
-        patchField.cuFlag = user.__dirty__
+        patchField.cuFlag = connection.__dirty__
 
         return patchField
       })
@@ -317,7 +325,7 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
       const response = await client.query({
         query: gql`
             mutation {
-              updateMultipleUser(${gqlBuilder.buildArgs({
+              updateMultipleConnection(${gqlBuilder.buildArgs({
                 patches
               })}) {
                 name
