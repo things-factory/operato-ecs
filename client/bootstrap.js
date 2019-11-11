@@ -95,6 +95,21 @@ export default function bootstrap() {
   })
 
   store.dispatch({
+    type: ADD_MORENDA,
+    morenda: {
+      icon: html`
+        <mwc-icon>view_list</mwc-icon>
+      `,
+      name: html`
+        <i18n-msg msgid="text.connection"></i18n-msg>
+      `,
+      action: () => {
+        navigate('connection')
+      }
+    }
+  })
+
+  store.dispatch({
     type: ADD_SETTING,
     setting: {
       seq: 20,

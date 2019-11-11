@@ -14,5 +14,9 @@ export default function route(page) {
     case 'users':
       import('./pages/system/system-user')
       return page
+
+    case 'connection':
+      import('./pages/connection')
+      return page
   }
 }

@@ -15,6 +15,10 @@ export default {
     {
       tagname: 'system-user',
       page: 'users'
+    },
+    {
+      tagname: 'connection-page',
+      page: 'connection'
     }
   ],
   route
