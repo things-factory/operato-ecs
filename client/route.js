@@ -22,9 +22,5 @@ export default function route(page) {
     case 'scenario':
       import('./pages/scenario')
       return page
-
-    case 'step':
-      import('./pages/step')
-      return page
   }
 }

@@ -23,10 +23,6 @@ export default {
     {
       tagname: 'scenario-page',
       page: 'scenario'
-    },
-    {
-      tagname: 'step-page',
-      page: 'step'
     }
   ],
   route
