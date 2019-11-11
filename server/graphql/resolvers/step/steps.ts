@@ -7,7 +7,7 @@ export const stepsResolver = {
     const convertedParams = convertListParams(params)
     const [items, total] = await getRepository(Step).findAndCount({
       ...convertedParams,
-      relations: ['domain', 'creator', 'updater']
+      relations: ['domain', 'scenario', 'creator', 'updater']
     })
     return { items, total }
   }

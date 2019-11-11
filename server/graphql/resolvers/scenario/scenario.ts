@@ -6,8 +6,7 @@ export const scenarioResolver = {
     const repository = getRepository(Scenario)
 
     return await getRepository(Scenario).findOne({
-      where: { domain: context.state.domain, name, relations: ['domain', 'creator', 'updater']}
+      where: { domain: context.state.domain, name, relations: ['domain', 'steps', 'creator', 'updater'] }
     })
   }
 }
-

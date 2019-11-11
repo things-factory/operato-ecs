@@ -6,8 +6,7 @@ export const stepResolver = {
     const repository = getRepository(Step)
 
     return await getRepository(Step).findOne({
-      where: { domain: context.state.domain, name, relations: ['domain', 'creator', 'updater']}
+      where: { domain: context.state.domain, name, relations: ['domain', 'scenario', 'creator', 'updater'] }
     })
   }
 }
-

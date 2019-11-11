@@ -7,7 +7,7 @@ export const scenariosResolver = {
     const convertedParams = convertListParams(params)
     const [items, total] = await getRepository(Scenario).findAndCount({
       ...convertedParams,
-      relations: ['domain', 'creator', 'updater']
+      relations: ['domain', 'steps', 'creator', 'updater']
     })
     return { items, total }
   }
