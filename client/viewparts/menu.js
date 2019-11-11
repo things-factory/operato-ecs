@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
 import gql from 'graphql-tag'
-import { store, client, gqlBuilder } from '@things-factory/shell'
+import { navigate, store, client, gqlBuilder } from '@things-factory/shell'
 import { connect } from 'pwa-helpers/connect-mixin.js'
 
 export class MenuPart extends connect(store)(LitElement) {
@@ -9,6 +9,8 @@ export class MenuPart extends connect(store)(LitElement) {
       :host {
         display: block;
         min-width: 150px;
+        height: 100%;
+        background-color: var(--primary-color);
       }
 
       div {
@@ -53,6 +55,10 @@ export class MenuPart extends connect(store)(LitElement) {
     var sheets = (this.sheets || []).filter(sheet => sheet.active)
 
     return html`
+      <div ?active=${this.isHome()}>
+        <a @click=${e => this.navigateToHome()} viewer><mwc-icon>home</mwc-icon></a>
+      </div>
+
       ${sheets.map(sheet => {
         var board = sheet.board || {}
 
@@ -107,6 +113,25 @@ export class MenuPart extends connect(store)(LitElement) {
     this.boardId = state.route.resourceId
     this.sheets = state.sheets.sheets
     this.user = state.auth.user
+  }
+
+  isHome() {
+    var pathname = location.pathname
+    var base = document.querySelector('base')
+    if (base) {
+      return pathname == base.getAttribute('href')
+    } else {
+      return pathname == '/'
+    }
+  }
+
+  navigateToHome() {
+    var base = document.querySelector('base')
+    if (base) {
+      navigate(base.getAttribute('href'))
+    } else {
+      navigate('/')
+    }
   }
 }
 

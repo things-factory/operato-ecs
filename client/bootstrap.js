@@ -1,6 +1,7 @@
 import { html } from 'lit-html'
 import { store, navigate } from '@things-factory/shell'
-import { appendViewpart, VIEWPART_POSITION } from '@things-factory/layout-base'
+import { appendViewpart, toggleOverlay, VIEWPART_POSITION, TOOL_POSITION } from '@things-factory/layout-base'
+import { APPEND_APP_TOOL } from '@things-factory/apptool-base'
 import { ADD_MORENDA } from '@things-factory/more-base'
 import { ADD_SETTING } from '@things-factory/setting-base'
 import { auth } from '@things-factory/auth-base'
@@ -41,11 +42,28 @@ export default function bootstrap() {
     })
   })
 
+  /* add hamburger tool */
+  store.dispatch({
+    type: APPEND_APP_TOOL,
+    tool: {
+      template: html`
+        <mwc-icon
+          @click=${e =>
+            toggleOverlay('menu-part', {
+              backdrop: true
+            })}
+          >view_headline</mwc-icon
+        >
+      `,
+      position: TOOL_POSITION.FRONT_END
+    }
+  })
+
   appendViewpart({
     name: 'menu-part',
     viewpart: {
-      show: true,
       resizable: true,
+      hovering: 'edge',
       template: html`
         <menu-part></menu-part>
       `
