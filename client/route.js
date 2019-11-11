@@ -18,5 +18,13 @@ export default function route(page) {
     case 'connection':
       import('./pages/connection')
       return page
+
+    case 'scenario':
+      import('./pages/scenario')
+      return page
+
+    case 'step':
+      import('./pages/step')
+      return page
   }
 }

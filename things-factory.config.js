@@ -19,6 +19,14 @@ export default {
     {
       tagname: 'connection-page',
       page: 'connection'
+    },
+    {
+      tagname: 'scenario-page',
+      page: 'scenario'
+    },
+    {
+      tagname: 'step-page',
+      page: 'step'
     }
   ],
   route
