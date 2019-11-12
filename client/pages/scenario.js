@@ -49,11 +49,11 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
       actions: [
         {
           title: i18next.t('button.commit'),
-          action: this._updateUsers.bind(this)
+          action: this._updateScenario.bind(this)
         },
         {
           title: i18next.t('button.delete'),
-          action: this._deleteUsers.bind(this)
+          action: this._deleteScenario.bind(this)
         }
       ]
     }
@@ -110,14 +110,6 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
           placeholder: i18next.t('field.description'),
           searchOper: 'like'
         }
-      },
-      {
-        name: 'email',
-        type: 'text',
-        props: {
-          placeholder: i18next.t('field.email'),
-          searchOper: 'like'
-        }
       }
     ]
 
@@ -148,27 +140,9 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
           width: 150
         },
         {
-          type: 'email',
-          name: 'email',
-          header: i18next.t('field.email'),
-          record: {
-            editable: true
-          },
-          width: 150
-        },
-        {
           type: 'string',
           name: 'description',
           header: i18next.t('field.description'),
-          record: {
-            editable: true
-          },
-          width: 200
-        },
-        {
-          type: 'password',
-          name: 'password',
-          header: i18next.t('field.password'),
           record: {
             editable: true
           },
@@ -212,7 +186,7 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
     const response = await client.query({
       query: gql`
         query {
-          users(${gqlBuilder.buildArgs({
+          responses: scenarios(${gqlBuilder.buildArgs({
             filters: this._conditionParser(),
             pagination: { page, limit },
             sortings: sorters
@@ -226,8 +200,14 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
               }
               name
               description
-              email
-              password
+              steps {
+                items {
+                  name
+                  sequence
+                  task
+                  params
+                }
+              }
               updater {
                 id
                 name
@@ -242,8 +222,8 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
     })
 
     return {
-      total: response.data.users.total || 0,
-      records: response.data.users.items || []
+      total: response.data.responses.total || 0,
+      records: response.data.responses.items || []
     }
   }
 
@@ -267,14 +247,14 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
       })
   }
 
-  async _deleteUsers(email) {
+  async _deleteScenario(name) {
     if (confirm(i18next.t('text.sure_to_delete'))) {
-      const emails = this.dataGrist.selected.map(record => record.email)
-      if (emails && emails.length > 0) {
+      const names = this.dataGrist.selected.map(record => record.name)
+      if (names && names.length > 0) {
         const response = await client.query({
           query: gql`
                 mutation {
-                  deleteUser(${gqlBuilder.buildArgs({ emails })})
+                  deleteConnection(${gqlBuilder.buildArgs({ name })})
                 }
               `
         })
@@ -300,16 +280,16 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
     }
   }
 
-  async _updateUsers() {
+  async _updateScenario() {
     let patches = this.dataGrist.dirtyRecords
     if (patches && patches.length) {
-      patches = patches.map(user => {
-        let patchField = user.id ? { id: user.id } : {}
-        const dirtyFields = user.__dirtyfields__
+      patches = patches.map(connection => {
+        let patchField = connection.id ? { id: connection.id } : {}
+        const dirtyFields = connection.__dirtyfields__
         for (let key in dirtyFields) {
           patchField[key] = dirtyFields[key].after
         }
-        patchField.cuFlag = user.__dirty__
+        patchField.cuFlag = connection.__dirty__
 
         return patchField
       })
@@ -317,7 +297,7 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
       const response = await client.query({
         query: gql`
             mutation {
-              updateMultipleUser(${gqlBuilder.buildArgs({
+              updateMultipleConnection(${gqlBuilder.buildArgs({
                 patches
               })}) {
                 name
