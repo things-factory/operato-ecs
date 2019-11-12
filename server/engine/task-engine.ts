@@ -15,74 +15,64 @@ import { Connections } from './connections'
 
 var scenario1: Step[] = [
   {
-    sequence: '1',
-    type: 'log',
-    message: 'Scenario START'
-  },
-  {
-    sequence: '2',
     type: 'sleep',
     delay: 1000
   },
   {
-    sequence: '3',
+    type: 'log',
+    message: 'Scenario START'
+  },
+  {
+    type: 'sleep',
+    delay: 1000
+  },
+  {
     type: 'echo-send',
     connection: 'echo@localhost',
     message: 'echo-1'
   },
   {
-    sequence: '4',
     type: 'sleep',
     delay: 1000
   },
   {
-    sequence: '5',
     type: 'echo-receive',
     connection: 'echo@localhost'
   },
   {
-    sequence: '6',
     type: 'sleep',
-    delay: 3000
+    delay: 1000
   },
   {
-    sequence: '7',
     type: 'echo-send',
     connection: 'echo@localhost',
     message: 'echo-2'
   },
   {
-    sequence: '8',
     type: 'sleep',
     delay: 1000
   },
   {
-    sequence: '9',
     type: 'echo-receive',
     connection: 'echo@localhost'
   },
   {
-    sequence: '10',
     type: 'sleep',
     delay: 1000
   },
   {
-    sequence: '11',
     type: 'log',
     message: 'Scenario END'
   },
   {
-    sequence: '12',
     type: 'sleep',
     delay: 1000
   },
   {
-    sequence: '13',
     type: 'publish',
     message: 'Scenario END'
   },
   {
-    sequence: '14',
     type: 'sleep',
     delay: 1000
   }
@@ -90,31 +80,26 @@ var scenario1: Step[] = [
 
 var scenario2: Step[] = [
   {
-    sequence: '1',
     ip: 'indi@192.168.1.207',
     type: 'robot_move',
     name: 'test1'
   },
   {
-    sequence: '2',
     ip: 'indi@192.168.1.207',
     type: 'robot_move',
     name: 'test2'
   },
   {
-    sequence: '3',
     ip: 'indi@192.168.1.207',
     type: 'robot_move',
     name: 'test3'
   },
   {
-    sequence: '4',
     ip: 'indi@192.168.1.207',
     type: 'robot_move',
     name: 'test4'
   },
   {
-    sequence: '5',
     ip: 'indi@192.168.1.207',
     type: 'robot_move',
     name: 'test5'

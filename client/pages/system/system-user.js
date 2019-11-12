@@ -50,7 +50,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
       title: i18next.t('text.user management'),
       actions: [
         {
-          title: i18next.t('button.commit'),
+          title: i18next.t('button.save'),
           action: this._updateUsers.bind(this)
         },
         {

@@ -52,7 +52,7 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
       <data-grist
         .mode=${isMobileDevice() ? 'LIST' : 'GRID'}
         .config=${this.gristConfig}
-        .fetchHandler="${this.fetchHandler.bind(this)}"
+        .fetchHandler=${this.fetchHandler.bind(this)}
         .data=${[this.scenario]}
       ></data-grist>
     `
@@ -69,6 +69,22 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
       columns: [
         { type: 'gutter', gutterName: 'sequence' },
         {
+          type: 'gutter',
+          gutterName: 'button',
+          icon: 'arrow_upward',
+          handlers: {
+            click: (columns, data, column, record, rowIndex) => {}
+          }
+        },
+        {
+          type: 'gutter',
+          gutterName: 'button',
+          icon: 'arrow_downward',
+          handlers: {
+            click: (columns, data, column, record, rowIndex) => {}
+          }
+        },
+        {
           type: 'object',
           name: 'scenario',
           hidden: true
@@ -80,7 +96,7 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
           record: {
             editable: true
           },
-          width: 150
+          width: 140
         },
         {
           type: 'string',
@@ -89,7 +105,7 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
           record: {
             editable: true
           },
-          width: 260
+          width: 180
         },
         {
           type: 'task-type',
@@ -98,7 +114,7 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
           record: {
             editable: true
           },
-          width: 150
+          width: 120
         },
         {
           type: 'string',
@@ -107,7 +123,7 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
           record: {
             editable: true
           },
-          width: 300
+          width: 200
         }
       ],
       pagination: {

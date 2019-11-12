@@ -44,7 +44,7 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
       title: i18next.t('text.scenario'),
       actions: [
         {
-          title: i18next.t('button.commit'),
+          title: i18next.t('button.save'),
           action: this._updateScenario.bind(this)
         },
         {
@@ -107,6 +107,20 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
           type: 'object',
           name: 'domain',
           hidden: true
+        },
+        {
+          type: 'gutter',
+          gutterName: 'button',
+          icon: record => (!record ? 'play_arrow' : record.status == 1 ? 'pause' : 'play_arrow'),
+          handlers: {
+            click: (columns, data, column, record, rowIndex) => {
+              if (record.status == 0) {
+                // this.startPublisher(record)
+              } else {
+                // this.stopPublisher(record)
+              }
+            }
+          }
         },
         {
           type: 'gutter',

@@ -46,7 +46,7 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
           }
         },
         {
-          title: i18next.t('button.commit'),
+          title: i18next.t('button.save'),
           action: () => {
             this.onCommit()
           }
@@ -285,8 +285,9 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
   }
 
   async fetchHandler({ page, limit, sorters = [] }) {
-    const response = (await client.query({
-      query: gql`
+    const response = (
+      await client.query({
+        query: gql`
         {
           sheets(${gqlBuilder.buildArgs({
             filters: [],
@@ -322,7 +323,8 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
           }
         }
       `
-    })).data.sheets
+      })
+    ).data.sheets
 
     store.dispatch({
       type: 'UPDATE_SHEETS',

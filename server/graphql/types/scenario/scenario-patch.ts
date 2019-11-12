@@ -5,6 +5,7 @@ export const ScenarioPatch = gql`
     id: String
     name: String
     description: String
+    active: Boolean
     cuFlag: String
   }
 `

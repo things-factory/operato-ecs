@@ -29,7 +29,20 @@ export class Scenario {
   })
   description: string
 
-  @OneToMany(type => Step, step => step.scenario)
+  @Column({
+    nullable: true
+  })
+  active: boolean
+
+  @Column({
+    nullable: true
+  })
+  status: number
+
+  @OneToMany(
+    type => Step,
+    step => step.scenario
+  )
   steps: Step[]
 
   @CreateDateColumn()

@@ -10,7 +10,7 @@ export interface Connector {
 }
 
 export interface Step {
-  sequence: string
+  sequence?: string
   type: string /* task */
   ip?: string /* TODO should be a connection name of params */
   name?: string /* TODO should be one of params for task */
