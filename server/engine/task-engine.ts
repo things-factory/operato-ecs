@@ -50,6 +50,11 @@ var scenario1: Step[] = [
     sequence: '7',
     type: 'log',
     message: 'Scenario END'
+  },
+  {
+    sequence: '8',
+    type: 'publish',
+    message: 'Scenario END'
   }
 ]
 

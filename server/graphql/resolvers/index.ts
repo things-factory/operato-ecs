@@ -25,4 +25,4 @@ export const mutations = [
   Step.Mutation
 ]
 
-export const subscriptions = []
+export const subscriptions = [Scenario.Subscription]

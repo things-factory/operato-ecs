@@ -16,7 +16,6 @@ async function robot_move(step, { logger }) {
       actionType: 'R_MOVE'
     })
   )
-  logger.info('move command sent.')
 
   var response = await connection.read()
 

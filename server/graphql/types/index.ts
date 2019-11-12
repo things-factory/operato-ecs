@@ -25,7 +25,7 @@ export const mutations = [
   Step.Mutation
 ]
 
-export const subscriptions = []
+export const subscriptions = [Scenario.Subscription]
 
 export const types = [
   ...Sheet.Types,
