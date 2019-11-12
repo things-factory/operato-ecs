@@ -33,7 +33,7 @@ export const Query = `
 `
 
 export const Subscription = `
-  scenarioState: ScenarioState
+  scenarioState(name: String): ScenarioState
 `
 
 export const Types = [Scenario, NewScenario, ScenarioPatch, ScenarioList, ScenarioState]
