@@ -88,14 +88,6 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
   async pageInitialized() {
     this._searchFields = [
       {
-        name: 'domain',
-        type: 'text',
-        props: {
-          placeholder: i18next.t('field.domain'),
-          searchOper: 'like'
-        }
-      },
-      {
         name: 'name',
         type: 'text',
         props: {
@@ -120,15 +112,17 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
         {
           type: 'object',
           name: 'domain',
-          header: i18next.t('field.domain'),
-          record: {
-            align: 'center',
-            editable: true,
-            options: {
-              queryName: 'domains'
+          hidden: true
+        },
+        {
+          type: 'gutter',
+          gutterName: 'button',
+          icon: 'reorder',
+          handlers: {
+            click: (columns, data, column, record, rowIndex) => {
+              openPopup('scenario-detail')
             }
-          },
-          width: 250
+          }
         },
         {
           type: 'string',
@@ -254,7 +248,7 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
         const response = await client.query({
           query: gql`
                 mutation {
-                  deleteConnection(${gqlBuilder.buildArgs({ name })})
+                  deleteScenario(${gqlBuilder.buildArgs({ name })})
                 }
               `
         })
@@ -283,13 +277,13 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
   async _updateScenario() {
     let patches = this.dataGrist.dirtyRecords
     if (patches && patches.length) {
-      patches = patches.map(connection => {
-        let patchField = connection.id ? { id: connection.id } : {}
-        const dirtyFields = connection.__dirtyfields__
+      patches = patches.map(patch => {
+        let patchField = patch.id ? { id: patch.id } : {}
+        const dirtyFields = patch.__dirtyfields__
         for (let key in dirtyFields) {
           patchField[key] = dirtyFields[key].after
         }
-        patchField.cuFlag = connection.__dirty__
+        patchField.cuFlag = patch.__dirty__
 
         return patchField
       })
@@ -297,7 +291,7 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
       const response = await client.query({
         query: gql`
             mutation {
-              updateMultipleConnection(${gqlBuilder.buildArgs({
+              updateMultipleScenario(${gqlBuilder.buildArgs({
                 patches
               })}) {
                 name

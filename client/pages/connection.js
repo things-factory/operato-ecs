@@ -88,14 +88,6 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
   async pageInitialized() {
     this._searchFields = [
       {
-        name: 'domain',
-        type: 'text',
-        props: {
-          placeholder: i18next.t('field.domain'),
-          searchOper: 'like'
-        }
-      },
-      {
         name: 'name',
         type: 'text',
         props: {
@@ -136,15 +128,7 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
         {
           type: 'object',
           name: 'domain',
-          header: i18next.t('field.domain'),
-          record: {
-            align: 'center',
-            editable: true,
-            options: {
-              queryName: 'domains'
-            }
-          },
-          width: 250
+          hidden: true
         },
         {
           type: 'string',
