@@ -171,7 +171,7 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
           name: 'updater',
           header: i18next.t('field.updater'),
           record: {
-            editable: true
+            editable: false
           },
           width: 180
         },
@@ -180,7 +180,7 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
           name: 'updatedAt',
           header: i18next.t('field.updated_at'),
           record: {
-            editable: true
+            editable: false
           },
           width: 180
         }
