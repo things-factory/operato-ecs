@@ -21,40 +21,70 @@ var scenario1: Step[] = [
   },
   {
     sequence: '2',
+    type: 'sleep',
+    delay: 1000
+  },
+  {
+    sequence: '3',
     type: 'echo-send',
     connection: 'echo@localhost',
     message: 'echo-1'
   },
   {
-    sequence: '3',
+    sequence: '4',
+    type: 'sleep',
+    delay: 1000
+  },
+  {
+    sequence: '5',
     type: 'echo-receive',
     connection: 'echo@localhost'
   },
   {
-    sequence: '4',
+    sequence: '6',
     type: 'sleep',
     delay: 3000
   },
   {
-    sequence: '5',
+    sequence: '7',
     type: 'echo-send',
     connection: 'echo@localhost',
     message: 'echo-2'
   },
   {
-    sequence: '6',
+    sequence: '8',
+    type: 'sleep',
+    delay: 1000
+  },
+  {
+    sequence: '9',
     type: 'echo-receive',
     connection: 'echo@localhost'
   },
   {
-    sequence: '7',
+    sequence: '10',
+    type: 'sleep',
+    delay: 1000
+  },
+  {
+    sequence: '11',
     type: 'log',
     message: 'Scenario END'
   },
   {
-    sequence: '8',
+    sequence: '12',
+    type: 'sleep',
+    delay: 1000
+  },
+  {
+    sequence: '13',
     type: 'publish',
     message: 'Scenario END'
+  },
+  {
+    sequence: '14',
+    type: 'sleep',
+    delay: 1000
   }
 ]
 
