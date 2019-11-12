@@ -6,6 +6,9 @@ async function redis_signal(step, { logger }) {
   var { ip, redis_address: address, value, delay } = step
 
   var connection = Connections.getConnection(ip)
+  if (!connection) {
+    throw new Error(`no connection : ${ip}`)
+  }
 
   while (value !== (await connection.get(address))) {
     await sleep(delay)

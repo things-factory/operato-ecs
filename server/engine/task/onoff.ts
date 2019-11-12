@@ -1,12 +1,14 @@
-import { sleep } from '../utils'
 import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
 import { HitachiPLCConnector } from '../connector/hitachi-plc'
 
 async function onoff(step, { logger }) {
-  var { ip, plcAddress: address, value, delay } = step
+  var { ip, plcAddress: address, value } = step
 
   var connection = Connections.getConnection(ip)
+  if (!connection) {
+    throw new Error(`no connection : ${ip}`)
+  }
 
   var w_address = address
   var w_value = value
@@ -29,9 +31,20 @@ async function onoff(step, { logger }) {
   logger.info(sendMessage)
 
   await connection.write(sendMessage)
+  var response = await connection.read()
+  if (!response) {
+    // socket ended or closed
+    throw new Error('socket closed')
+  }
 
-  if (delay) {
-    await sleep(delay)
+  var content = response.toString()
+
+  if (content.substring(17, 18) == '4') {
+    logger.info('received response.')
+    // ok
+  } else {
+    // error
+    throw new Error('response not applicable')
   }
 }
 

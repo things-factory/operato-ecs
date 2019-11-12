@@ -13,7 +13,7 @@ import { Step } from './types'
 import { Scenario } from './scenario'
 import { Connections } from './connections'
 
-var steps: Step[] = [
+var scenario1: Step[] = [
   {
     sequence: '1',
     type: 'log',
@@ -53,9 +53,45 @@ var steps: Step[] = [
   }
 ]
 
+var scenario2: Step[] = [
+  {
+    sequence: '1',
+    ip: 'indi@192.168.1.207',
+    type: 'robot_move',
+    name: 'test1'
+  },
+  {
+    sequence: '2',
+    ip: 'indi@192.168.1.207',
+    type: 'robot_move',
+    name: 'test2'
+  },
+  {
+    sequence: '3',
+    ip: 'indi@192.168.1.207',
+    type: 'robot_move',
+    name: 'test3'
+  },
+  {
+    sequence: '4',
+    ip: 'indi@192.168.1.207',
+    type: 'robot_move',
+    name: 'test4'
+  },
+  {
+    sequence: '5',
+    ip: 'indi@192.168.1.207',
+    type: 'robot_move',
+    name: 'test5'
+  }
+]
+
 function loadScenarios() {
-  var scenario = new Scenario('sample-scenario', steps)
-  scenario.start()
+  var sc1 = new Scenario('sample-scenario', scenario1)
+  var sc2 = new Scenario('robot-scenario', scenario2)
+
+  sc1.start()
+  sc2.start()
 }
 
 export class TaskEngine {
@@ -63,7 +99,7 @@ export class TaskEngine {
     try {
       await Connections.ready()
 
-      logger.info('connections done:', Connections.getConnections())
+      logger.info('connections done: %s', JSON.stringify(Object.keys(Connections.getConnections())))
       loadScenarios()
     } catch (ex) {
       logger.error(ex)

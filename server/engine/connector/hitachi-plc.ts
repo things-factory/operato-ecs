@@ -1,3 +1,7 @@
+import net from 'net'
+import PromiseSocket from 'promise-socket'
+
+import { logger } from '@things-factory/env'
 import { Connector } from '../types'
 import { Connections } from '../connections'
 
@@ -52,8 +56,17 @@ export class HitachiPLCConnector implements Connector {
     )
   }
 
-  ready() {
-    return null
+  async ready(connectionConfigs) {
+    await Promise.all(
+      connectionConfigs.map(async connectionConfig => {
+        let socket = new PromiseSocket(new net.Socket())
+        socket.setTimeout(2000)
+        await socket.connect(connectionConfig.port, connectionConfig.host)
+        Connections.addConnection(connectionConfig.name, socket)
+      })
+    )
+
+    logger.info('hitachi-plc connections are ready')
   }
 }
 

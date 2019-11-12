@@ -5,12 +5,18 @@ async function robot_do(step, { logger }) {
   var { ip, name: command } = step
 
   var connection = Connections.getConnection(ip)
+  if (!connection) {
+    throw new Error(`no connection : ${ip}`)
+  }
 
   await connection.write(
     JSON.stringify({
-      command
+      command,
+      actionType: 'R_DO'
     })
   )
+
+  logger.info('do command sent')
 }
 
 TaskRegistry.registerTaskHandler('robot_do', robot_do)

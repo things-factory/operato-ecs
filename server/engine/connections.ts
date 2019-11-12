@@ -1,4 +1,4 @@
-import { config } from '@things-factory/env'
+import { config, logger } from '@things-factory/env'
 import { ConnectionConfig, Connector } from './types'
 
 export class Connections {
@@ -11,7 +11,9 @@ export class Connections {
     return Promise.all(
       Object.keys(Connections.connectors).map(type => {
         var connector = Connections.connectors[type]
-        return connector.ready(CONNECTIONS.filter(connection => connection.connector == type))
+        return connector.ready(CONNECTIONS.filter(connection => connection.connector == type)).catch(error => {
+          logger.error(error.message)
+        })
       })
     )
   }

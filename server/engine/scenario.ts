@@ -1,6 +1,5 @@
 import { createLogger, format, transports } from 'winston'
 import 'winston-daily-rotate-file'
-import { logger } from '@things-factory/env'
 
 import { TaskRegistry } from './task-registry'
 import { Step } from './types'
@@ -11,10 +10,12 @@ enum STATE {
   READY,
   STARTED,
   PAUSED,
-  STOPPED
+  STOPPED,
+  HALTED
 }
 
 export class Scenario {
+  private name: string
   private steps: Step[]
   private state: STATE = STATE.READY
   private lastStep: number = -1
@@ -25,6 +26,7 @@ export class Scenario {
   })
 
   constructor(name: string, steps: Step[]) {
+    this.name = name
     this.steps = steps || []
     this.logger = createLogger({
       format: combine(timestamp(), splat(), Scenario.logFormat),
@@ -42,16 +44,23 @@ export class Scenario {
   }
 
   async run() {
-    if (this.state == STATE.STARTED) {
+    if (this.state == STATE.STARTED || this.steps.length == 0) {
       return
     }
 
     this.state = STATE.STARTED
 
-    while (this.state == STATE.STARTED) {
-      this.lastStep = (this.lastStep + 1) % this.steps.length
+    try {
+      while (this.state == STATE.STARTED) {
+        this.lastStep = (this.lastStep + 1) % this.steps.length
 
-      await this.process(this.steps[this.lastStep])
+        var step = this.steps[this.lastStep]
+        await this.process(step)
+      }
+    } catch (ex) {
+      this.logger.error(ex)
+      this.logger.error(`scenario ${this.name} halted`)
+      this.state = STATE.HALTED
     }
   }
 
@@ -76,7 +85,7 @@ export class Scenario {
 
     var handler = TaskRegistry.getTaskHandler(type)
     if (!handler) {
-      logger.error('no task handler for type-', type)
+      this.logger.error('no task handler for type-', type)
     } else {
       await handler(step, {
         logger: this.logger
