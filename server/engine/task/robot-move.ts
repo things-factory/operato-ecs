@@ -33,10 +33,13 @@ async function robot_move(step, { logger }) {
 
   var json = JSON.parse(logData)
   if (json.command == '03') {
-    logger.info('move done.')
+    // ok
   } else if (json.command == '09') {
     // error
-    throw new Error('response not applicable')
+    throw new Error(`response command-'09' not applicable : ${content}`)
+  } else {
+    // error
+    throw new Error(`invalid response : ${content}`)
   }
 }
 
