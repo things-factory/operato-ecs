@@ -5,6 +5,8 @@ import * as BoardSetting from './board-setting'
 import * as Connection from './connection'
 import * as Scenario from './scenario'
 import * as Step from './step'
+import * as Connector from './connector'
+import * as TaskType from './task-type'
 
 export const queries = [
   Sheet.Query,
@@ -13,7 +15,9 @@ export const queries = [
   BoardSetting.Query,
   Connection.Query,
   Scenario.Query,
-  Step.Query
+  Step.Query,
+  Connector.Query,
+  TaskType.Query
 ]
 
 export const mutations = [
@@ -34,5 +38,7 @@ export const types = [
   ...BoardSetting.Types,
   ...Connection.Types,
   ...Scenario.Types,
-  ...Step.Types
+  ...Step.Types,
+  ...Connector.Types,
+  ...TaskType.Types
 ]

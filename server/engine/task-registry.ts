@@ -14,4 +14,10 @@ export class TaskRegistry {
   static unregisterTaskHandler(type: string) {
     delete TaskRegistry.handlers[type]
   }
+
+  static getTaskHandlers(): { [propName: string]: TaskHandler } {
+    return {
+      ...TaskRegistry.handlers
+    }
+  }
 }

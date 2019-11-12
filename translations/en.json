@@ -1,7 +1,11 @@
 {
   "text.sheet management": "sheet management",
   "text.user management": "user management",
+  "text.connection": "connection",
+  "text.scenario": "scenario",
   "field.board": "board",
+  "field.type": "type",
+  "field.endpoint": "endpoint",
   "button.commit": "commit",
   "button.delete": "delete",
   "button.reload": "reload",

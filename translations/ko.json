@@ -1,7 +1,11 @@
 {
   "text.sheet management": "메뉴관리",
   "text.user management": "사용자관리",
+  "text.connection": "커넥션",
+  "text.scenario": "시나리오",
   "field.board": "보드",
+  "field.type": "타입",
+  "field.endpoint": "엔드포인트",
   "button.commit": "저장",
   "button.delete": "삭제",
   "button.reload": "수정취소",
