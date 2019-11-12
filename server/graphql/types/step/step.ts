@@ -7,6 +7,9 @@ export const Step = gql`
     domain: Domain
     description: String
     scenario: Scenario
+    sequence: Int
+    task: String
+    params: String
     updater: User
     creator: User
     updatedAt: String

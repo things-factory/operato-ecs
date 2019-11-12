@@ -275,7 +275,7 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
       })
   }
 
-  async _deleteConnections(email) {
+  async _deleteConnections(name) {
     if (confirm(i18next.t('text.sure_to_delete'))) {
       const names = this.dataGrist.selected.map(record => record.name)
       if (names && names.length > 0) {
