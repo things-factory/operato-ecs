@@ -1,6 +1,5 @@
 import '@things-factory/grist-ui'
 import { i18next, localize } from '@things-factory/i18n-base'
-import { openPopup } from '@things-factory/layout-base'
 import { client, gqlBuilder, isMobileDevice, PageView, ScrollbarStyles, store } from '@things-factory/shell'
 import gql from 'graphql-tag'
 import { css, html } from 'lit-element'
@@ -29,14 +28,9 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
         search-form {
           overflow: visible;
         }
-        .grist {
-          display: flex;
-          flex-direction: column;
-          flex: 1;
-          overflow-y: auto;
-        }
+
         data-grist {
-          overflow-y: hidden;
+          overflow-y: auto;
           flex: 1;
         }
       `
@@ -67,13 +61,11 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
         @submit=${async () => this.dataGrist.fetch()}
       ></search-form>
 
-      <div class="grist">
-        <data-grist
-          .mode=${isMobileDevice() ? 'LIST' : 'GRID'}
-          .config=${this.config}
-          .fetchHandler="${this.fetchHandler.bind(this)}"
-        ></data-grist>
-      </div>
+      <data-grist
+        .mode=${isMobileDevice() ? 'LIST' : 'GRID'}
+        .config=${this.config}
+        .fetchHandler="${this.fetchHandler.bind(this)}"
+      ></data-grist>
     `
   }
 
@@ -149,7 +141,7 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
           width: 200
         },
         {
-          type: 'string',
+          type: 'connector',
           name: 'type',
           header: i18next.t('field.type'),
           record: {

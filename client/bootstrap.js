@@ -15,7 +15,17 @@ import dashboard from './reducers/dashboard-settings'
 import { UPDATE_DASHBOARD_SETTINGS, CLEAR_DASHBOARD_SETTINGS } from './actions/dashboard-settings'
 import { fetchDashboardSettings } from './viewparts/fetch-dashboard-settings'
 
+import { registerEditor, registerRenderer, TextRenderer } from '@things-factory/grist-ui'
+
+import { ConnectorSelector } from './grist/connector-selector'
+import { TaskTypeSelector } from './grist/task-type-selector'
+
 export default function bootstrap() {
+  registerRenderer('task-type', TextRenderer)
+  registerEditor('task-type', TaskTypeSelector)
+  registerRenderer('connector', TextRenderer)
+  registerEditor('connector', ConnectorSelector)
+
   store.addReducers({
     sheets,
     dashboard

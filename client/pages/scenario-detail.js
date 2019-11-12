@@ -7,7 +7,8 @@ import { css, html, LitElement } from 'lit-element'
 class ScenarioDetail extends localize(i18next)(LitElement) {
   static get properties() {
     return {
-      scenario: Object
+      scenario: Object,
+      gristConfig: Object
     }
   }
 
@@ -22,29 +23,23 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
           overflow-x: overlay;
           background-color: var(--main-section-background-color);
         }
-        .grist {
-          display: flex;
-          flex: 1;
-          overflow-y: auto;
-        }
-        .grist-column {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-        }
+
         data-grist {
-          overflow-y: hidden;
+          overflow-y: auto;
           flex: 1;
         }
+
         h2 {
           padding: var(--subtitle-padding);
           font: var(--subtitle-font);
           color: var(--subtitle-text-color);
           border-bottom: var(--subtitle-border-bottom);
         }
+
         .button-container {
           display: flex;
         }
+
         .button-container > mwc-button {
           margin-left: auto;
         }
@@ -54,14 +49,12 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
 
   render() {
     return html`
-      <div class="grist">
-        <data-grist
-          .mode=${isMobileDevice() ? 'LIST' : 'GRID'}
-          .config=${this.gristConfig}
-          .fetchHandler="${this.fetchHandler.bind(this)}"
-          .data=${[this.scenario]}
-        ></data-grist>
-      </div>
+      <data-grist
+        .mode=${isMobileDevice() ? 'LIST' : 'GRID'}
+        .config=${this.gristConfig}
+        .fetchHandler="${this.fetchHandler.bind(this)}"
+        .data=${[this.scenario]}
+      ></data-grist>
     `
   }
 
@@ -83,24 +76,43 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
         {
           type: 'string',
           name: 'name',
-          header: i18next.t('field.name')
+          header: i18next.t('field.name'),
+          record: {
+            editable: true
+          },
+          width: 150
         },
         {
           type: 'string',
           name: 'description',
-          header: i18next.t('field.description')
+          header: i18next.t('field.description'),
+          record: {
+            editable: true
+          },
+          width: 260
         },
         {
-          type: 'string',
+          type: 'task-type',
           name: 'task',
-          header: i18next.t('field.task')
+          header: i18next.t('field.task'),
+          record: {
+            editable: true
+          },
+          width: 150
         },
         {
           type: 'string',
           name: 'params',
-          header: i18next.t('field.params')
+          header: i18next.t('field.params'),
+          record: {
+            editable: true
+          },
+          width: 300
         }
-      ]
+      ],
+      pagination: {
+        infinite: true
+      }
     }
   }
 
@@ -126,8 +138,8 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
 
     if (!response.errors) {
       return {
-        total: response.data.roles.total || 0,
-        records: response.data.roles.items || []
+        total: response.data.steps.total || 0,
+        records: response.data.steps.items || []
       }
     }
   }

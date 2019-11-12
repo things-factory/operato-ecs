@@ -6,9 +6,12 @@
   "field.board": "board",
   "field.type": "type",
   "field.endpoint": "endpoint",
+  "field.task": "task",
+  "field.params": "parameters",
   "button.commit": "commit",
   "button.delete": "delete",
   "button.reload": "reload",
   "title.dashboard setting": "dashboard setting",
-  "title.home dashboard": "home dashboard"
+  "title.home dashboard": "home dashboard",
+  "title.scenario-detail": "scenario detail"
 }
