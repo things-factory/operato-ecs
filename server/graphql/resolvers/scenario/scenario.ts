@@ -2,11 +2,10 @@ import { getRepository } from 'typeorm'
 import { Scenario } from '../../../entities'
 
 export const scenarioResolver = {
-  async scenario(_: any, { name }, context: any) {
-    const repository = getRepository(Scenario)
-
+  async scenario(_: any, { id }, context: any) {
     return await getRepository(Scenario).findOne({
-      where: { domain: context.state.domain, name, relations: ['domain', 'steps', 'creator', 'updater'] }
+      where: { id },
+      relations: ['steps', 'creator', 'updater']
     })
   }
 }

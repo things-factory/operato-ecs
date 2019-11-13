@@ -29,7 +29,7 @@ export const Mutation = `
 
 export const Query = `
   scenarios(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ScenarioList
-  scenario(name: String!): Scenario
+  scenario(id: String!): Scenario
 `
 
 export const Subscription = `

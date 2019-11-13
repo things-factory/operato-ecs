@@ -130,7 +130,7 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
             click: (columns, data, column, record, rowIndex) => {
               openPopup(
                 html`
-                  <scenario-detail .scenario=${record}></scenario-detail>
+                  <scenario-detail .scenarioId=${record.id} .steps=${record.steps.items}></scenario-detail>
                 `,
                 {
                   backdrop: true,
@@ -214,6 +214,7 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
               steps {
                 items {
                   name
+                  description
                   sequence
                   task
                   params

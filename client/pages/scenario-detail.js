@@ -7,7 +7,8 @@ import { css, html, LitElement } from 'lit-element'
 class ScenarioDetail extends localize(i18next)(LitElement) {
   static get properties() {
     return {
-      scenario: Object,
+      scenarioId: String,
+      steps: Array,
       gristConfig: Object
     }
   }
@@ -17,34 +18,30 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
       MultiColumnFormStyles,
       css`
         :host {
-          padding: 10px;
           display: flex;
           flex-direction: column;
-          overflow-x: overlay;
-          background-color: var(--main-section-background-color);
+
+          background-color: #fff;
         }
 
         data-grist {
-          overflow-y: auto;
           flex: 1;
-        }
-
-        h2 {
-          padding: var(--subtitle-padding);
-          font: var(--subtitle-font);
-          color: var(--subtitle-text-color);
-          border-bottom: var(--subtitle-border-bottom);
         }
 
         .button-container {
           display: flex;
+          margin-left: auto;
         }
 
-        .button-container > mwc-button {
-          margin-left: auto;
+        form {
+          position: relative;
         }
       `
     ]
+  }
+
+  get dataGrist() {
+    return this.shadowRoot.querySelector('data-grist')
   }
 
   render() {
@@ -53,20 +50,25 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
         .mode=${isMobileDevice() ? 'LIST' : 'GRID'}
         .config=${this.gristConfig}
         .fetchHandler=${this.fetchHandler.bind(this)}
-        .data=${[this.scenario]}
+        .data=${{ records: this.steps }}
       ></data-grist>
+      <div class="button-container">
+        <mwc-button @click=${() => {}}>${i18next.t('button.save')}</mwc-button>
+        <mwc-button @click=${() => {}}>${i18next.t('button.delete')}</mwc-button>
+      </div>
     `
   }
 
   async updated(changedProps) {
-    if (changedProps.has('scenario')) {
-      console.log(this.scenario)
+    if (changedProps.has('steps')) {
+      console.log(this.steps)
     }
   }
 
   async firstUpdated() {
     this.gristConfig = {
       columns: [
+        { type: 'gutter', gutterName: 'row-selector', multiple: true },
         { type: 'gutter', gutterName: 'sequence' },
         {
           type: 'gutter',
@@ -85,8 +87,13 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
           }
         },
         {
+          type: 'string',
+          name: 'scenario_id',
+          hidden: true
+        },
+        {
           type: 'object',
-          name: 'scenario',
+          name: 'sequence',
           hidden: true
         },
         {
@@ -128,7 +135,12 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
       ],
       pagination: {
         infinite: true
-      }
+      },
+      sorters: [
+        {
+          name: 'sequence'
+        }
+      ]
     }
   }
 
@@ -136,27 +148,55 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
     const response = await client.query({
       query: gql`
         query {
-          steps(${gqlBuilder.buildArgs({
-            filters: [],
-            pagination: { page, limit },
-            sortings: sorters
-          })}) {
-            items {
-              id
-              name
-              description
+          scenario(id: "${this.scenarioId}") {
+            steps {
+              items {
+                name
+                description
+                sequence
+                task
+                params
+              }
+              total
             }
-            total
           }
         }
       `
     })
 
-    if (!response.errors) {
-      return {
-        total: response.data.steps.total || 0,
-        records: response.data.steps.items || []
-      }
+    return {
+      total: response.data.scenario.steps.total || 0,
+      records: response.data.scenario.steps.items || []
+    }
+  }
+
+  async _updateSteps() {
+    let patches = this.dataGrist._data.records
+    if (patches && patches.length) {
+      patches = patches.map(patch => {
+        let patchField = patch.id ? { id: patch.id } : {}
+        const dirtyFields = patch.__dirtyfields__
+        for (let key in dirtyFields) {
+          patchField[key] = dirtyFields[key].after
+        }
+        patchField.cuFlag = patch.__dirty__
+
+        return patchField
+      })
+
+      const response = await client.query({
+        query: gql`
+            mutation {
+              updateMultipleStep(${gqlBuilder.buildArgs({
+                patches
+              })}) {
+                name
+              }
+            }
+          `
+      })
+
+      if (!response.errors) this.dataGrist.fetch()
     }
   }
 }
