@@ -114,6 +114,7 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
     ]
 
     this.config = {
+      list: { fields: ['name', 'description', 'type'] },
       columns: [
         { type: 'gutter', gutterName: 'sequence' },
         { type: 'gutter', gutterName: 'row-selector', multiple: true },

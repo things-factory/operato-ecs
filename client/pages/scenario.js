@@ -100,6 +100,7 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
     ]
 
     this.config = {
+      list: { fields: ['name', 'description', 'status'] },
       columns: [
         { type: 'gutter', gutterName: 'sequence' },
         { type: 'gutter', gutterName: 'row-selector', multiple: true },
@@ -111,6 +112,7 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
         {
           type: 'gutter',
           gutterName: 'button',
+          name: 'status',
           icon: record => (!record ? 'play_arrow' : record.status == 1 ? 'pause' : 'play_arrow'),
           handlers: {
             click: (columns, data, column, record, rowIndex) => {

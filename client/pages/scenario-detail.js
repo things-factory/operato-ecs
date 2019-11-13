@@ -67,6 +67,7 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
 
   async firstUpdated() {
     this.gristConfig = {
+      list: { fields: ['name', 'description', 'task'] },
       columns: [
         { type: 'gutter', gutterName: 'row-selector', multiple: true },
         { type: 'gutter', gutterName: 'sequence' },
@@ -124,7 +125,7 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
           width: 120
         },
         {
-          type: 'string',
+          type: 'json',
           name: 'params',
           header: i18next.t('field.params'),
           record: {
