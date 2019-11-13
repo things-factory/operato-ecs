@@ -7,7 +7,7 @@ export const Scenario = gql`
     domain: Domain
     description: String
     active: Boolean
-    status: Number
+    status: Int
     steps: StepList
     updater: User
     creator: User
