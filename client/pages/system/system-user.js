@@ -30,14 +30,9 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
         search-form {
           overflow: visible;
         }
-        .grist {
-          display: flex;
-          flex-direction: column;
-          flex: 1;
-          overflow-y: auto;
-        }
+
         data-grist {
-          overflow-y: hidden;
+          overflow-y: auto;
           flex: 1;
         }
       `
@@ -68,13 +63,11 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
         @submit=${async () => this.dataGrist.fetch()}
       ></search-form>
 
-      <div class="grist">
-        <data-grist
-          .mode=${isMobileDevice() ? 'LIST' : 'GRID'}
-          .config=${this.config}
-          .fetchHandler="${this.fetchHandler.bind(this)}"
-        ></data-grist>
-      </div>
+      <data-grist
+        .mode=${isMobileDevice() ? 'LIST' : 'GRID'}
+        .config=${this.config}
+        .fetchHandler="${this.fetchHandler.bind(this)}"
+      ></data-grist>
     `
   }
 
