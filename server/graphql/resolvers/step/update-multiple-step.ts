@@ -4,40 +4,38 @@ import { Step, Scenario } from '../../../entities'
 export const updateMultipleStep = {
     async updateMultipleStep(_: any, { scenarioId, patches }, context: any) {
         let results = []
-        const _createRecords = patches.filter((patch: any) => patch.cuFlag.toUpperCase() === '+')
-        const _updateRecords = patches.filter((patch: any) => patch.cuFlag.toUpperCase() === 'M')
         const stepRepo = getRepository(Step)
         const scenario = await getRepository(Scenario).findOne(scenarioId)
     
-        if (_createRecords.length > 0) {
-            for (let i = 0; i < _createRecords.length; i++) {
-              const newRecord = _createRecords[i]
-              
-              const result = await stepRepo.save({
-                ...newRecord,
-                scenario,
-                domain: context.state.domain,
-                creator: context.state.user,
-                updater: context.state.user,
-              })
-              
-              results.push({ ...result, cuFlag: '+' })
-            }
-        }
+        for(let i = 0; i < patches.length; i++) {
+          if(!patches[i].cuFlag) continue
+          if (patches[i].cuFlag.toUpperCase() === '+') {
+            const result = await stepRepo.save({
+              ...patches[i],
+              sequence: i,
+              scenario,
+              domain: context.state.domain,
+              creator: context.state.user,
+              updater: context.state.user
+            })
 
-        if (_updateRecords.length > 0) {
-            for (let i = 0; i < _updateRecords.length; i++) {
-              const newRecord = _updateRecords[i]
-              const step = await stepRepo.findOne(newRecord.id)
-      
-              const result = await stepRepo.save({
-                ...step,
-                ...newRecord,
-                updater: context.state.user
-              })
-      
-              results.push({ ...result, cuFlag: 'M' })
-            }
+            results.push({ ...result, cuFlag: '+' })
+          } else if (patches[i].cuFlag.toUpperCase() === 'M') {
+            const step = await stepRepo.findOne(patches[i].id)
+
+            const result = await stepRepo.save({
+              ...step,
+              ...patches[i],
+              sequence: i,
+              updater: context.state.user
+            })
+
+            results.push({ ...result, cuFlag: 'M' })
+          } else if (patches[i].cuFlag.toUpperCase() === '-') {
+            const result = await stepRepo.delete({id: patches[i].id})
+
+            results.push({ ...result, cuFlag: '-' })
+          }
         }
       
         return results

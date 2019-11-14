@@ -8,7 +8,6 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
   static get properties() {
     return {
       scenario: Object,
-      steps: Array,
       gristConfig: Object
     }
   }
@@ -50,11 +49,10 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
         .mode=${isMobileDevice() ? 'LIST' : 'GRID'}
         .config=${this.gristConfig}
         .fetchHandler=${this.fetchHandler.bind(this)}
-        .data=${{ records: this.steps }}
       ></data-grist>
       <div class="button-container">
         <mwc-button @click=${this._updateSteps.bind(this)}>${i18next.t('button.save')}</mwc-button>
-        <mwc-button @click=${() => {}}>${i18next.t('button.delete')}</mwc-button>
+        <mwc-button @click=${this._deleteSteps.bind(this)}>${i18next.t('button.delete')}</mwc-button>
       </div>
     `
   }
@@ -86,6 +84,16 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
           handlers: {
             click: (columns, data, column, record, rowIndex) => {}
           }
+        },
+        {
+          type: 'number',
+          name: 'sequence',
+          hidden: true
+        },
+        {
+          type: 'string',
+          name: 'id',
+          hidden: true
         },
         {
           type: 'string',
@@ -141,14 +149,12 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
         query {
           scenario(id: "${this.scenario.id}") {
             steps {
-              items {
-                name
-                description
-                sequence
-                task
-                params
-              }
-              total
+              id
+              name
+              description
+              sequence
+              task
+              params
             }
           }
         }
@@ -156,40 +162,64 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
     })
 
     return {
-      total: response.data.scenario.steps.total || 0,
-      records: response.data.scenario.steps.items || []
+      total: response.data.scenario.steps.length || 0,
+      records: response.data.scenario.steps || []
     }
   }
 
   async _updateSteps() {
     let patches = this.dataGrist._data.records
     if (patches && patches.length) {
-      patches = patches.map((patch, idx) => {
+      patches = patches.map(patch => {
         let patchField = patch.id ? { id: patch.id } : {}
         const dirtyFields = patch.__dirtyfields__
         for (let key in dirtyFields) {
           patchField[key] = dirtyFields[key].after
         }
-        patchField.sequence = idx
-        patchField.scenario_id = this.scenario.id
-        patchField.cuFlag = patch.__dirty__
+        if ('__dirty__' in patch) patchField.cuFlag = patch.__dirty__
 
         return patchField
       })
 
       const response = await client.query({
         query: gql`
-            mutation {
-              updateMultipleStep(${gqlBuilder.buildArgs({
-                patches
-              })}) {
-                name
-              }
+          mutation {
+            updateMultipleStep(scenarioId: "${this.scenario.id}", ${gqlBuilder.buildArgs({
+          patches
+        })}) {
+              name
             }
-          `
+          }
+        `
       })
 
       if (!response.errors) this.dataGrist.fetch()
+    }
+  }
+
+  async _deleteSteps() {
+    if (confirm(i18next.t('text.sure_to_delete'))) {
+      const ids = this.dataGrist.selected.map(record => record.id)
+      if (ids && ids.length > 0) {
+        const response = await client.query({
+          query: gql`
+                mutation {
+                  deleteSteps(${gqlBuilder.buildArgs({ ids })})
+                }
+              `
+        })
+
+        if (!response.errors) {
+          this.dataGrist.fetch()
+          await document.dispatchEvent(
+            new CustomEvent('notify', {
+              detail: {
+                message: i18next.t('text.info_delete_successfully')
+              }
+            })
+          )
+        }
+      }
     }
   }
 }

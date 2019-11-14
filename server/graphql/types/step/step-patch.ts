@@ -6,7 +6,6 @@ export const StepPatch = gql`
     name: String
     description: String
     sequence: Int
-    scenario_id: String
     task: String
     params: String
     cuFlag: String

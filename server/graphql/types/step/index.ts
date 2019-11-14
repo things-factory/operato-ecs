@@ -19,11 +19,11 @@ export const Mutation = `
   ): [Step]
 
   deleteStep (
-    name: String!
+    id: String!
   ): Boolean
 
   deleteSteps (
-    names: [String]!
+    ids: [String]!
   ): Boolean
 `
 

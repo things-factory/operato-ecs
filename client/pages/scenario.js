@@ -133,7 +133,7 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
               if (!record.id) return
               openPopup(
                 html`
-                  <scenario-detail .scenario=${record} .steps=${record.steps.items}></scenario-detail>
+                  <scenario-detail .scenario=${record}></scenario-detail>
                 `,
                 {
                   backdrop: true,
@@ -214,16 +214,6 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
               }
               name
               description
-              steps {
-                items {
-                  name
-                  description
-                  sequence
-                  task
-                  params
-                }
-                total
-              }
               updater {
                 id
                 name

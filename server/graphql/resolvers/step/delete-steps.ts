@@ -2,10 +2,10 @@ import { getRepository, In } from 'typeorm'
 import { Step } from '../../../entities'
 
 export const deleteSteps = {
-  async deleteSteps(_: any, { names }, context: any) {
+  async deleteSteps(_: any, { ids }, context: any) {
     await getRepository(Step).delete({ 
         domain: context.state.domain,
-        name: In(names)
+        id: In(ids)
     })
     return true
   }

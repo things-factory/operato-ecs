@@ -8,7 +8,7 @@ export const Scenario = gql`
     description: String
     active: Boolean
     status: Int
-    steps: StepList
+    steps: [Step]
     updater: User
     creator: User
     updatedAt: String
