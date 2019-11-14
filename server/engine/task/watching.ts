@@ -1,7 +1,7 @@
 import { sleep } from '../utils'
 import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
-import { HitachiPLCConnector } from '../connector/hitachi-plc'
+import { MitsubishiPLCConnector } from '../connector/mitsubishi-plc'
 
 async function watching(step, { logger }) {
   var { ip, plcAddress: address, value, delay } = step
@@ -18,7 +18,7 @@ async function watching(step, { logger }) {
     af_address = '0' + af_address
   }
   var readStartDevice = af_address
-  var sendMessage = HitachiPLCConnector.getReadCommand(deviceCode, readStartDevice)
+  var sendMessage = MitsubishiPLCConnector.getReadCommand(deviceCode, readStartDevice)
 
   while (true) {
     await connection.write(sendMessage)

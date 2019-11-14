@@ -20,7 +20,7 @@ const writeSubCommand = '0001'
 const readLengthDevice = '0001'
 const writeLengthDevice = '0001'
 
-export class HitachiPLCConnector implements Connector {
+export class MitsubishiPLCConnector implements Connector {
   static getWriteCommand(deviceCode, writeStartDevice, writeCoilValue) {
     return (
       subHeader +
@@ -60,14 +60,14 @@ export class HitachiPLCConnector implements Connector {
     await Promise.all(
       connectionConfigs.map(async connectionConfig => {
         let socket = new PromiseSocket(new net.Socket())
-        socket.setTimeout(2000)
+        // socket.setTimeout(2000)
         await socket.connect(connectionConfig.port, connectionConfig.host)
         Connections.addConnection(connectionConfig.name, socket)
       })
     )
 
-    logger.info('hitachi-plc connections are ready')
+    logger.info('mitsubishi-plc connections are ready')
   }
 }
 
-Connections.registerConnector('hitachi-plc', new HitachiPLCConnector())
+Connections.registerConnector('mitsubishi-plc', new MitsubishiPLCConnector())

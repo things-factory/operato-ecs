@@ -1,6 +1,6 @@
 import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
-import { HitachiPLCConnector } from '../connector/hitachi-plc'
+import { MitsubishiPLCConnector } from '../connector/mitsubishi-plc'
 
 async function onoff(step, { logger }) {
   var { ip, plcAddress: address, value } = step
@@ -27,7 +27,7 @@ async function onoff(step, { logger }) {
     var writeCoilValue = '0'
   }
 
-  var sendMessage = HitachiPLCConnector.getWriteCommand(deviceCode, writeStartDevice, writeCoilValue)
+  var sendMessage = MitsubishiPLCConnector.getWriteCommand(deviceCode, writeStartDevice, writeCoilValue)
   logger.info(sendMessage)
 
   await connection.write(sendMessage)

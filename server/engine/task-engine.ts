@@ -85,6 +85,24 @@ var scenario2: Step[] = [
     name: 'test1'
   },
   {
+    ip: 'plc@192.168.1.208',
+    type: 'onoff',
+    plcAddress: 'M0',
+    value: 1
+  },
+  {
+    ip: 'plc@192.168.1.208',
+    type: 'watching',
+    plcAddress: 'Y3',
+    value: 1
+  },
+  {
+    ip: 'plc@192.168.1.208',
+    type: 'onoff',
+    plcAddress: 'M0',
+    value: 0
+  },
+  {
     ip: 'indi@192.168.1.207',
     type: 'robot_move',
     name: 'test2'
