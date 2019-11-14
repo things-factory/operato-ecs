@@ -19,12 +19,15 @@ import { registerEditor, registerRenderer, TextRenderer } from '@things-factory/
 
 import { ConnectorSelector } from './grist/connector-selector'
 import { TaskTypeSelector } from './grist/task-type-selector'
+import { JsonGristEditor } from './grist/json-grist-editor'
 
 export default function bootstrap() {
   registerRenderer('task-type', TextRenderer)
   registerEditor('task-type', TaskTypeSelector)
   registerRenderer('connector', TextRenderer)
   registerEditor('connector', ConnectorSelector)
+  registerRenderer('json', TextRenderer)
+  registerEditor('json', JsonGristEditor)
 
   store.addReducers({
     sheets,
