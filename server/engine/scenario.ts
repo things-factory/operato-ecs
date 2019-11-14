@@ -138,9 +138,9 @@ export class Scenario {
   }
 
   async process(step, context) {
-    var { type, sequence } = step
+    var { type } = step
 
-    this.logger.info(`Step ${sequence} started. ${JSON.stringify(step)}`)
+    this.logger.info(`Step started. ${JSON.stringify(step)}`)
 
     var handler = TaskRegistry.getTaskHandler(type)
     if (!handler) {
@@ -149,6 +149,6 @@ export class Scenario {
       await handler(step, context)
     }
 
-    this.logger.info(`Step ${sequence} done.`)
+    this.logger.info(`Step done.`)
   }
 }
