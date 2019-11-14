@@ -14,6 +14,7 @@ export const Mutation = `
   ): Step
 
   updateMultipleStep (
+    scenarioId: String
     patches: [StepPatch]!
   ): [Step]
 

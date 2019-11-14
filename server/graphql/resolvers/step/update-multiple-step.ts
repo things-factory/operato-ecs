@@ -1,12 +1,13 @@
 import { getRepository } from 'typeorm'
-import { Step } from '../../../entities'
+import { Step, Scenario } from '../../../entities'
 
 export const updateMultipleStep = {
-    async updateMultipleStep(_: any, { patches }, context: any) {
+    async updateMultipleStep(_: any, { scenarioId, patches }, context: any) {
         let results = []
         const _createRecords = patches.filter((patch: any) => patch.cuFlag.toUpperCase() === '+')
         const _updateRecords = patches.filter((patch: any) => patch.cuFlag.toUpperCase() === 'M')
         const stepRepo = getRepository(Step)
+        const scenario = await getRepository(Scenario).findOne(scenarioId)
     
         if (_createRecords.length > 0) {
             for (let i = 0; i < _createRecords.length; i++) {
@@ -14,6 +15,7 @@ export const updateMultipleStep = {
               
               const result = await stepRepo.save({
                 ...newRecord,
+                scenario,
                 domain: context.state.domain,
                 creator: context.state.user,
                 updater: context.state.user,

@@ -130,9 +130,10 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
           icon: 'reorder',
           handlers: {
             click: (columns, data, column, record, rowIndex) => {
+              if (!record.id) return
               openPopup(
                 html`
-                  <scenario-detail .scenarioId=${record.id} .steps=${record.steps.items}></scenario-detail>
+                  <scenario-detail .scenario=${record} .steps=${record.steps.items}></scenario-detail>
                 `,
                 {
                   backdrop: true,

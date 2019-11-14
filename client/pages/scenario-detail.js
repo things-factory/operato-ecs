@@ -7,7 +7,7 @@ import { css, html, LitElement } from 'lit-element'
 class ScenarioDetail extends localize(i18next)(LitElement) {
   static get properties() {
     return {
-      scenarioId: String,
+      scenario: Object,
       steps: Array,
       gristConfig: Object
     }
@@ -89,16 +89,6 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
         },
         {
           type: 'string',
-          name: 'scenario_id',
-          hidden: true
-        },
-        {
-          type: 'object',
-          name: 'sequence',
-          hidden: true
-        },
-        {
-          type: 'string',
           name: 'name',
           header: i18next.t('field.name'),
           record: {
@@ -149,7 +139,7 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
     const response = await client.query({
       query: gql`
         query {
-          scenario(id: "${this.scenarioId}") {
+          scenario(id: "${this.scenario.id}") {
             steps {
               items {
                 name
@@ -181,6 +171,7 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
           patchField[key] = dirtyFields[key].after
         }
         patchField.sequence = idx
+        patchField.scenario_id = this.scenario.id
         patchField.cuFlag = patch.__dirty__
 
         return patchField
