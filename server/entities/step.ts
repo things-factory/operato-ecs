@@ -40,7 +40,9 @@ export class Step {
   @Column()
   task: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   params: string
 
   @CreateDateColumn()

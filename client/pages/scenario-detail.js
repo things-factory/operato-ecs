@@ -53,7 +53,7 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
         .data=${{ records: this.steps }}
       ></data-grist>
       <div class="button-container">
-        <mwc-button @click=${() => {}}>${i18next.t('button.save')}</mwc-button>
+        <mwc-button @click=${this._updateSteps.bind(this)}>${i18next.t('button.save')}</mwc-button>
         <mwc-button @click=${() => {}}>${i18next.t('button.delete')}</mwc-button>
       </div>
     `
@@ -173,12 +173,13 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
   async _updateSteps() {
     let patches = this.dataGrist._data.records
     if (patches && patches.length) {
-      patches = patches.map(patch => {
+      patches = patches.map((patch, idx) => {
         let patchField = patch.id ? { id: patch.id } : {}
         const dirtyFields = patch.__dirtyfields__
         for (let key in dirtyFields) {
           patchField[key] = dirtyFields[key].after
         }
+        patchField.sequence = idx
         patchField.cuFlag = patch.__dirty__
 
         return patchField
