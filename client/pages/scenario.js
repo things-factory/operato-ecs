@@ -180,7 +180,12 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
           },
           width: 180
         }
-      ]
+      ],
+      rows: {
+        selectable: {
+          multiple: true
+        }
+      }
     }
 
     await this.updateComplete

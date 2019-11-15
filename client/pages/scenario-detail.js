@@ -67,8 +67,8 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
     this.gristConfig = {
       list: { fields: ['name', 'description', 'task'] },
       columns: [
-        { type: 'gutter', gutterName: 'row-selector', multiple: true },
         { type: 'gutter', gutterName: 'sequence' },
+        { type: 'gutter', gutterName: 'row-selector', multiple: true },
         {
           type: 'gutter',
           gutterName: 'button',
@@ -132,6 +132,11 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
           width: 200
         }
       ],
+      rows: {
+        selectable: {
+          multiple: true
+        }
+      },
       pagination: {
         infinite: true
       },
