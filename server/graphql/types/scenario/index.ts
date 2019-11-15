@@ -23,7 +23,7 @@ export const Mutation = `
   ): Boolean
 
   deleteScenarios (
-    names: [String]!
+    ids: [String]!
   ): Boolean
 `
 

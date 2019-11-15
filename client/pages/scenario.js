@@ -258,16 +258,16 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
       })
   }
 
-  async _deleteScenario(name) {
+  async _deleteScenario() {
     if (confirm(i18next.t('text.sure_to_delete'))) {
-      const names = this.dataGrist.selected.map(record => record.name)
-      if (names && names.length > 0) {
+      const ids = this.dataGrist.selected.map(record => record.id)
+      if (ids && ids.length > 0) {
         const response = await client.query({
           query: gql`
-                mutation {
-                  deleteScenario(${gqlBuilder.buildArgs({ name })})
-                }
-              `
+            mutation {
+              deleteScenarios(${gqlBuilder.buildArgs({ ids })})
+            }
+          `
         })
 
         if (!response.errors) {

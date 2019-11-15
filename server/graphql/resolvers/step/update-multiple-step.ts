@@ -7,7 +7,7 @@ export const updateMultipleStep = {
     const stepRepo = getRepository(Step)
     const scenario = await getRepository(Scenario).findOne(scenarioId)
 
-    await stepRepo.delete({ scenario: scenarioId })
+    await stepRepo.delete({ domain: context.state.domain, scenario: scenarioId })
 
     for (let i = 0; i < patches.length; i++) {
       const result = await stepRepo.save({
