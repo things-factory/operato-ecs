@@ -67,14 +67,14 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
     this.gristConfig = {
       list: { fields: ['name', 'description', 'task'] },
       columns: [
-        { type: 'gutter', gutterName: 'sequence' },
         { type: 'gutter', gutterName: 'row-selector', multiple: true },
+        { type: 'gutter', gutterName: 'sequence' },
         {
           type: 'gutter',
           gutterName: 'button',
           icon: 'arrow_upward',
           handlers: {
-            click: (columns, data, column, record, rowIndex) => {}
+            click: (...args) => this._moveRecord(-1, ...args)
           }
         },
         {
@@ -82,7 +82,7 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
           gutterName: 'button',
           icon: 'arrow_downward',
           handlers: {
-            click: (columns, data, column, record, rowIndex) => {}
+            click: (...args) => this._moveRecord(1, ...args)
           }
         },
         {
@@ -176,14 +176,16 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
     let patches = this.dataGrist._data.records
     if (patches && patches.length) {
       patches = patches.map(patch => {
-        let patchField = patch.id ? { id: patch.id } : {}
+        var patchField = {}
         const dirtyFields = patch.__dirtyfields__
         for (let key in dirtyFields) {
           patchField[key] = dirtyFields[key].after
         }
-        if ('__dirty__' in patch) patchField.cuFlag = patch.__dirty__
+        
+        return { ...patch.__origin__, ...patchField }
 
-        return patchField
+        // let patchField = patch.id ? { id: patch.id } : {}
+        // return patchField
       })
 
       const response = await client.query({
@@ -208,10 +210,10 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
       if (ids && ids.length > 0) {
         const response = await client.query({
           query: gql`
-                mutation {
-                  deleteSteps(${gqlBuilder.buildArgs({ ids })})
-                }
-              `
+            mutation {
+              deleteSteps(${gqlBuilder.buildArgs({ ids })})
+            }
+          `
         })
 
         if (!response.errors) {
@@ -226,6 +228,14 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
         }
       }
     }
+  }
+
+  _moveRecord(steps, columns, data, column, record, rowIndex) {
+    if (rowIndex >= data.records.length || rowIndex + steps < 0 || rowIndex + steps > data.records.length) return
+    var grist = this.dataGrist
+    grist._data.records.splice(rowIndex, 1)
+    grist._data.records.splice(rowIndex + steps, 0, record)
+    grist.refresh()
   }
 }
 
