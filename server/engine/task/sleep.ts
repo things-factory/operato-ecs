@@ -3,12 +3,14 @@ import { sleep } from '../utils'
 import { TaskRegistry } from '../task-registry'
 
 async function Sleep(step, { logger }) {
-  var { delay } = step
+  var {
+    params: { duration }
+  } = step
 
-  logger.info(`sleep ${delay}ms`)
+  logger.info(`sleep ${duration}ms`)
 
-  if (delay) {
-    await sleep(delay)
+  if (duration) {
+    await sleep(duration)
   }
 }
 

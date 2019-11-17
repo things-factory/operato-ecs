@@ -2,14 +2,14 @@ import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
 
 async function robot_di(step, { logger }) {
-  var { ip, name: command } = step
+  var { connection, name: command } = step
 
-  var connection = Connections.getConnection(ip)
-  if (!connection) {
-    throw new Error(`no connection : ${ip}`)
+  var socket = Connections.getConnection(connection)
+  if (!socket) {
+    throw new Error(`no connection : ${connection}`)
   }
 
-  await connection.write(
+  await socket.write(
     JSON.stringify({
       command,
       actionType: 'R_DI'

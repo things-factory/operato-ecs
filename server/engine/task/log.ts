@@ -1,7 +1,9 @@
 import { TaskRegistry } from '../task-registry'
 
 async function Log(step, { logger }) {
-  var { message, level = 'info' } = step
+  var {
+    params: { message, level = 'info' }
+  } = step
 
   switch (level) {
     case 'error':

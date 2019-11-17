@@ -3,14 +3,14 @@ import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
 
 async function redis_signal(step, { logger }) {
-  var { ip, redis_address: address, value, delay } = step
+  var { connection, redis_address: address, value, delay } = step
 
-  var connection = Connections.getConnection(ip)
-  if (!connection) {
-    throw new Error(`no connection : ${ip}`)
+  var socket = Connections.getConnection(connection)
+  if (!socket) {
+    throw new Error(`no connection : ${connection}`)
   }
 
-  while (value !== (await connection.get(address))) {
+  while (value !== (await socket.get(address))) {
     await sleep(delay)
   }
 }

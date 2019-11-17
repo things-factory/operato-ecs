@@ -2,14 +2,14 @@ import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
 
 async function robot_run(step, { logger }) {
-  var { ip } = step
+  var { connection } = step
 
-  var connection = Connections.getConnection(ip)
-  if (!connection) {
-    throw new Error(`no connection : ${ip}`)
+  var socket = Connections.getConnection(connection)
+  if (!socket) {
+    throw new Error(`no connection : ${connection}`)
   }
 
-  await connection.write(
+  await socket.write(
     JSON.stringify({
       command: '02',
       actionType: 'R_RUN'

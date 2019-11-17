@@ -1,18 +1,13 @@
-export interface ConnectionConfig {
-  connector: string
-  host: string
-  port: number
-  [propName: string]: any
-}
+import { Connection } from '../entities'
 
 export interface Connector {
-  ready(connections: ConnectionConfig[]): Promise<any>
+  ready(connections: Connection[]): Promise<any>
 }
 
 export interface Step {
   sequence?: string
   type: string /* task */
-  ip?: string /* TODO should be a connection name of params */
+  connection?: string /* TODO should be a connection name of params */
   name?: string /* TODO should be one of params for task */
   [propName: string]: any
 }

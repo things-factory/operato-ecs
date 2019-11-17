@@ -1,7 +1,9 @@
 import { TaskRegistry } from '../task-registry'
 
 async function Publish(step, { logger, publish }) {
-  var { message } = step
+  var {
+    params: { message }
+  } = step
 
   publish(message)
 }

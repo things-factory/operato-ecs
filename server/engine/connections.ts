@@ -1,17 +1,22 @@
-import { config, logger } from '@things-factory/env'
-import { ConnectionConfig, Connector } from './types'
+import { logger } from '@things-factory/env'
+import { Connector } from './types'
+
+import { getRepository } from 'typeorm'
+import { Connection } from '../entities'
 
 export class Connections {
   private static connectors: { [propName: string]: Connector } = {}
   private static connections = {}
 
-  static ready() {
-    const CONNECTIONS: ConnectionConfig[] = config.get('connections') as ConnectionConfig[]
+  static async ready() {
+    const CONNECTIONS = await getRepository(Connection).find({
+      relations: ['domain', 'creator', 'updater']
+    })
 
     return Promise.all(
       Object.keys(Connections.connectors).map(type => {
         var connector = Connections.connectors[type]
-        return connector.ready(CONNECTIONS.filter(connection => connection.connector == type)).catch(error => {
+        return connector.ready(CONNECTIONS.filter(connection => connection.type == type)).catch(error => {
           logger.error(error.message)
         })
       })

@@ -2,14 +2,14 @@ import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
 
 async function robot_move(step, { logger }) {
-  var { name, ip } = step
+  var { name, connection } = step
 
-  var connection = Connections.getConnection(ip)
-  if (!connection) {
-    throw new Error(`no connection : ${ip}`)
+  var socket = Connections.getConnection(connection)
+  if (!socket) {
+    throw new Error(`no connection : ${connection}`)
   }
 
-  await connection.write(
+  await socket.write(
     JSON.stringify({
       command: '02',
       fromPosition: name,
@@ -17,7 +17,7 @@ async function robot_move(step, { logger }) {
     })
   )
 
-  var response = await connection.read()
+  var response = await socket.read()
 
   if (!response) {
     // socket ended or closed

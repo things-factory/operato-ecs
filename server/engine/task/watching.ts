@@ -4,11 +4,11 @@ import { Connections } from '../connections'
 import { MitsubishiPLCConnector } from '../connector/mitsubishi-plc'
 
 async function watching(step, { logger }) {
-  var { ip, plcAddress: address, value, delay } = step
+  var { connection, plcAddress: address, value, delay } = step
 
-  var connection = Connections.getConnection(ip)
-  if (!connection) {
-    throw new Error(`no connection : ${ip}`)
+  var socket = Connections.getConnection(connection)
+  if (!socket) {
+    throw new Error(`no connection : ${connection}`)
   }
 
   var deviceCode = address.substring(0, 1) + '*'
@@ -21,10 +21,10 @@ async function watching(step, { logger }) {
   var sendMessage = MitsubishiPLCConnector.getReadCommand(deviceCode, readStartDevice)
 
   while (true) {
-    await connection.write(sendMessage)
+    await socket.write(sendMessage)
     logger.info(sendMessage)
 
-    var response = await connection.read()
+    var response = await socket.read()
     if (!response) {
       // socket ended or closed
       throw new Error('socket closed')

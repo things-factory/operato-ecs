@@ -16,120 +16,163 @@ import { Connections } from './connections'
 var scenario1: Step[] = [
   {
     type: 'sleep',
-    delay: 1000
+    params: {
+      duration: 1000
+    }
   },
   {
     type: 'log',
-    message: 'Scenario START'
+    params: {
+      message: 'Scenario START'
+    }
   },
   {
     type: 'sleep',
-    delay: 1000
+    params: {
+      duration: 1000
+    }
   },
   {
     type: 'echo-send',
-    connection: 'echo@localhost',
-    message: 'echo-1'
+    connection: 'echo-back@localhost',
+    params: {
+      message: 'echo-1'
+    }
   },
   {
     type: 'sleep',
-    delay: 1000
+    params: {
+      duration: 1000
+    }
   },
   {
     type: 'echo-receive',
-    connection: 'echo@localhost'
+    connection: 'echo-back@localhost'
   },
   {
     type: 'sleep',
-    delay: 1000
+    params: {
+      duration: 1000
+    }
   },
   {
     type: 'echo-send',
-    connection: 'echo@localhost',
-    message: 'echo-2'
+    connection: 'echo-back@localhost',
+    params: {
+      message: 'echo-2'
+    }
   },
   {
     type: 'sleep',
-    delay: 1000
+    params: {
+      duration: 1000
+    }
   },
   {
     type: 'echo-receive',
-    connection: 'echo@localhost'
+    connection: 'echo-back@localhost'
   },
   {
     type: 'sleep',
-    delay: 1000
+    params: {
+      duration: 1000
+    }
   },
   {
     type: 'log',
-    message: 'Scenario END'
+    params: {
+      message: 'Scenario END',
+      level: 'warn'
+    }
   },
   {
     type: 'sleep',
-    delay: 1000
+    params: {
+      duration: 1000
+    }
   },
   {
     type: 'publish',
-    message: 'Scenario END'
+    params: {
+      message: 'Scenario END'
+    }
   },
   {
     type: 'sleep',
-    delay: 1000
+    params: {
+      duration: 1000
+    }
   }
 ]
 
 var scenario2: Step[] = [
   {
-    ip: 'indi@192.168.1.207',
+    connection: 'indi@192.168.1.207',
     type: 'robot_move',
-    name: 'test1'
+    params: {
+      position: 'test1'
+    }
   },
   {
-    ip: 'plc@192.168.1.208',
+    connection: 'plc@192.168.1.208',
     type: 'onoff',
-    plcAddress: 'M0',
-    value: 1
+    params: {
+      plcAddress: 'M0',
+      value: 1
+    }
   },
   {
-    ip: 'plc@192.168.1.208',
+    connection: 'plc@192.168.1.208',
     type: 'watching',
-    plcAddress: 'Y3',
-    value: 1
+    params: {
+      plcAddress: 'Y3',
+      value: 1
+    }
   },
   {
-    ip: 'plc@192.168.1.208',
+    connection: 'plc@192.168.1.208',
     type: 'onoff',
-    plcAddress: 'M0',
-    value: 0
+    params: {
+      plcAddress: 'M0',
+      value: 0
+    }
   },
   {
-    ip: 'indi@192.168.1.207',
+    connection: 'indi@192.168.1.207',
     type: 'robot_move',
-    name: 'test2'
+    params: {
+      position: 'test2'
+    }
   },
   {
-    ip: 'indi@192.168.1.207',
+    connection: 'indi@192.168.1.207',
     type: 'robot_move',
-    name: 'test3'
+    params: {
+      position: 'test3'
+    }
   },
   {
-    ip: 'indi@192.168.1.207',
+    connection: 'indi@192.168.1.207',
     type: 'robot_move',
-    name: 'test4'
+    params: {
+      position: 'test4'
+    }
   },
   {
-    ip: 'indi@192.168.1.207',
+    connection: 'indi@192.168.1.207',
     type: 'robot_move',
-    name: 'test5'
+    params: {
+      position: 'test5'
+    }
   }
 ]
 
 function loadScenarios() {
   var sc1 = new Scenario('sample-scenario', scenario1)
-  var sc2 = new Scenario('robot-scenario', scenario2)
+  // var sc2 = new Scenario('robot-scenario', scenario2)
 
   sc1.start()
-  sc2.start()
+  // sc2.start()
 }
 
 export class TaskEngine {

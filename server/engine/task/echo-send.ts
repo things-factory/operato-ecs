@@ -2,7 +2,10 @@ import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
 
 async function EchoSend(step, { logger }) {
-  var { connection: connectionName, message } = step
+  var {
+    connection: connectionName,
+    params: { message }
+  } = step
 
   var connection = Connections.getConnection(connectionName)
   if (!connection) {

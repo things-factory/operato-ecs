@@ -3,11 +3,14 @@ import { Connections } from '../connections'
 import { MitsubishiPLCConnector } from '../connector/mitsubishi-plc'
 
 async function onoff(step, { logger }) {
-  var { ip, plcAddress: address, value } = step
+  var {
+    connection,
+    params: { plcAddress: address, value }
+  } = step
 
-  var connection = Connections.getConnection(ip)
-  if (!connection) {
-    throw new Error(`no connection : ${ip}`)
+  var socket = Connections.getConnection(connection)
+  if (!socket) {
+    throw new Error(`no connection : ${connection}`)
   }
 
   var w_address = address
@@ -30,8 +33,8 @@ async function onoff(step, { logger }) {
   var sendMessage = MitsubishiPLCConnector.getWriteCommand(deviceCode, writeStartDevice, writeCoilValue)
   logger.info(sendMessage)
 
-  await connection.write(sendMessage)
-  var response = await connection.read()
+  await socket.write(sendMessage)
+  var response = await socket.read()
   if (!response) {
     // socket ended or closed
     throw new Error('socket closed')
