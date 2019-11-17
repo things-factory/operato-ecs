@@ -11,6 +11,8 @@ import {
 import { Domain } from '@things-factory/shell'
 import { User } from '@things-factory/auth-base'
 
+import { Connections } from '../engine'
+
 @Entity()
 @Index('ix_connection_0', (connection: Connection) => [connection.domain, connection.name], { unique: true })
 export class Connection {
@@ -59,4 +61,23 @@ export class Connection {
     nullable: true
   })
   updater: User
+
+  async connect() {
+    try {
+      var connector = Connections.getConnector(this.type)
+      await connector.connect(this)
+      this.status = 1
+    } catch (ex) {
+      this.status = 0
+    }
+  }
+
+  async disconnect() {
+    try {
+      var connector = Connections.getConnector(this.type)
+      await connector.disconnect(this.name)
+    } finally {
+      this.status = 0
+    }
+  }
 }

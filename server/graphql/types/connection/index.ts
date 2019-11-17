@@ -24,6 +24,14 @@ export const Mutation = `
   deleteConnections (
     names: [String]!
   ): Boolean
+
+  connectConnection (
+    name: String!
+  ): Connection
+
+  disconnectConnection (
+    name: String!
+  ): Connection
 `
 
 export const Query = `

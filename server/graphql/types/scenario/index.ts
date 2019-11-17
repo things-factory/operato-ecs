@@ -25,6 +25,14 @@ export const Mutation = `
   deleteScenarios (
     ids: [String]!
   ): Boolean
+
+  startScenario (
+    name: String!
+  ): Scenario
+
+  stopScenario (
+    name: String!
+  ): Scenario
 `
 
 export const Query = `

@@ -2,6 +2,8 @@ import { Connection } from '../entities'
 
 export interface Connector {
   ready(connections: Connection[]): Promise<any>
+  connect(connection: Connection): Promise<any>
+  disconnect(name: string): Promise<any>
 }
 
 export interface Step {

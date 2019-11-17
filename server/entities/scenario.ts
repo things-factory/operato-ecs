@@ -12,6 +12,8 @@ import { Domain } from '@things-factory/shell'
 import { User } from '@things-factory/auth-base'
 import { Step } from './step'
 
+import { ScenarioEngine } from '../engine'
+
 @Entity()
 @Index('ix_scenario_0', (scenario: Scenario) => [scenario.domain, scenario.name], { unique: true })
 export class Scenario {
@@ -61,4 +63,21 @@ export class Scenario {
     nullable: true
   })
   updater: User
+
+  async start() {
+    try {
+      await ScenarioEngine.load(this)
+      this.status = 1
+    } catch (ex) {
+      this.status = 0
+    }
+  }
+
+  async stop() {
+    try {
+      await ScenarioEngine.unload(this.name)
+    } finally {
+      this.status = 0
+    }
+  }
 }

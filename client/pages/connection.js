@@ -64,7 +64,7 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
       <data-grist
         .mode=${isMobileDevice() ? 'LIST' : 'GRID'}
         .config=${this.config}
-        .fetchHandler="${this.fetchHandler.bind(this)}"
+        .fetchHandler=${this.fetchHandler.bind(this)}
       ></data-grist>
     `
   }
@@ -118,6 +118,21 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
       columns: [
         { type: 'gutter', gutterName: 'sequence' },
         { type: 'gutter', gutterName: 'row-selector', multiple: true },
+        {
+          type: 'gutter',
+          gutterName: 'button',
+          name: 'status',
+          icon: record => (!record ? 'link' : record.status == 1 ? 'link_off' : 'link'),
+          handlers: {
+            click: (columns, data, column, record, rowIndex) => {
+              if (record.status == 0) {
+                this.connect(record)
+              } else {
+                this.disconnect(record)
+              }
+            }
+          }
+        },
         {
           type: 'object',
           name: 'domain',
@@ -223,6 +238,8 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
               description
               type
               endpoint
+              active
+              status
               updater {
                 id
                 name
@@ -323,6 +340,46 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
 
       if (!response.errors) this.dataGrist.fetch()
     }
+  }
+
+  async connect(record) {
+    var response = await client.mutate({
+      mutation: gql`
+        mutation($name: String!) {
+          connectConnection(name: $name) {
+            status
+          }
+        }
+      `,
+      variables: {
+        name: record.name
+      }
+    })
+
+    var status = response.data.connectConnection.status
+
+    record.status = status
+    this.dataGrist.refresh()
+  }
+
+  async disconnect(record) {
+    var response = await client.mutate({
+      mutation: gql`
+        mutation($name: String!) {
+          disconnectConnection(name: $name) {
+            status
+          }
+        }
+      `,
+      variables: {
+        name: record.name
+      }
+    })
+
+    var status = response.data.disconnectConnection.status
+
+    record.status = status
+    this.dataGrist.refresh()
   }
 }
 

@@ -6,6 +6,8 @@ import { updateMultipleConnection } from './update-multiple-connection'
 import { createConnection } from './create-connection'
 import { deleteConnection } from './delete-connection'
 import { deleteConnections } from './delete-connections'
+import { connectConnection } from './connect-connection'
+import { disconnectConnection } from './disconnect-connection'
 
 export const Query = {
   ...connectionsResolver,
@@ -17,5 +19,7 @@ export const Mutation = {
   ...updateMultipleConnection,
   ...createConnection,
   ...deleteConnection,
-  ...deleteConnections
+  ...deleteConnections,
+  ...connectConnection,
+  ...disconnectConnection
 }

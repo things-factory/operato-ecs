@@ -66,7 +66,7 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
       <data-grist
         .mode=${isMobileDevice() ? 'LIST' : 'GRID'}
         .config=${this.config}
-        .fetchHandler="${this.fetchHandler.bind(this)}"
+        .fetchHandler=${this.fetchHandler.bind(this)}
       ></data-grist>
     `
   }
@@ -116,10 +116,13 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
           icon: record => (!record ? 'play_arrow' : record.status == 1 ? 'pause' : 'play_arrow'),
           handlers: {
             click: (columns, data, column, record, rowIndex) => {
+              if (!record) {
+                return
+              }
               if (record.status == 0) {
-                // this.startPublisher(record)
+                this.startScenario(record)
               } else {
-                // this.stopPublisher(record)
+                this.stopScenario(record)
               }
             }
           }
@@ -229,6 +232,8 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
               }
               name
               description
+              active
+              status
               updater {
                 id
                 name
@@ -329,6 +334,46 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
 
       if (!response.errors) this.dataGrist.fetch()
     }
+  }
+
+  async startScenario(record) {
+    var response = await client.mutate({
+      mutation: gql`
+        mutation($name: String!) {
+          startScenario(name: $name) {
+            status
+          }
+        }
+      `,
+      variables: {
+        name: record.name
+      }
+    })
+
+    var status = response.data.startScenario.status
+
+    record.status = status
+    this.dataGrist.refresh()
+  }
+
+  async stopScenario(record) {
+    var response = await client.mutate({
+      mutation: gql`
+        mutation($name: String!) {
+          stopScenario(name: $name) {
+            status
+          }
+        }
+      `,
+      variables: {
+        name: record.name
+      }
+    })
+
+    var status = response.data.stopScenario.status
+
+    record.status = status
+    this.dataGrist.refresh()
   }
 }
 

@@ -10,6 +10,7 @@ export class Connections {
 
   static async ready() {
     const CONNECTIONS = await getRepository(Connection).find({
+      where: { active: true },
       relations: ['domain', 'creator', 'updater']
     })
 
@@ -56,6 +57,8 @@ export class Connections {
   }
 
   static removeConnection(name) {
+    var connection = Connections.connections[name]
     delete Connections.connections[name]
+    return connection
   }
 }

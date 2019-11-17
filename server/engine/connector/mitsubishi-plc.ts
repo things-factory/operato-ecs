@@ -70,6 +70,12 @@ export class MitsubishiPLCConnector implements Connector {
     await socket.connect(port, host)
     Connections.addConnection(connection.name, socket)
   }
+
+  async disconnect(name) {
+    let socket = Connections.removeConnection(name)
+
+    await socket.disconnect()
+  }
 }
 
 Connections.registerConnector('mitsubishi-plc', new MitsubishiPLCConnector())

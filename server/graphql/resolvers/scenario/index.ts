@@ -7,6 +7,9 @@ import { createScenario } from './create-scenario'
 import { deleteScenario } from './delete-scenario'
 import { deleteScenarios } from './delete-scenarios'
 
+import { startScenario } from './start-scenario'
+import { stopScenario } from './stop-scenario'
+
 import { scenarioState } from './scenario-state'
 
 export const Query = {
@@ -19,7 +22,9 @@ export const Mutation = {
   ...updateMultipleScenario,
   ...createScenario,
   ...deleteScenario,
-  ...deleteScenarios
+  ...deleteScenarios,
+  ...startScenario,
+  ...stopScenario
 }
 
 export const Subscription = {
