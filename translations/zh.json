@@ -8,6 +8,7 @@
   "field.endpoint": "endpoint",
   "field.task": "task",
   "field.params": "parameters",
+  "field.connection": "connection",
   "button.commit": "commit",
   "button.delete": "delete",
   "button.reload": "reload",

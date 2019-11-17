@@ -123,6 +123,15 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
           width: 120
         },
         {
+          type: 'connection',
+          name: 'connection',
+          header: i18next.t('field.connection'),
+          record: {
+            editable: true
+          },
+          width: 160
+        },
+        {
           type: 'json',
           name: 'params',
           header: i18next.t('field.params'),
@@ -159,6 +168,7 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
               description
               sequence
               task
+              connection
               params
             }
           }
@@ -181,7 +191,7 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
         for (let key in dirtyFields) {
           patchField[key] = dirtyFields[key].after
         }
-        
+
         return { ...patch.__origin__, ...patchField }
 
         // let patchField = patch.id ? { id: patch.id } : {}

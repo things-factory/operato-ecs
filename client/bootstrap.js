@@ -18,6 +18,7 @@ import { fetchDashboardSettings } from './viewparts/fetch-dashboard-settings'
 import { registerEditor, registerRenderer, TextRenderer } from '@things-factory/grist-ui'
 
 import { ConnectorSelector } from './grist/connector-selector'
+import { ConnectionSelector } from './grist/connection-selector'
 import { TaskTypeSelector } from './grist/task-type-selector'
 import { JsonGristEditor } from './grist/json-grist-editor'
 
@@ -26,6 +27,8 @@ export default function bootstrap() {
   registerEditor('task-type', TaskTypeSelector)
   registerRenderer('connector', TextRenderer)
   registerEditor('connector', ConnectorSelector)
+  registerRenderer('connection', TextRenderer)
+  registerEditor('connection', ConnectionSelector)
   registerRenderer('json', TextRenderer)
   registerEditor('json', JsonGristEditor)
 

@@ -31,7 +31,10 @@ export class Step {
   })
   description: string
 
-  @ManyToOne(type => Scenario, scenario => scenario.steps)
+  @ManyToOne(
+    type => Scenario,
+    scenario => scenario.steps
+  )
   scenario: Scenario
 
   @Column()
@@ -39,6 +42,11 @@ export class Step {
 
   @Column()
   task: string
+
+  @Column({
+    nullable: true
+  })
+  connection: string
 
   @Column({
     nullable: true

@@ -8,6 +8,7 @@
   "field.endpoint": "엔드포인트",
   "field.task": "태스크",
   "field.params": "파라미터",
+  "field.connection": "커넥션",
   "button.commit": "저장",
   "button.delete": "삭제",
   "button.reload": "수정취소",

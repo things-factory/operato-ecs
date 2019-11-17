@@ -7,6 +7,7 @@ export const StepPatch = gql`
     description: String
     sequence: Int
     task: String
+    connection: String
     params: String
     cuFlag: String
   }
