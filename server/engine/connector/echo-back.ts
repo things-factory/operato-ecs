@@ -16,23 +16,23 @@ export class EchoBack implements Connector {
         })
       })
 
-      server.listen(ECHO_SERVER.port, async function() {
+      server.listen(ECHO_SERVER.port, async () => {
         logger.info('Echo-back server listening on %j', server.address())
 
-        await Promise.all(
-          connectionConfigs.map(async connectionConfig => {
-            let socket = new PromiseSocket(new net.Socket())
-            let [host, port = 8124] = connectionConfig.endpoint.split(':')
-
-            // socket.setTimeout(10000)
-            await socket.connect(port, host)
-            Connections.addConnection(connectionConfig.name, socket)
-          })
-        )
+        await Promise.all(connectionConfigs.map(this.connect))
 
         resolve()
       })
     })
+  }
+
+  async connect(connection) {
+    let socket = new PromiseSocket(new net.Socket())
+    let [host, port = 8124] = connection.endpoint.split(':')
+
+    // socket.setTimeout(10000)
+    await socket.connect(port, host)
+    Connections.addConnection(connection.name, socket)
   }
 }
 

@@ -7,6 +7,7 @@ export const ConnectionPatch = gql`
     description: String
     type: String
     endpoint: String
+    active: Boolean
     cuFlag: String
   }
 `

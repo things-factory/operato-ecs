@@ -57,18 +57,18 @@ export class MitsubishiPLCConnector implements Connector {
   }
 
   async ready(connectionConfigs) {
-    await Promise.all(
-      connectionConfigs.map(async connectionConfig => {
-        let socket = new PromiseSocket(new net.Socket())
-        let [host, port = 8124] = connectionConfig.endpoint.split(':')
-
-        // socket.setTimeout(10000)
-        await socket.connect(port, host)
-        Connections.addConnection(connectionConfig.name, socket)
-      })
-    )
+    await Promise.all(connectionConfigs.map(this.connect))
 
     logger.info('mitsubishi-plc connections are ready')
+  }
+
+  async connect(connection) {
+    let socket = new PromiseSocket(new net.Socket())
+    let [host, port] = connection.endpoint.split(':')
+
+    // socket.setTimeout(10000)
+    await socket.connect(port, host)
+    Connections.addConnection(connection.name, socket)
   }
 }
 

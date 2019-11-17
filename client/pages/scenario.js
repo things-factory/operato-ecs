@@ -163,6 +163,16 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
           width: 200
         },
         {
+          type: 'checkbox',
+          name: 'active',
+          header: i18next.t('field.active'),
+          record: {
+            align: 'center',
+            editable: true
+          },
+          width: 60
+        },
+        {
           type: 'object',
           name: 'updater',
           header: i18next.t('field.updater'),

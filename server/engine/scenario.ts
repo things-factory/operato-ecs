@@ -5,6 +5,9 @@ import { pubsub } from '@things-factory/shell'
 import { TaskRegistry } from './task-registry'
 import { Step } from './types'
 
+import { getRepository } from 'typeorm'
+import { Scenario as ScenarioEntity } from '../entities'
+
 const { combine, timestamp, splat, printf } = format
 
 enum STATE {
@@ -30,6 +33,19 @@ export class Scenario {
     return `${timestamp} ${level}: ${message}`
   })
 
+  public static async load(scenario) {
+    var scene = new Scenario(scenario.name, scenario.steps)
+    scene.start()
+  }
+
+  public static async loadAll() {
+    const SCENARIOS = await getRepository(ScenarioEntity).find({
+      relations: ['domain', 'creator', 'updater', 'steps']
+    })
+
+    SCENARIOS.forEach(scenario => Scenario.load(scenario))
+  }
+
   constructor(name: string, steps: Step[]) {
     this.name = name
     this.steps = steps || []
@@ -39,7 +55,7 @@ export class Scenario {
         new (transports as any).DailyRotateFile({
           filename: `logs/scenario-${name}-%DATE%.log`,
           datePattern: 'YYYY-MM-DD-HH',
-          zippedArchive: true,
+          zippedArchive: false,
           maxSize: '20m',
           maxFiles: '14d',
           level: 'info'
@@ -138,11 +154,19 @@ export class Scenario {
   }
 
   async process(step, context) {
-    var { type } = step
+    step = {
+      ...step
+    } // copy step
+
+    try {
+      step.params = JSON.parse(step.params)
+    } catch (ex) {
+      this.logger.error('params parsing error. params must be a JSON.')
+    }
 
     this.logger.info(`Step started. ${JSON.stringify(step)}`)
 
-    var handler = TaskRegistry.getTaskHandler(type)
+    var handler = TaskRegistry.getTaskHandler(step.task)
     if (!handler) {
       throw new Error(`no task handler for ${JSON.stringify(step)}`)
     } else {

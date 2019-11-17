@@ -34,6 +34,16 @@ export class Connection {
   @Column()
   endpoint: string
 
+  @Column({
+    nullable: true
+  })
+  active: boolean
+
+  @Column({
+    nullable: true
+  })
+  status: number
+
   @CreateDateColumn()
   createdAt: Date
 
