@@ -41,16 +41,6 @@ export class ScenarioEngine {
     return scenarios[name]
   }
 
-  public static async start() {
-    try {
-      await Connections.ready()
-
-      logger.info('connections done: %s', JSON.stringify(Object.keys(Connections.getConnections())))
-    } catch (ex) {
-      logger.error(ex)
-    }
-  }
-
   public static async load(scenarioConfig) {
     if (scenarios[scenarioConfig.name]) {
       return

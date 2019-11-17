@@ -116,7 +116,8 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
           icon: record => (!record ? 'play_arrow' : record.status == 1 ? 'pause' : 'play_arrow'),
           handlers: {
             click: (columns, data, column, record, rowIndex) => {
-              if (!record) {
+              if (!record || !record.name) {
+                /* TODO record가 새로 추가된 것이면 리턴하도록 한다. */
                 return
               }
               if (record.status == 0) {
@@ -354,6 +355,15 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
 
     record.status = status
     this.dataGrist.refresh()
+
+    document.dispatchEvent(
+      new CustomEvent('notify', {
+        detail: {
+          level: 'info',
+          message: `scenario started : ${record.name}`
+        }
+      })
+    )
   }
 
   async stopScenario(record) {
@@ -374,6 +384,15 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
 
     record.status = status
     this.dataGrist.refresh()
+
+    document.dispatchEvent(
+      new CustomEvent('notify', {
+        detail: {
+          level: 'info',
+          message: `scenario stopped : ${record.name}`
+        }
+      })
+    )
   }
 }
 

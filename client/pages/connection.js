@@ -125,7 +125,11 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
           icon: record => (!record ? 'link' : record.status == 1 ? 'link_off' : 'link'),
           handlers: {
             click: (columns, data, column, record, rowIndex) => {
-              if (record.status == 0) {
+              if (!record || !record.name) {
+                /* TODO record가 새로 추가된 것이면 리턴하도록 한다. */
+                return
+              }
+                if (record.status == 0) {
                 this.connect(record)
               } else {
                 this.disconnect(record)
@@ -360,6 +364,15 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
 
     record.status = status
     this.dataGrist.refresh()
+
+    document.dispatchEvent(
+      new CustomEvent('notify', {
+        detail: {
+          level: 'info',
+          message: `connection ${record.name} is connected`
+        }
+      })
+    )
   }
 
   async disconnect(record) {
@@ -380,6 +393,15 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
 
     record.status = status
     this.dataGrist.refresh()
+
+    document.dispatchEvent(
+      new CustomEvent('notify', {
+        detail: {
+          level: 'info',
+          message: `connection ${record.name} is disconnected`
+        }
+      })
+    )
   }
 }
 
