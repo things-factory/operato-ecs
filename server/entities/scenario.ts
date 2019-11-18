@@ -43,8 +43,7 @@ export class Scenario {
 
   @OneToMany(
     type => Step,
-    step => step.scenario,
-    { onDelete: 'CASCADE' }
+    step => step.scenario
   )
   steps: Step[]
 

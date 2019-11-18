@@ -33,7 +33,8 @@ export class Step {
 
   @ManyToOne(
     type => Scenario,
-    scenario => scenario.steps
+    scenario => scenario.steps,
+    { onDelete: 'CASCADE' }
   )
   scenario: Scenario
 
