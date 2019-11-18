@@ -9,7 +9,7 @@ export const startScenario = {
       relations: ['domain', 'steps', 'creator', 'updater']
     })
 
-    scenario.start()
+    await scenario.start()
     await repository.save(scenario)
 
     return scenario

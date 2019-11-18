@@ -74,7 +74,7 @@ export class MitsubishiPLCConnector implements Connector {
   async disconnect(name) {
     let socket = Connections.removeConnection(name)
 
-    await socket.disconnect()
+    await socket.destroy()
   }
 }
 

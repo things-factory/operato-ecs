@@ -354,13 +354,14 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
     var status = response.data.startScenario.status
 
     record.status = status
+
     this.dataGrist.refresh()
 
     document.dispatchEvent(
       new CustomEvent('notify', {
         detail: {
           level: 'info',
-          message: `scenario started : ${record.name}`
+          message: `${status ? 'success' : 'fail'} to start scenario : ${record.name}`
         }
       })
     )
@@ -383,13 +384,14 @@ class Scenario extends connect(store)(localize(i18next)(PageView)) {
     var status = response.data.stopScenario.status
 
     record.status = status
+
     this.dataGrist.refresh()
 
     document.dispatchEvent(
       new CustomEvent('notify', {
         detail: {
           level: 'info',
-          message: `scenario stopped : ${record.name}`
+          message: `${status ? 'fail' : 'success'} to stop scenario : ${record.name}`
         }
       })
     )

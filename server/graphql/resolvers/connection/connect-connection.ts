@@ -9,7 +9,7 @@ export const connectConnection = {
       relations: ['domain', 'creator', 'updater']
     })
 
-    connection.connect()
+    await connection.connect()
     await repository.save(connection)
 
     return connection

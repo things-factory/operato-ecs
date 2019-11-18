@@ -9,7 +9,7 @@ export const stopScenario = {
       relations: ['domain', 'steps', 'creator', 'updater']
     })
 
-    scenario.stop()
+    await scenario.stop()
     await repository.save(scenario)
 
     return scenario

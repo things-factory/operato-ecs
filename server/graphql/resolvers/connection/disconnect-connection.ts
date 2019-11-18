@@ -9,7 +9,7 @@ export const disconnectConnection = {
       relations: ['domain', 'creator', 'updater']
     })
 
-    connection.disconnect()
+    await connection.disconnect()
     await repository.save(connection)
 
     return connection

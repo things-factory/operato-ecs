@@ -362,13 +362,14 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
     var status = response.data.connectConnection.status
 
     record.status = status
+
     this.dataGrist.refresh()
 
     document.dispatchEvent(
       new CustomEvent('notify', {
         detail: {
           level: 'info',
-          message: `connection ${record.name} is connected`
+          message: `${status ? 'success' : 'fail'} to connect : ${record.name}`
         }
       })
     )
@@ -391,13 +392,14 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
     var status = response.data.disconnectConnection.status
 
     record.status = status
+
     this.dataGrist.refresh()
 
     document.dispatchEvent(
       new CustomEvent('notify', {
         detail: {
           level: 'info',
-          message: `connection ${record.name} is disconnected`
+          message: `${status ? 'fail' : 'success'} to disconnect : ${record.name}`
         }
       })
     )
