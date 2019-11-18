@@ -125,11 +125,10 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
           icon: record => (!record ? 'link' : record.status == 1 ? 'link_off' : 'link'),
           handlers: {
             click: (columns, data, column, record, rowIndex) => {
-              if (!record || !record.name) {
-                /* TODO record가 새로 추가된 것이면 리턴하도록 한다. */
+              if (!record || !record.name || record.__dirty__ == '+') {
                 return
               }
-                if (record.status == 0) {
+              if (record.status == 0) {
                 this.connect(record)
               } else {
                 this.disconnect(record)
