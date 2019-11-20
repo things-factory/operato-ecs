@@ -64,7 +64,7 @@ export class MenuPart extends connect(store)(LitElement) {
 
         return html`
           <div ?active=${this.boardId == board.id}>
-            <a href="board-viewer/${board.id}" viewer>${sheet.name}</a>
+            <a href="board-viewer/${board.id}?title=${sheet.name}" viewer>${sheet.name}</a>
           </div>
         `
       })}
@@ -78,8 +78,9 @@ export class MenuPart extends connect(store)(LitElement) {
   }
 
   async fetchSheets() {
-    var sheets = (await client.query({
-      query: gql`
+    var sheets = (
+      await client.query({
+        query: gql`
         {
           sheets(${gqlBuilder.buildArgs({
             filters: [],
@@ -101,7 +102,8 @@ export class MenuPart extends connect(store)(LitElement) {
           }
         }
       `
-    })).data.sheets.items
+      })
+    ).data.sheets.items
 
     store.dispatch({
       type: 'UPDATE_SHEETS',

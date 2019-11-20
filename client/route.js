@@ -22,5 +22,9 @@ export default function route(page) {
     case 'scenario':
       import('./pages/scenario')
       return page
+
+    case 'board-viewer':
+      import('./pages/board/res-board-viewer-page')
+      return page
   }
 }

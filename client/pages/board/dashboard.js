@@ -26,6 +26,12 @@ class Dashboard extends BoardViewerPage {
     }
   }
 
+  get context() {
+    return {
+      title: HOME_DESCRIPTION
+    }
+  }
+
   onClickDashboardSetting(name, description) {
     var popup = openPopup(
       html`

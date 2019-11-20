@@ -23,6 +23,10 @@ export default {
     {
       tagname: 'scenario-page',
       page: 'scenario'
+    },
+    {
+      tagname: 'res-board-viewer-page',
+      page: 'board-viewer'
     }
   ],
   route
