@@ -132,7 +132,7 @@ export class DashboardSettingLet extends connect(store)(localize(i18next)(LitEle
                   ${
                     field.board.id
                       ? html`
-                          <a href=${`/board-modeller/${field.board.id}`}>
+                          <a href=${`board-modeller/${field.board.id}`}>
                             <img
                               src=${field.board.thumbnail ||
                                 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}
