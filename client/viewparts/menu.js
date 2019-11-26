@@ -10,31 +10,38 @@ export class MenuPart extends connect(store)(LitElement) {
         display: block;
         min-width: 150px;
         height: 100%;
-        background-color: var(--primary-color);
+        background-color: var(--secondary-color);
       }
 
       div {
         display: flex;
-        padding: 10px 9px 7px 9px;
-        border-bottom: var(--menu-tree-toplevel-border-bottom);
-      }
-
-      div[active],
-      div:hover {
-        background-color: rgba(0, 0, 0, 0.3);
-      }
-
-      div[active] a,
-      div:hover a {
-        font: var(--menu-tree-toplevel-active-font);
-        color: #fff;
+        background-color: var(--opacity-light-dark-color);
       }
 
       a {
         text-decoration: none;
+        text-transform: capitalize;
 
-        font: var(--menu-tree-toplevel-font);
-        color: var(--menu-tree-toplevel-color);
+        padding: var(--menu-padding);
+        border-bottom: var(--border-dark-color);
+        font: var(--menu-font);
+        color: var(--menu-color);
+      }
+
+      a mwc-icon {
+        position: relative;
+        top: 2px;
+
+        font: var(--menu-icon-font);
+        color: var(--menu-icon-font-color);
+      }
+
+      div[active] a,
+      div:hover a {
+        font-weight: bold;
+
+        background-color: var(--primary-color);
+        color: var(--menu-active-color);
       }
 
       [viewer] {
@@ -56,7 +63,7 @@ export class MenuPart extends connect(store)(LitElement) {
 
     return html`
       <div ?active=${this.isHome()}>
-        <a @click=${e => this.navigateToHome()} viewer><mwc-icon>home</mwc-icon></a>
+        <a @click=${e => this.navigateToHome()} viewer><mwc-icon>home</mwc-icon> home</a>
       </div>
 
       ${sheets.map(sheet => {
@@ -64,7 +71,9 @@ export class MenuPart extends connect(store)(LitElement) {
 
         return html`
           <div ?active=${this.boardId == board.id}>
-            <a href="board-viewer/${board.id}?title=${sheet.name}" viewer>${sheet.name}</a>
+            <a href="board-viewer/${board.id}?title=${sheet.name}" viewer
+              ><mwc-icon>description</mwc-icon> ${sheet.name}</a
+            >
           </div>
         `
       })}

@@ -1,7 +1,7 @@
 body {
   /* common style */
-  --primary-color: #7283c9;
-  --secondary-color: #5f6267;
+  --primary-color: #6e7ebd;
+  --secondary-color: #4c526b;
   --focus-color: #fff;
   --primary-background-color: var(--secondary-color);
   --secondary-background-color: #4c567f;
@@ -11,6 +11,7 @@ body {
   --primary-text-color: var(--secondary-color);
   --secondary-text-color: #475590;
 
+  --opacity-light-dark-color: rgba(0, 0, 0, 0.1);
   --opacity-dark-color: rgba(0, 0, 0, 0.4);
   --opacity-light-color: rgba(255, 255, 255, 0.8);
 
@@ -55,4 +56,12 @@ body {
   --mdc-theme-primary: var(--primary-color);
   --mdc-theme-on-secondary: white;
   --mdc-theme-secondary: var(--primary-color);
+
+  /* res menu style*/
+  --menu-padding: 9px 9px 7px 10px;
+  --menu-font: normal 14px var(--theme-font);
+  --menu-color: rgba(255, 255, 255, 0.7);
+  --menu-active-color: #fff;
+  --menu-icon-font: normal 14px var(--mdc-icon-font, 'Material Icons');
+  --menu-icon-font-color: #79cdff;
 }
