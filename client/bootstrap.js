@@ -22,6 +22,14 @@ import { ConnectionSelector } from './grist/connection-selector'
 import { TaskTypeSelector } from './grist/task-type-selector'
 import { JsonGristEditor } from './grist/json-grist-editor'
 
+console.log(`
+▄▄▄▄                           ▄▄▄▄▄  ▄▄▄     
+▓   ▓       ▄          ▄       ▓     ▓   ▀
+▓▓▓▓   ▄▄▄  ▓▄▄   ▄▄▄  ▓▄▄  ▄  ▓▓▓▓  ▀▀▄▄ 
+▓   ▓ ▓   ▓ ▓  ▓ ▓   ▓ ▓       ▓     ▄   ▓
+▀    ▀ ▀▀▀  ▀▀▀   ▀▀▀  ▀▀▀     ▀▀▀▀▀  ▀▀▀ 
+`)
+
 export default function bootstrap() {
   registerRenderer('task-type', TextRenderer)
   registerEditor('task-type', TaskTypeSelector)
