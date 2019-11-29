@@ -23,11 +23,11 @@ import { TaskTypeSelector } from './grist/task-type-selector'
 import { JsonGristEditor } from './grist/json-grist-editor'
 
 console.log(`
-▄▄▄▄                           ▄▄▄▄▄  ▄▄▄     
-▓   ▓       ▄          ▄       ▓     ▓   ▀
-▓▓▓▓   ▄▄▄  ▓▄▄   ▄▄▄  ▓▄▄  ▄  ▓▓▓▓  ▀▀▄▄ 
-▓   ▓ ▓   ▓ ▓  ▓ ▓   ▓ ▓       ▓     ▄   ▓
-▀    ▀ ▀▀▀  ▀▀▀   ▀▀▀  ▀▀▀     ▀▀▀▀▀  ▀▀▀ 
+▄▄▄▄                         ▄▄▄▄▄  ▄▄▄     
+▓   ▓      ▄         ▄       ▓     ▓   ▀
+▓▓▓▓   ▄▄  ▓▄▄   ▄▄  ▓▄▄  ▄  ▓▓▓▓  ▀▀▄▄ 
+▓   ▓ ▓  ▓ ▓  ▓ ▓  ▓ ▓       ▓     ▄   ▓
+▀    ▀ ▀▀  ▀▀▀   ▀▀  ▀▀▀     ▀▀▀▀▀  ▀▀▀ 
 `)
 
 export default function bootstrap() {
