@@ -215,7 +215,9 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
   }
 
   async _deleteSteps() {
-    if (confirm(i18next.t('text.sure_to_delete'))) {
+    if (confirm(i18next.t('text.sure_to_x', {
+      x: i18next.t("text.delete")
+    }))) {
       const ids = this.dataGrist.selected.map(record => record.id)
       if (ids && ids.length > 0) {
         const response = await client.query({
@@ -231,7 +233,9 @@ class ScenarioDetail extends localize(i18next)(LitElement) {
           await document.dispatchEvent(
             new CustomEvent('notify', {
               detail: {
-                message: i18next.t('text.info_delete_successfully')
+                message: i18next.t('text.info_x_successfully', {
+                  x: i18next.t('text.delete')
+                })
               }
             })
           )
