@@ -205,7 +205,12 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
           },
           width: 180
         }
-      ]
+      ],
+      rows: {
+        selectable: {
+          multiple: true
+        }
+      }
     }
 
     await this.updateComplete
@@ -283,15 +288,21 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
   }
 
   async _deleteConnections(name) {
-    if (confirm(i18next.t('text.sure_to_delete'))) {
+    if (
+      confirm(
+        i18next.t('text.sure_to_x', {
+          x: i18next.t('text.delete')
+        })
+      )
+    ) {
       const names = this.dataGrist.selected.map(record => record.name)
       if (names && names.length > 0) {
         const response = await client.query({
           query: gql`
-                mutation {
-                  deleteConnection(${gqlBuilder.buildArgs({ name })})
-                }
-              `
+            mutation {
+              deleteConnections(${gqlBuilder.buildArgs({ names })})
+            }
+          `
         })
 
         if (!response.errors) {
@@ -299,7 +310,9 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
           await document.dispatchEvent(
             new CustomEvent('notify', {
               detail: {
-                message: i18next.t('text.info_delete_successfully')
+                message: i18next.t('text.info_x_successfully', {
+                  x: i18next.t('text.delete')
+                })
               }
             })
           )
