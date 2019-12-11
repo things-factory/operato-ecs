@@ -8,7 +8,7 @@ export class MenuPart extends connect(store)(LitElement) {
     return css`
       :host {
         display: block;
-        min-width: 150px;
+        min-width: 200px;
         height: 100%;
         background-color: var(--secondary-color);
       }
