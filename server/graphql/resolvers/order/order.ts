@@ -5,6 +5,6 @@ export const orderResolver = {
   async order(_, { id }, context, info) {
     const repository = getRepository(Order)
 
-    return await repository.findOne({ id })
+    return await repository.findOne({ domain: context.state.domain, id })
   }
 }
