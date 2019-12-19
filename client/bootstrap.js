@@ -4,7 +4,6 @@ import { appendViewpart, toggleOverlay, VIEWPART_POSITION, TOOL_POSITION } from 
 import { APPEND_APP_TOOL } from '@things-factory/apptool-base'
 import { ADD_MORENDA } from '@things-factory/more-base'
 import { ADD_SETTING } from '@things-factory/setting-base'
-import { auth } from '@things-factory/auth-base'
 
 import './viewparts/menu'
 import './viewparts/dashboard-setting-let'
@@ -12,7 +11,7 @@ import './viewparts/dashboard-setting-let'
 import sheets from './reducers/sheets'
 import dashboard from './reducers/dashboard-settings'
 
-import { UPDATE_DASHBOARD_SETTINGS, CLEAR_DASHBOARD_SETTINGS } from './actions/dashboard-settings'
+import { UPDATE_DASHBOARD_SETTINGS } from './actions/dashboard-settings'
 import { fetchDashboardSettings } from './viewparts/fetch-dashboard-settings'
 
 import { registerEditor, registerRenderer, TextRenderer } from '@things-factory/grist-ui'
