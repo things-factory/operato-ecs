@@ -12,7 +12,7 @@ import './viewparts/dashboard-setting-let'
 import sheets from './reducers/sheets'
 import dashboard from './reducers/dashboard-settings'
 
-import { UPDATE_DASHBOARD_SETTINGS, CLEAR_DASHBOARD_SETTINGS } from './actions/dashboard-settings'
+import { UPDATE_DASHBOARD_SETTINGS } from './actions/dashboard-settings'
 import { fetchDashboardSettings } from './viewparts/fetch-dashboard-settings'
 
 import { registerEditor, registerRenderer, TextRenderer } from '@things-factory/grist-ui'
@@ -46,7 +46,7 @@ export default function bootstrap() {
   })
 
   /* 사용자 signin/signout 에 따라서, setting 변경 */
-  auth.on('signin', async () => {
+  auth.on('profile', async () => {
     // fetch res-app settings
     var settings = await fetchDashboardSettings()
 
@@ -56,13 +56,6 @@ export default function bootstrap() {
         settings[setting.name] = setting
         return settings
       }, {})
-    })
-  })
-
-  auth.on('signout', async () => {
-    // clear res-app settings
-    store.dispatch({
-      type: CLEAR_DASHBOARD_SETTINGS
     })
   })
 
