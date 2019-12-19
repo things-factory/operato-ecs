@@ -44,10 +44,7 @@ export default function bootstrap() {
     sheets,
     dashboard
   })
-
-  /* 사용자 signin/signout 에 따라서, setting 변경 */
-  auth.on('signin', async () => {
-    // fetch res-app settings
+  ;(async () => {
     var settings = await fetchDashboardSettings()
 
     store.dispatch({
@@ -57,14 +54,7 @@ export default function bootstrap() {
         return settings
       }, {})
     })
-  })
-
-  auth.on('signout', async () => {
-    // clear res-app settings
-    store.dispatch({
-      type: CLEAR_DASHBOARD_SETTINGS
-    })
-  })
+  })()
 
   /* add hamburger tool */
   store.dispatch({
