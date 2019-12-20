@@ -8,6 +8,8 @@ import * as Step from './step'
 import * as Connector from './connector'
 import * as TaskType from './task-type'
 
+import { PropertySpec } from './property-spec'
+
 export const queries = [
   Sheet.Query,
   Order.Query,
@@ -32,6 +34,7 @@ export const mutations = [
 export const subscriptions = [Scenario.Subscription]
 
 export const types = [
+  PropertySpec,
   ...Sheet.Types,
   ...Order.Types,
   ...Stock.Types,

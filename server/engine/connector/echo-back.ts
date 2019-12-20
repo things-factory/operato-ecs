@@ -40,6 +40,16 @@ export class EchoBack implements Connector {
 
     await socket.destroy()
   }
+
+  get parameterSpec() {
+    return [
+      {
+        type: 'number',
+        label: 'value',
+        name: 'value'
+      }
+    ]
+  }
 }
 
 Connections.registerConnector('echo-back', new EchoBack())

@@ -10,6 +10,12 @@ const FETCH_CONNECTORS_GQL = gql`
       items {
         name
         description
+        parameterSpec {
+          type
+          label
+          name
+          property
+        }
       }
 
       total

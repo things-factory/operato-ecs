@@ -8,6 +8,10 @@ export class ABCAgv implements Connector {
 
   async connect(connection) {}
   async disconnect(name) {}
+
+  get parameterSpec() {
+    return []
+  }
 }
 
 Connections.registerConnector('abc-agv', new ABCAgv())

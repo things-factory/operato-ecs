@@ -26,6 +26,16 @@ export class IndiRobotConnector implements Connector {
 
     await socket.destroy()
   }
+
+  get parameterSpec() {
+    return [
+      {
+        type: 'number',
+        label: 'value',
+        name: 'value'
+      }
+    ]
+  }
 }
 
 Connections.registerConnector('indi-robot', new IndiRobotConnector())

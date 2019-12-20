@@ -21,6 +21,7 @@ import { ConnectorSelector } from './grist/connector-selector'
 import { ConnectionSelector } from './grist/connection-selector'
 import { TaskTypeSelector } from './grist/task-type-selector'
 import { JsonGristEditor } from './grist/json-grist-editor'
+import { ParametersEditor } from './grist/parameters-editor'
 
 console.log(`
 ▄▄▄▄                         ▄▄▄▄▄  ▄▄▄     
@@ -39,6 +40,8 @@ export default function bootstrap() {
   registerEditor('connection', ConnectionSelector)
   registerRenderer('json', TextRenderer)
   registerEditor('json', JsonGristEditor)
+  registerRenderer('parameters', TextRenderer)
+  registerEditor('parameters', ParametersEditor)
 
   store.addReducers({
     sheets,
