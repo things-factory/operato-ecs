@@ -29,8 +29,9 @@ export class EchoBack implements Connector {
   async connect(connection) {
     let socket = new PromiseSocket(new net.Socket())
     let [host, port = 8124] = connection.endpoint.split(':')
+    let { timeout = 30000 } = connection.params || {}
 
-    // socket.setTimeout(10000)
+    socket.setTimeout(timeout)
     await socket.connect(port, host)
     Connections.addConnection(connection.name, socket)
   }
@@ -45,8 +46,8 @@ export class EchoBack implements Connector {
     return [
       {
         type: 'number',
-        label: 'value',
-        name: 'value'
+        label: 'timeout(ms)',
+        name: 'timeout'
       }
     ]
   }

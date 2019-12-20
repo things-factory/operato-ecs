@@ -10,7 +10,13 @@ export class ABCAgv implements Connector {
   async disconnect(name) {}
 
   get parameterSpec() {
-    return []
+    return [
+      {
+        type: 'number',
+        label: 'timeout(ms)',
+        name: 'timeout'
+      }
+    ]
   }
 }
 
