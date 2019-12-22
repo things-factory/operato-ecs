@@ -16,13 +16,13 @@ async function HttpGet(step, { logger }) {
   var { endpoint, params: connectionParams } = connection
 
   var url = new URL(path, endpoint)
-  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+  // Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
   var response = await fetch(url, {
     method: 'GET',
     headers: {
-      ...(GET_AUTH_HEADERS(connectionParams) || {}),
-      ...headers
+      ...(GET_AUTH_HEADERS(connectionParams) || {})
+      // ...headers
     }
   })
 

@@ -25,6 +25,7 @@ const DEFAULT_VALUE = {
   number: 0,
   angle: 0,
   string: '',
+  text: '',
   textarea: '',
   checkbox: false,
   select: '',
@@ -38,19 +39,6 @@ const DEFAULT_VALUE = {
   imageselector: '',
   options: null,
   date: null
-}
-
-function convertValue(type, value) {
-  var converted = String(value).trim() == '' ? undefined : value
-  switch (type) {
-    case 'number':
-    case 'angle':
-      converted = parseFloat(value)
-      converted = converted == NaN ? undefined : converted
-      break
-  }
-
-  return converted
 }
 
 class ParametersEditorBuilder extends connect(store)(LitElement) {
@@ -107,13 +95,11 @@ class ParametersEditorBuilder extends connect(store)(LitElement) {
   }
 
   _setValues() {
-    this.value &&
-      Array.from(this.renderRoot.querySelectorAll('[name]')).forEach(prop => {
-        let name = prop.getAttribute('name')
-        var convertedValue = convertValue(prop.type, this.value[name])
-        if (convertedValue == undefined) convertedValue = DEFAULT_VALUE[prop.type]
-        prop.value = convertedValue
-      })
+    var value = this.value || {}
+    Array.from(this.renderRoot.querySelectorAll('[name]')).forEach(prop => {
+      let name = prop.getAttribute('name')
+      prop.value = value[name] === undefined ? DEFAULT_VALUE[prop.type] : value[name]
+    })
   }
 
   _getValues() {
@@ -136,11 +122,6 @@ class ParametersEditorBuilder extends connect(store)(LitElement) {
     if (!prop || !prop.hasAttribute('property-editor')) {
       return
     }
-
-    // var name = prop.getAttribute('name')
-    // var value = this._getValues()
-    // console.log('value', value)
-    // this._setValues()
 
     this.dispatchEvent(
       new CustomEvent('property-change', {
