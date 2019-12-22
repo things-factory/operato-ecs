@@ -2,7 +2,10 @@ import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
 
 async function robot_move(step, { logger }) {
-  var { name, connection } = step
+  var {
+    connection,
+    params: { position }
+  } = step
 
   var socket = Connections.getConnection(connection)
   if (!socket) {
@@ -12,7 +15,7 @@ async function robot_move(step, { logger }) {
   await socket.write(
     JSON.stringify({
       command: '02',
-      fromPosition: name,
+      fromPosition: position,
       actionType: 'R_MOVE'
     })
   )
@@ -42,5 +45,13 @@ async function robot_move(step, { logger }) {
     throw new Error(`invalid response : ${content}`)
   }
 }
+
+robot_move.parameterSpec = [
+  {
+    type: 'string',
+    name: 'position',
+    label: 'position'
+  }
+]
 
 TaskRegistry.registerTaskHandler('robot_move', robot_move)

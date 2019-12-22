@@ -32,7 +32,8 @@ export class IndiRobotConnector implements Connector {
     return [
       {
         type: 'number',
-        label: 'timeout(ms)',
+        label: 'timeout',
+        placeholder: 'milli-seconds',
         name: 'timeout'
       }
     ]

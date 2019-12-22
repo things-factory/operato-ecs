@@ -4,6 +4,7 @@ export interface PropertySpec {
   type: string
   label: string
   name: string
+  placeholder?: string
   property?: any
 }
 

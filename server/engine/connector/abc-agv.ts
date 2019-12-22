@@ -13,7 +13,8 @@ export class ABCAgv implements Connector {
     return [
       {
         type: 'number',
-        label: 'timeout(ms)',
+        label: 'timeout',
+        placeholder: 'milli-seconds',
         name: 'timeout'
       }
     ]

@@ -8,6 +8,7 @@ export const PropertySpec = gql`
     type: String!
     label: String!
     name: String!
+    placeholder: String
     property: Object
   }
 `

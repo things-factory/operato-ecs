@@ -2,7 +2,10 @@ import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
 
 async function robot_do(step, { logger }) {
-  var { connection, name: command } = step
+  var {
+    connection,
+    params: { command }
+  } = step
 
   var socket = Connections.getConnection(connection)
   if (!socket) {
@@ -18,5 +21,7 @@ async function robot_do(step, { logger }) {
 
   logger.info('do command sent')
 }
+
+robot_do.parameterSpec = []
 
 TaskRegistry.registerTaskHandler('robot_do', robot_do)

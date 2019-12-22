@@ -3,7 +3,10 @@ import { TaskRegistry } from '../task-registry'
 import { Connections } from '../connections'
 
 async function redis_signal(step, { logger }) {
-  var { connection, redis_address: address, value, delay } = step
+  var {
+    connection,
+    params: { address, value, delay }
+  } = step
 
   var socket = Connections.getConnection(connection)
   if (!socket) {
@@ -14,5 +17,24 @@ async function redis_signal(step, { logger }) {
     await sleep(delay)
   }
 }
+
+redis_signal.parameterSpec = [
+  {
+    type: 'string',
+    name: 'address',
+    label: 'address'
+  },
+  {
+    type: 'string',
+    name: 'value',
+    label: 'value'
+  },
+  {
+    type: 'number',
+    name: 'delay',
+    placeholder: 'milli-seconds',
+    label: 'delay'
+  }
+]
 
 TaskRegistry.registerTaskHandler('redis_signal', redis_signal)

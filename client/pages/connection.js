@@ -300,6 +300,7 @@ class Connection extends connect(store)(localize(i18next)(PageView)) {
               type
               name
               label
+              placeholder
               property
             }
           }

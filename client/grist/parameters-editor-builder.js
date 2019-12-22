@@ -93,6 +93,7 @@ class ParametersEditorBuilder extends connect(store)(LitElement) {
 
       element.label = prop.label
       element.type = prop.type
+      element.placeholder = prop.placeholder
       element.setAttribute('name', prop.name)
       prop.placeholder = prop.placeholder
       if (prop.observe) {
@@ -115,6 +116,15 @@ class ParametersEditorBuilder extends connect(store)(LitElement) {
       })
   }
 
+  _getValues() {
+    var value = {}
+    Array.from(this.renderRoot.querySelectorAll('[name]')).forEach(prop => {
+      let name = prop.getAttribute('name')
+      value[name] = prop.value === undefined ? DEFAULT_VALUE[prop.type] : prop.value
+    })
+    return value
+  }
+
   _onValueChanged(e) {
     e.stopPropagation()
     var prop = e.target
@@ -127,17 +137,16 @@ class ParametersEditorBuilder extends connect(store)(LitElement) {
       return
     }
 
-    var name = prop.getAttribute('name')
-    this.value[name] = prop.value
-    this._setValues()
+    // var name = prop.getAttribute('name')
+    // var value = this._getValues()
+    // console.log('value', value)
+    // this._setValues()
 
     this.dispatchEvent(
       new CustomEvent('property-change', {
         bubbles: true,
         composed: true,
-        detail: {
-          [name]: prop.value
-        }
+        detail: this._getValues()
       })
     )
   }

@@ -47,7 +47,11 @@ export class ParametersEditorPopup extends LitElement {
     return html`
       ${props.length > 0
         ? html`
-            <parameters-editor-builder .value=${this.value} .props=${props} @property-change=${onchange}>
+            <parameters-editor-builder
+              .value=${this.value}
+              .props=${props}
+              @property-change=${this.onchange.bind(this)}
+            >
             </parameters-editor-builder>
           `
         : html`
@@ -61,7 +65,9 @@ export class ParametersEditorPopup extends LitElement {
     `
   }
 
-  onchange(e) {}
+  onchange(e) {
+    this.value = e.detail
+  }
 
   oncancel(e) {
     history.back()
