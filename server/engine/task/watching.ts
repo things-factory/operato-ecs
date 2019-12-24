@@ -4,7 +4,10 @@ import { Connections } from '../connections'
 import { MitsubishiPLCConnector } from '../connector/mitsubishi-plc'
 
 async function watching(step, { logger }) {
-  var { connection, plcAddress: address, value, delay } = step
+  var {
+    connection,
+    params: { plcAddress: address, value, delay }
+  } = step
 
   var socket = Connections.getConnection(connection)
   if (!socket) {
@@ -49,5 +52,24 @@ async function watching(step, { logger }) {
     }
   }
 }
+
+watching.parameterSpec = [
+  {
+    type: 'string',
+    name: 'plcAddress',
+    label: 'plcAddress'
+  },
+  {
+    type: 'string',
+    name: 'value',
+    label: 'value'
+  },
+  {
+    type: 'number',
+    name: 'delay',
+    placeholder: 'milli-seconds',
+    label: 'delay'
+  }
+]
 
 TaskRegistry.registerTaskHandler('watching', watching)

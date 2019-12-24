@@ -11,3 +11,5 @@ import './echo-receive'
 import './sleep'
 import './log'
 import './publish'
+
+import './http-get'

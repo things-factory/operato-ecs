@@ -51,4 +51,18 @@ async function onoff(step, { logger }) {
   }
 }
 
+onoff.parameterSpec = [
+  {
+    type: 'string',
+    name: 'plcAddress',
+    placeholder: 'M0,Y1,..',
+    label: 'plcAddress'
+  },
+  {
+    type: 'number',
+    name: 'value',
+    label: 'value'
+  }
+]
+
 TaskRegistry.registerTaskHandler('onoff', onoff)

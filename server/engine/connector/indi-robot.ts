@@ -15,8 +15,9 @@ export class IndiRobotConnector implements Connector {
   async connect(connection) {
     let socket = new PromiseSocket(new net.Socket())
     let [host, port] = connection.endpoint.split(':')
+    let { timeout = 30000 } = connection.params || {}
 
-    // socket.setTimeout(10000)
+    socket.setTimeout(timeout)
     await socket.connect(port, host)
     Connections.addConnection(connection.name, socket)
   }
@@ -25,6 +26,17 @@ export class IndiRobotConnector implements Connector {
     let socket = Connections.removeConnection(name)
 
     await socket.destroy()
+  }
+
+  get parameterSpec() {
+    return [
+      {
+        type: 'number',
+        label: 'timeout',
+        placeholder: 'milli-seconds',
+        name: 'timeout'
+      }
+    ]
   }
 }
 

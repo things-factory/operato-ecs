@@ -19,4 +19,6 @@ async function robot_run(step, { logger }) {
   logger.info('run command sent')
 }
 
+robot_run.parameterSpec = []
+
 TaskRegistry.registerTaskHandler('robot_run', robot_run)
