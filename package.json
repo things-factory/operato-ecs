@@ -7,8 +7,8 @@
   "license": "MIT",
   "author": "heartyoh",
   "scripts": {
-    "serve": "things-factory",
-    "serve:dev": "npm run build:server && things-factory-dev",
+    "serve": "things-factory res-app",
+    "serve:dev": "npm run build:server && things-factory-dev res-app",
     "start:app": "things-factory-app",
     "start:app:android": "things-factory-app --platform=android",
     "emulate:app": "things-factory-app --emulate",
@@ -26,7 +26,8 @@
     "migration:generate": "node ./node_modules/typeorm/cli.js migration:generate",
     "migration:run": "node ./node_modules/typeorm/cli.js migration:run",
     "migration:revert": "node ./node_modules/typeorm/cli.js migration:revert",
-    "stop": "kill $(lsof -t -i:3000,3001)"
+    "stop:dev": "kill $(lsof -t -i:3000,3001)",
+    "stop": "things-factory-stop res-app"
   },
   "dependencies": {
     "@things-factory/apptool-ui": "^1.0.0-alpha.1",
