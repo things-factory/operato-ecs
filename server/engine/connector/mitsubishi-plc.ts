@@ -2,8 +2,7 @@ import net from 'net'
 import PromiseSocket from 'promise-socket'
 
 import { logger } from '@things-factory/env'
-import { Connector } from '../types'
-import { Connections } from '../connections'
+import { Connections, Connector } from '@things-factory/integration-base'
 
 const subHeader = '5000'
 const networkNumber = '00'
