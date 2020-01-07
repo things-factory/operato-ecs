@@ -38,6 +38,7 @@
     "@things-factory/export-ui": "^2.0.0",
     "@things-factory/grist-ui": "^2.0.0",
     "@things-factory/i18n-ui": "^2.0.0",
+    "@things-factory/integration-ui": "^2.0.0",
     "@things-factory/more-ui": "^2.0.0",
     "@things-factory/resource-ui": "^2.0.0",
     "@things-factory/setting-base": "^2.0.0",

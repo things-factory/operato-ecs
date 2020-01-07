@@ -15,13 +15,13 @@ export default function route(page) {
       import('./pages/system/system-user')
       return page
 
-    case 'connection':
-      import('./pages/connection')
-      return page
+    // case 'connection':
+    //   import('./pages/connection')
+    //   return page
 
-    case 'scenario':
-      import('./pages/scenario')
-      return page
+    // case 'scenario':
+    //   import('./pages/scenario')
+    //   return page
 
     case 'board-viewer':
       import('./pages/board/res-board-viewer-page')

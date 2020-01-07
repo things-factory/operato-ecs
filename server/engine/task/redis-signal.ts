@@ -1,6 +1,6 @@
+import { Connections } from '@things-factory/integration-base'
+import { TaskRegistry } from '@things-factory/integration-base'
 import { sleep } from '../utils'
-import { TaskRegistry } from '../task-registry'
-import { Connections } from '../connections'
 
 async function redis_signal(step, { logger }) {
   var {

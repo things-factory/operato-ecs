@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, getRepository } from 'typeorm'
 import { Domain } from '@things-factory/shell'
-import { Step } from '../entities'
+import { Step } from '@things-factory/integration-base'
 
 const steps = [
   {

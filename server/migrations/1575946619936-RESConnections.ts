@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, getRepository } from 'typeorm'
 import { Domain } from '@things-factory/shell'
-import { Connection } from '../entities'
+import { Connection } from '@things-factory/integration-base'
 
 const connections = [
   {

@@ -1,5 +1,4 @@
-import { Connector } from '../types'
-import { Connections } from '../connections'
+import { Connections, Connector } from '@things-factory/integration-base'
 
 export class ABCAgv implements Connector {
   ready() {

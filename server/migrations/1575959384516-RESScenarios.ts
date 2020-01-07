@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, getRepository } from 'typeorm'
 import { Domain } from '@things-factory/shell'
-import { Scenario } from '../entities'
+import { Scenario } from '@things-factory/integration-base'
 
 const scenarios = [
   {

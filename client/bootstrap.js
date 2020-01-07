@@ -17,11 +17,11 @@ import { fetchDashboardSettings } from './viewparts/fetch-dashboard-settings'
 
 import { registerEditor, registerRenderer, TextRenderer } from '@things-factory/grist-ui'
 
-import { ConnectorSelector } from './grist/connector-selector'
-import { ConnectionSelector } from './grist/connection-selector'
-import { TaskTypeSelector } from './grist/task-type-selector'
-import { JsonGristEditor } from './grist/json-grist-editor'
-import { ParametersEditor } from './grist/parameters-editor'
+// import { ConnectorSelector } from '@things-factory/integration-ui'
+// import { ConnectionSelector } from '@things-factory/integration-ui'
+// import { TaskTypeSelector } from '@things-factory/integration-ui'
+// import { JsonGristEditor } from '@things-factory/integration-ui'
+// import { ParametersEditor } from '@things-factory/integration-ui'
 
 console.log(`
 ▄▄▄▄                         ▄▄▄▄▄  ▄▄▄     
@@ -32,16 +32,6 @@ console.log(`
 `)
 
 export default function bootstrap() {
-  registerRenderer('task-type', TextRenderer)
-  registerEditor('task-type', TaskTypeSelector)
-  registerRenderer('connector', TextRenderer)
-  registerEditor('connector', ConnectorSelector)
-  registerRenderer('connection', TextRenderer)
-  registerEditor('connection', ConnectionSelector)
-  registerRenderer('json', TextRenderer)
-  registerEditor('json', JsonGristEditor)
-  registerRenderer('parameters', TextRenderer)
-  registerEditor('parameters', ParametersEditor)
 
   store.addReducers({
     sheets,

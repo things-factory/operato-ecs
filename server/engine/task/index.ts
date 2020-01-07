@@ -6,10 +6,3 @@ import './robot-move'
 import './robot-run'
 import './watching'
 
-import './echo-send'
-import './echo-receive'
-import './sleep'
-import './log'
-import './publish'
-
-import './http-get'

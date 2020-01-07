@@ -11,6 +11,7 @@ import {
 import { Domain } from '@things-factory/shell'
 import { User } from '@things-factory/auth-base'
 
+
 @Entity('orders')
 @Index('ix_order_0', (order: Order) => [order.domain, order.name], { unique: true })
 export class Order {
