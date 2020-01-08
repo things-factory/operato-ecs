@@ -7,6 +7,8 @@ const scenarios = [
     id: '0202d38d-112f-4144-9705-0524d79e29bd',
     name: 'Robot & PLC Control',
     description: 'Robot & PLC Conntrol',
+    schedule: '* * * * * *',
+    timezone: 'Asia/Seoul',
     active: true,
     status: 0
   },
@@ -14,6 +16,8 @@ const scenarios = [
     id: 'c6f0f8b9-82a7-4a92-82eb-14cc4c3bac48',
     name: 'Test Scenario',
     description: 'Test Scenario',
+    schedule: '* * * * * *',
+    timezone: 'Asia/Seoul',
     active: true,
     status: 0
   }

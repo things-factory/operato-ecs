@@ -9,6 +9,7 @@ const connections = [
     description: 'indi-7 robot at 192.168.1.207',
     type: 'indi-robot',
     endpoint: '192.168.1.207:8818',
+    params: '',
     active: true,
     status: 0
   },
@@ -18,6 +19,7 @@ const connections = [
     description: 'mitsubishi plc at 192.168.1.208',
     type: 'mitsubishi-plc',
     endpoint: '192.168.1.208:9987',
+    params: '',
     active: true,
     status: 0
   },
@@ -27,6 +29,7 @@ const connections = [
     description: 'echo-back server at localhost',
     type: 'echo-back',
     endpoint: 'localhost:8124',
+    params: '',
     active: true,
     status: 0
   }
