@@ -4,7 +4,6 @@ import {
   Entity,
   Index,
   Column,
-  OneToMany,
   ManyToOne,
   PrimaryGeneratedColumn
 } from 'typeorm'
@@ -12,29 +11,11 @@ import { Domain } from '@things-factory/shell'
 import { User } from '@things-factory/auth-base'
 
 
-@Entity('orders')
-@Index('ix_order_0', (order: Order) => [order.domain, order.name], { unique: true })
-export class Order {
+@Entity('sale_orders')
+@Index('ix_sale_order_0', (saleOrder: SaleOrder) => [saleOrder.domain, saleOrder.name], { unique: true })
+export class SaleOrder {
   @PrimaryGeneratedColumn('uuid')
   id: string
-
-  @Column('float', {
-    nullable: true
-  })
-  orderId: number
-
-  @Column('float')
-  qty: number
-
-  @Column({
-    nullable: true
-  })
-  skuCd: string
-
-  @Column({
-    nullable: true
-  })
-  status: string
 
   @ManyToOne(type => Domain)
   domain: Domain
@@ -46,6 +27,12 @@ export class Order {
     nullable: true
   })
   description: string
+
+  @Column('float')
+  qty: number
+
+  @Column()
+  status: string
 
   @CreateDateColumn()
   createdAt: Date
