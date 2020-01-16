@@ -126,7 +126,7 @@ export default function bootstrap() {
     type: ADD_MORENDA,
     morenda: {
       icon: html`
-        <mwc-icon>view_list</mwc-icon>
+        <mwc-icon>device_hub</mwc-icon>
       `,
       name: html`
         <i18n-msg msgid="text.connection"></i18n-msg>
@@ -141,7 +141,7 @@ export default function bootstrap() {
     type: ADD_MORENDA,
     morenda: {
       icon: html`
-        <mwc-icon>view_list</mwc-icon>
+        <mwc-icon>format_list_numbered</mwc-icon>
       `,
       name: html`
         <i18n-msg msgid="text.scenario"></i18n-msg>
@@ -159,6 +159,21 @@ export default function bootstrap() {
       template: html`
         <dashboard-setting-let></dashboard-setting-let>
       `
+    }
+  })
+
+  store.dispatch({
+    type: ADD_MORENDA,
+    morenda: {
+      icon: html`
+        <mwc-icon>view_list</mwc-icon>
+      `,
+      name: html`
+        <i18n-msg msgid="text.product"></i18n-msg>
+      `,
+      action: () => {
+        navigate('products')
+      }
     }
   })
 }
