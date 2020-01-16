@@ -85,8 +85,8 @@ const steps = [
   },
   {
     id: 'd5a05ccf-8191-487f-b71d-2e9fc73ee06a',
-    name: 'sleep',
-    description: 'sleep',
+    name: 'sleep1',
+    description: 'sleep1',
     scenario: 'c6f0f8b9-82a7-4a92-82eb-14cc4c3bac48',
     sequence: 0,
     task: 'sleep',
@@ -95,8 +95,8 @@ const steps = [
   },
   {
     id: '0aa6c8ad-466b-4296-bc5b-864c702863ce',
-    name: 'log',
-    description: 'log',
+    name: 'log1',
+    description: 'log1',
     scenario: 'c6f0f8b9-82a7-4a92-82eb-14cc4c3bac48',
     sequence: 1,
     task: 'log',
@@ -105,8 +105,8 @@ const steps = [
   },
   {
     id: 'e80c1b83-512e-4163-8b18-3bb96b0b5c99',
-    name: 'sleep',
-    description: 'sleep',
+    name: 'sleep2',
+    description: 'sleep2',
     scenario: 'c6f0f8b9-82a7-4a92-82eb-14cc4c3bac48',
     sequence: 2,
     task: 'sleep',
@@ -115,7 +115,7 @@ const steps = [
   },
   {
     id: 'a1753d4c-294c-474d-a0fa-3e4692cb4116',
-    name: 'echo-send',
+    name: 'echo-send1',
     description: 'echo-send',
     scenario: 'c6f0f8b9-82a7-4a92-82eb-14cc4c3bac48',
     sequence: 3,
@@ -125,8 +125,8 @@ const steps = [
   },
   {
     id: '90857ce3-58e4-4fc8-9d38-e3a596f332dc',
-    name: 'sleep',
-    description: 'sleep',
+    name: 'sleep3',
+    description: 'sleep3',
     scenario: 'c6f0f8b9-82a7-4a92-82eb-14cc4c3bac48',
     sequence: 4,
     task: 'sleep',
@@ -135,18 +135,18 @@ const steps = [
   },
   {
     id: '9c87c70c-b9a3-4e82-b87c-2d53598aee56',
-    name: 'echo-receive',
+    name: 'echo-receive1',
     description: 'echo-receive',
     scenario: 'c6f0f8b9-82a7-4a92-82eb-14cc4c3bac48',
     sequence: 5,
     task: 'echo-receive',
     connection: 'echo-back@localhost',
-    params: null
+    params: '{}'
   },
   {
     id: '8cd25a0a-c815-45a1-bf7f-97860dabe55f',
-    name: 'sleep',
-    description: 'sleep',
+    name: 'sleep4',
+    description: 'sleep4',
     scenario: 'c6f0f8b9-82a7-4a92-82eb-14cc4c3bac48',
     sequence: 6,
     task: 'sleep',
@@ -155,7 +155,7 @@ const steps = [
   },
   {
     id: '94c4afdf-bb79-44c6-8c58-b872676e227b',
-    name: 'echo-send',
+    name: 'echo-send2',
     description: 'echo-send',
     scenario: 'c6f0f8b9-82a7-4a92-82eb-14cc4c3bac48',
     sequence: 7,
@@ -165,8 +165,8 @@ const steps = [
   },
   {
     id: 'ec2f5d76-c1a6-467e-98b8-f8ee60af86e7',
-    name: 'sleep',
-    description: 'sleep',
+    name: 'sleep5',
+    description: 'sleep5',
     scenario: 'c6f0f8b9-82a7-4a92-82eb-14cc4c3bac48',
     sequence: 8,
     task: 'sleep',
@@ -175,18 +175,18 @@ const steps = [
   },
   {
     id: 'fc332eab-99cb-4b6b-b883-3da70b36ac0d',
-    name: 'echo-receive',
+    name: 'echo-receive2',
     description: 'echo-receive',
     scenario: 'c6f0f8b9-82a7-4a92-82eb-14cc4c3bac48',
     sequence: 9,
     task: 'echo-receive',
     connection: 'echo-back@localhost',
-    params: null
+    params: '{}'
   },
   {
     id: '8b1ba43e-4cdd-48e2-a27b-9fd419990106',
-    name: 'sleep',
-    description: 'sleep',
+    name: 'sleep6',
+    description: 'sleep6',
     scenario: 'c6f0f8b9-82a7-4a92-82eb-14cc4c3bac48',
     sequence: 10,
     task: 'sleep',
@@ -195,18 +195,18 @@ const steps = [
   },
   {
     id: 'e0c20603-fa18-4f9b-b2ca-04e41829db19',
-    name: 'publish',
-    description: 'publish',
+    name: 'publish1',
+    description: 'publish1',
     scenario: 'c6f0f8b9-82a7-4a92-82eb-14cc4c3bac48',
     sequence: 11,
     task: 'publish',
     connection: null,
-    params: '{\n  "message": "Scenario End"\n}'
+    params: '{\n  "tag": "testScenarioEnd", "accessor": "echo-receive2"\n}'
   },
   {
     id: 'dba4b69b-d242-41fb-b63f-5481ab751724',
-    name: 'sleep',
-    description: 'sleep',
+    name: 'sleep7',
+    description: 'sleep7',
     scenario: 'c6f0f8b9-82a7-4a92-82eb-14cc4c3bac48',
     sequence: 12,
     task: 'sleep',
