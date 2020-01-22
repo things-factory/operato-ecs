@@ -109,7 +109,7 @@ export class TcpListnerConnector implements Connector {
     so.description = `POS_NO: ${data.POS_NO}`
     so.status  = 'INIT'
     so.qty = 0
-    getRepository(SaleOrder).save(so)
+    await getRepository(SaleOrder).save(so)
     
     details.forEach((detail, idx) => {
       qty += detail.SALE_QTY
@@ -124,7 +124,7 @@ export class TcpListnerConnector implements Connector {
       sod.product = product
       sod.qty = detail.SALE_QTY
       sod.saleOrder = so
-      getRepository(SaleOrderDetail).save(sod)
+      await getRepository(SaleOrderDetail).save(sod)
     })
 
     // so.qty = qty // FIXME
