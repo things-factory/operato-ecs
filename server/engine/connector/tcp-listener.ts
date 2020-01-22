@@ -111,7 +111,7 @@ export class TcpListnerConnector implements Connector {
     so.qty = 0
     await getRepository(SaleOrder).save(so)
     
-    details.forEach((detail, idx) => {
+    details.forEach(async (detail, idx) => {
       qty += detail.SALE_QTY
       
       let sod = new SaleOrderDetail()
