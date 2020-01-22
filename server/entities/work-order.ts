@@ -26,10 +26,10 @@ export class WorkOrder {
   @Column()
   name: string
 
-  @ManyToOne(type => Domain)
+  @ManyToOne(type => SaleOrder)
   saleOrder: SaleOrder
 
-  @ManyToOne(type => Domain)
+  @ManyToOne(type => Product)
   product: Product
 
   @Column('float')
@@ -37,7 +37,19 @@ export class WorkOrder {
 
   @Column()
   status: string
- 
+
+  @Column() // robot number
+  owner: string
+
+  @Column('float')
+  planProcessTime: number
+  
+  @Column()
+  startTime: Date
+
+  @Column()
+  finishTime: Date
+
   @CreateDateColumn()
   createdAt: Date
 
