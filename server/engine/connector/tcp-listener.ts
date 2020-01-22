@@ -5,8 +5,10 @@ import { getRepository } from 'typeorm'
 
 import { config, logger } from '@things-factory/env'
 import { Domain } from '@things-factory/shell'
+import { User } from '@things-factory/auth-base'
 import { Connections, Connector } from '@things-factory/integration-base'
 import { SaleOrder, Product, SaleOrderDetail } from '../../entities'
+import { sleep } from '../utils'
 
 export class TcpListnerConnector implements Connector {
   ready(connectionConfigs) {
@@ -14,7 +16,7 @@ export class TcpListnerConnector implements Connector {
 
     return new Promise((resolve, reject) => {
       var server = net.createServer(socket => {
-        socket.on('data', data => {
+        socket.on('data', async data => {
           logger.warn('tcpListener: ')
           logger.warn(data.toString())
           var messageString = data.toString().replace(/(\r\n|\n|\r)/gm,"")
@@ -30,12 +32,12 @@ export class TcpListnerConnector implements Connector {
           }
 
           try {
-            this.processSaleOrder(jsonData)
+            await this.processSaleOrder(jsonData)
           } catch(ex) {
             console.log('processSaleOrder: error')
             logger.error('tcpListener: processSaleOrder: ')
             logger.error(ex.stack)
-            socket.write(data.toString())
+            socket.write("error".toString())
           }
         })
 
@@ -96,10 +98,12 @@ export class TcpListnerConnector implements Connector {
     var month: any = date.getMonth() + 1
     month = month < 10 ? `0${month}` : month
     var name = `SO${data.SALE_DATE}_${data.ORG_BILL_NO}${data.BILL_NO}`;
-    var orders = [];
-    // var domain = getRepository(Domain).findOne()
-    var domain = new Domain()
-    domain.id = 'ab1e2212-792c-4586-a2b1-014d5de0b0e7'  // FIXME from buffer
+    var domain = await getRepository(Domain).findOne({ name: 'SYSTEM' })
+    // var domain = new Domain()
+    // domain.id = 'ab1e2212-792c-4586-a2b1-014d5de0b0e7'  // FIXME: from buffer
+
+    var user = await getRepository(User).findOne({ email: 'admin@hatiolab.com' })
+    var product = await getRepository(Product).findOne({ code: 'PRD001' })
 
     var qty = 0
     var so = new SaleOrder()
@@ -109,21 +113,23 @@ export class TcpListnerConnector implements Connector {
     so.description = `POS_NO: ${data.POS_NO}`
     so.status  = 'INIT'
     so.qty = 0
+    so.creator = user
+    so.updater = user
     await getRepository(SaleOrder).save(so)
     
-    details.forEach(async (detail, idx) => {
+    details.forEach(async detail => {
       qty += detail.SALE_QTY
       
       let sod = new SaleOrderDetail()
       sod.id = uuid()
       sod.domain = domain
-      let product = new Product()
-      // product.id = 'PRD001' // FIXME from buffer
-      product.id = '744c301b-fcd9-4871-a211-e0a229386549'
-      product.code = detail.PROD_CD
+      // let product = new Product()
+      // product.id = 'PRD001' // FIXME: name-id relation from buffer
       sod.product = product
-      sod.qty = detail.SALE_QTY
       sod.saleOrder = so
+      sod.qty = detail.SALE_QTY
+      sod.creator = user
+      sod.updater = user
       await getRepository(SaleOrderDetail).save(sod)
     })
 
