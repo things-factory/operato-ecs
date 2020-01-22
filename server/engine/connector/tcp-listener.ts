@@ -15,8 +15,8 @@ export class TcpListnerConnector implements Connector {
     return new Promise((resolve, reject) => {
       var server = net.createServer(socket => {
         socket.on('data', data => {
-          logger.info('tcpListener: ')
-          logger.info(data.toString())
+          logger.warn('tcpListener: ')
+          logger.warn(data.toString())
           var messageString = data.toString().replace(/(\r\n|\n|\r)/gm,"")
 					// var lastIdx = messageString.lastIndexOf("}")
 					// var firstIdx = messageString.indexOf("{")
@@ -35,14 +35,14 @@ export class TcpListnerConnector implements Connector {
             console.log('processSaleOrder: error')
             logger.error('tcpListener: processSaleOrder: ')
             logger.error(ex.stack)
-            // socket.write(data.toString())
+            socket.write(data.toString())
           }
         })
 
         socket.on('end', () => {
           // FIXME
-          console.log('socket disconnected');
-          logger.warn('tcpListener: socket disconnected')
+          console.log('client disconnected');
+          logger.warn('tcpListener: client disconnected')
         });
 
         socket.on('error', ex => {
@@ -127,10 +127,8 @@ export class TcpListnerConnector implements Connector {
       getRepository(SaleOrderDetail).save(sod)
     })
 
-    // so.qty = qty
+    // so.qty = qty // FIXME
     // getRepository(SaleOrder).save(so)
-
-    return orders;
   }
 }
 
