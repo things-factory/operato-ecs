@@ -14,7 +14,7 @@ import { SaleOrder } from './sale-order'
 import { Product } from './product'
 
 @Entity('sale_order_details')
-@Index('ix_sale_order_detail_0', (sod: SaleOrderDetail) => [sod.domain, sod.saleOrder, sod.product], { unique: true })
+// @Index('ix_sale_order_detail_0', (sod: SaleOrderDetail) => [sod.domain, sod.saleOrder, sod.product], { unique: true }) // FIXME: comment for test
 export class SaleOrderDetail {
   @PrimaryGeneratedColumn('uuid')
   id: string
@@ -22,10 +22,10 @@ export class SaleOrderDetail {
   @ManyToOne(type => Domain)
   domain: Domain
 
-  @ManyToOne(type => Domain)
+  @ManyToOne(type => SaleOrder)
   saleOrder: SaleOrder
 
-  @ManyToOne(type => Domain)
+  @ManyToOne(type => Product)
   product: Product
 
   @Column('float')
