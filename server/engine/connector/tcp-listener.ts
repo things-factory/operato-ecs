@@ -33,11 +33,12 @@ export class TcpListnerConnector implements Connector {
 
           try {
             await this.processSaleOrder(jsonData)
+            socket.write("success")
           } catch(ex) {
             console.log('processSaleOrder: error')
             logger.error('tcpListener: processSaleOrder: ')
             logger.error(ex.stack)
-            socket.write("error".toString())
+            socket.write("error")
           }
         })
 
