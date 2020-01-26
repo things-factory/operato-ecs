@@ -2,11 +2,11 @@ import { html, css } from 'lit-element'
 import { connect } from 'pwa-helpers/connect-mixin.js'
 
 import gql from 'graphql-tag'
-import { store, PageView, isMobileDevice, client, gqlBuilder } from '@things-factory/shell'
+import { store, PageView, client } from '@things-factory/shell'
+import { isMobileDevice, gqlBuilder } from '@things-factory/utils'
+import { i18next, localize } from '@things-factory/i18n-base'
 
 import '@things-factory/grist-ui'
-import { i18next, localize } from '@things-factory/i18n-base'
-import { openOverlay } from '@things-factory/layout-base'
 
 class Sheet extends connect(store)(localize(i18next)(PageView)) {
   static get properties() {

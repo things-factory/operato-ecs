@@ -1,6 +1,7 @@
 import { i18next, localize } from '@things-factory/i18n-base'
 import { openPopup } from '@things-factory/layout-base'
-import { client, gqlBuilder, store } from '@things-factory/shell'
+import { client, store } from '@things-factory/shell'
+import { gqlBuilder } from '@things-factory/utils'
 import gql from 'graphql-tag'
 import { css, html, LitElement } from 'lit-element'
 import { connect } from 'pwa-helpers'

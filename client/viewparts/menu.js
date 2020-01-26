@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
 import gql from 'graphql-tag'
-import { navigate, store, client, gqlBuilder } from '@things-factory/shell'
+import { navigate, store, client } from '@things-factory/shell'
+import { gqlBuilder } from '@things-factory/utils'
 import { connect } from 'pwa-helpers/connect-mixin.js'
 
 export class MenuPart extends connect(store)(LitElement) {
