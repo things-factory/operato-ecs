@@ -1,0 +1,22 @@
+{
+  "text.sheet management": "[ms]sheet management",
+  "text.user management": "[ms]user management",
+  "text.connection": "[ms]connection",
+  "text.scenario": "[ms]scenario",
+  "text.sure_to_x": "[ms]Sure to {x}?",
+  "text.info_x_successfully": "[ms]{x} success.",
+  "text.delete": "[ms]delete",
+  "field.board": "[ms]board",
+  "field.type": "[ms]type",
+  "field.endpoint": "[ms]endpoint",
+  "field.task": "[ms]task",
+  "field.params": "[ms]parameters",
+  "field.connection": "[ms]connection",
+  "button.commit": "[ms]commit",
+  "button.delete": "[ms]delete",
+  "button.reload": "[ms]reload",
+  "label.plcAddress": "[ms]PLC address",
+  "title.dashboard setting": "[ms]dashboard setting",
+  "title.home dashboard": "[ms]home dashboard",
+  "title.scenario-detail": "[ms]scenario detail"
+}

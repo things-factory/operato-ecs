@@ -32,7 +32,6 @@ console.log(`
 `)
 
 export default function bootstrap() {
-
   store.addReducers({
     sheets,
     dashboard
@@ -111,7 +110,7 @@ export default function bootstrap() {
     type: ADD_MORENDA,
     morenda: {
       icon: html`
-        <mwc-icon>view_list</mwc-icon>
+        <mwc-icon>people</mwc-icon>
       `,
       name: html`
         <i18n-msg msgid="text.user management"></i18n-msg>
