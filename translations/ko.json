@@ -16,6 +16,7 @@
   "button.delete": "삭제",
   "button.reload": "수정취소",
   "label.plcAddress": "PLC 메모리 주소",
+  "label.expected value": "기대값",
   "title.dashboard setting": "대시보드 설정",
   "title.home dashboard": "홈 대시보드",
   "title.scenario-detail": "시나리오 상세스텝"

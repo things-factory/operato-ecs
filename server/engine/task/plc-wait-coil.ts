@@ -3,7 +3,7 @@ import { TaskRegistry } from '@things-factory/integration-base'
 import { sleep } from '../utils'
 import { MitsubishiPLCConnector } from '../connector/mitsubishi-plc'
 
-async function watching(step, { logger }) {
+async function plcWaitForCoil(step, { logger }) {
   var {
     connection,
     params: { plcAddress: address, value, delay }
@@ -21,7 +21,7 @@ async function watching(step, { logger }) {
     af_address = '0' + af_address
   }
   var readStartDevice = af_address
-  var sendMessage = MitsubishiPLCConnector.getReadCommand(deviceCode, readStartDevice)
+  var sendMessage = MitsubishiPLCConnector.getReadCoilCommand(deviceCode, readStartDevice)
 
   while (true) {
     await socket.write(sendMessage)
@@ -40,7 +40,10 @@ async function watching(step, { logger }) {
 
       if (value == coilValue) {
         logger.info('received response is ok. required: %s, received: %s', value, coilValue)
-        break
+
+        return {
+          data: coilValue
+        }
       } else {
         logger.info('received response, but not accepted. required: %s, received: %s', value, coilValue)
         await sleep(delay)
@@ -53,7 +56,7 @@ async function watching(step, { logger }) {
   }
 }
 
-watching.parameterSpec = [
+plcWaitForCoil.parameterSpec = [
   {
     type: 'string',
     name: 'plcAddress',
@@ -62,7 +65,7 @@ watching.parameterSpec = [
   {
     type: 'string',
     name: 'value',
-    label: 'value'
+    label: 'expected value'
   },
   {
     type: 'number',
@@ -72,4 +75,6 @@ watching.parameterSpec = [
   }
 ]
 
-TaskRegistry.registerTaskHandler('watching', watching)
+TaskRegistry.registerTaskHandler('plc-wait-coil', plcWaitForCoil)
+/* DEPRECATED 'watching' 태스크는 deprecated 되었으므로, 'plc-wait-coil' 태스크를 사용할 것. */
+TaskRegistry.registerTaskHandler('watching', plcWaitForCoil)

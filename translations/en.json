@@ -16,6 +16,7 @@
   "button.delete": "delete",
   "button.reload": "reload",
   "label.plcAddress": "PLC address",
+  "label.expected value": "expected value",
   "title.dashboard setting": "dashboard setting",
   "title.home dashboard": "home dashboard",
   "title.scenario-detail": "scenario detail"

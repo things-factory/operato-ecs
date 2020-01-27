@@ -19,7 +19,7 @@ const steps = [
     description: 'plc on',
     scenario: '0202d38d-112f-4144-9705-0524d79e29bd',
     sequence: 1,
-    task: 'onoff',
+    task: 'plc-write-coil',
     connection: 'plc@192.168.1.208',
     params: '{\n  "plcAddress": "M0",\n  "value": 1\n}'
   },
@@ -29,7 +29,7 @@ const steps = [
     description: 'plc watching',
     scenario: '0202d38d-112f-4144-9705-0524d79e29bd',
     sequence: 2,
-    task: 'watching',
+    task: 'plc-wait-coil',
     connection: 'plc@192.168.1.208',
     params: '{\n  "plcAddress": "Y3",\n  "value": 1\n}'
   },
@@ -39,7 +39,7 @@ const steps = [
     description: 'plc off',
     scenario: '0202d38d-112f-4144-9705-0524d79e29bd',
     sequence: 3,
-    task: 'onoff',
+    task: 'plc-write-coil',
     connection: 'plc@192.168.1.208',
     params: '{\n  "plcAddress": "M0",\n  "value": 0\n}'
   },

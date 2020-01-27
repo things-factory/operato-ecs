@@ -1,11 +1,8 @@
 import { Connections } from '@things-factory/integration-base'
 import { TaskRegistry } from '@things-factory/integration-base'
 
-async function robot_move(step, { logger }) {
-  var {
-    connection,
-    params: { position }
-  } = step
+async function robot_home(step, { logger }) {
+  var { connection } = step
 
   var socket = Connections.getConnection(connection)
   if (!socket) {
@@ -15,8 +12,7 @@ async function robot_move(step, { logger }) {
   await socket.write(
     JSON.stringify({
       command: '02',
-      fromPosition: position,
-      actionType: 'R_MOVE'
+      actionType: 'R_HOME'
     })
   )
 
@@ -37,7 +33,7 @@ async function robot_move(step, { logger }) {
   logger.info(`received response : ${logData}`)
 
   var json = JSON.parse(logData)
-  if (json.command == '03') {
+  if (json.command == '05') {
     // ok
   } else if (json.command == '09') {
     // error
@@ -48,12 +44,6 @@ async function robot_move(step, { logger }) {
   }
 }
 
-robot_move.parameterSpec = [
-  {
-    type: 'string',
-    name: 'position',
-    label: 'position'
-  }
-]
+robot_home.parameterSpec = []
 
-TaskRegistry.registerTaskHandler('robot_move', robot_move)
+TaskRegistry.registerTaskHandler('robot_home', robot_home)

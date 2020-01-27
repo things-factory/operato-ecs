@@ -2,7 +2,7 @@ import { Connections } from '@things-factory/integration-base'
 import { TaskRegistry } from '@things-factory/integration-base'
 import { MitsubishiPLCConnector } from '../connector/mitsubishi-plc'
 
-async function onoff(step, { logger }) {
+async function plcWriteWord(step, { logger }) {
   var {
     connection,
     params: { plcAddress: address, value }
@@ -24,13 +24,20 @@ async function onoff(step, { logger }) {
   }
   var writeStartDevice = af_address
 
-  if (w_value == 1) {
-    var writeCoilValue = '1'
-  } else {
-    var writeCoilValue = '0'
+  var valueDefine = Number(value).toString(16)
+  var writeWordValue = ''
+
+  if (valueDefine.length == 1) {
+    writeWordValue = '000' + Number(value).toString(16)
+  } else if (valueDefine.length == 2) {
+    writeWordValue = '00' + Number(value).toString(16)
+  } else if (valueDefine.length == 3) {
+    writeWordValue = '0' + Number(value).toString(16)
+  } else if (valueDefine.length == 4) {
+    writeWordValue = Number(value).toString(16)
   }
 
-  var sendMessage = MitsubishiPLCConnector.getWriteCommand(deviceCode, writeStartDevice, writeCoilValue)
+  var sendMessage = MitsubishiPLCConnector.getWriteWordCommand(deviceCode, writeStartDevice, writeWordValue)
   logger.info(sendMessage)
 
   await socket.write(sendMessage)
@@ -41,17 +48,16 @@ async function onoff(step, { logger }) {
   }
 
   var content = response.toString()
+  var writtenValue = content.substring(22, 26)
 
-  if (content.substring(17, 18) == '4') {
-    logger.info('received response.')
-    // ok
-  } else {
-    // error
-    throw new Error('response not applicable')
+  logger.info(`received response: ${content}`)
+
+  return {
+    data: parseInt(writtenValue, 16)
   }
 }
 
-onoff.parameterSpec = [
+plcWriteWord.parameterSpec = [
   {
     type: 'string',
     name: 'plcAddress',
@@ -65,4 +71,4 @@ onoff.parameterSpec = [
   }
 ]
 
-TaskRegistry.registerTaskHandler('onoff', onoff)
+TaskRegistry.registerTaskHandler('plc-write-word', plcWriteWord)

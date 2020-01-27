@@ -11,16 +11,19 @@ const requireIoNumber = '03FF'
 const requireMultiNumber = '00'
 const readrequireLength = '0018'
 const writerequireLength = '0019'
+const writewordrequireLength = '001C'
 const reserve = '0000'
 const readCommand = '0401'
-const readSubCommand = '0001'
+const readWordSubCommand = '0000'
+const readCoilSubCommand = '0001'
 const writeCommand = '1401'
+const writeWordSubCommand = '0000'
 const writeSubCommand = '0001'
 const readLengthDevice = '0001'
 const writeLengthDevice = '0001'
 
 export class MitsubishiPLCConnector implements Connector {
-  static getWriteCommand(deviceCode, writeStartDevice, writeCoilValue) {
+  static getWriteCoilCommand(deviceCode, writeStartDevice, writeCoilValue) {
     return (
       subHeader +
       networkNumber +
@@ -38,7 +41,25 @@ export class MitsubishiPLCConnector implements Connector {
     )
   }
 
-  static getReadCommand(deviceCode, readStartDevice) {
+  static getWriteWordCommand(deviceCode, writeStartDevice, writeWordValue) {
+    return (
+      subHeader +
+      networkNumber +
+      requireNumber +
+      requireIoNumber +
+      requireMultiNumber +
+      writewordrequireLength +
+      reserve +
+      writeCommand +
+      writeWordSubCommand +
+      deviceCode +
+      writeStartDevice +
+      writeLengthDevice +
+      writeWordValue
+    )
+  }
+
+  static getReadCoilCommand(deviceCode, readStartDevice) {
     return (
       subHeader +
       networkNumber +
@@ -48,7 +69,24 @@ export class MitsubishiPLCConnector implements Connector {
       readrequireLength +
       reserve +
       readCommand +
-      readSubCommand +
+      readCoilSubCommand +
+      deviceCode +
+      readStartDevice +
+      readLengthDevice
+    )
+  }
+
+  static getReadWordCommand(deviceCode, readStartDevice) {
+    return (
+      subHeader +
+      networkNumber +
+      requireNumber +
+      requireIoNumber +
+      requireMultiNumber +
+      readrequireLength +
+      reserve +
+      readCommand +
+      readWordSubCommand +
       deviceCode +
       readStartDevice +
       readLengthDevice
