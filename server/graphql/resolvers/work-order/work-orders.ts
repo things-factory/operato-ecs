@@ -1,12 +1,14 @@
-import { buildQuery, ListParam } from '@things-factory/shell'
+import { convertListParams, ListParam } from '@things-factory/shell'
 import { getRepository } from 'typeorm'
 import { WorkOrder } from '../../../entities'
 
 export const workOrders = {
   async workOrders(_: any, params: ListParam, context: any) {
-    const queryBuilder = getRepository(WorkOrder).createQueryBuilder()
-    buildQuery(queryBuilder, params, context)
-    const [items, total] = await queryBuilder.getManyAndCount()
+    const convertedParams = convertListParams(params, context.state.domain.id)
+    const [items, total] = await getRepository(WorkOrder).findAndCount({
+      ...convertedParams,
+      relations: ['domain', 'saleOrder', 'product', 'creator', 'updater']
+    })
 
     return { items, total }
   }
