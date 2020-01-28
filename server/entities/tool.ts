@@ -39,6 +39,9 @@ export class Tool {
   cycleCount: number
 
   @Column()
+  type: string
+  
+  @Column()
   status: string
 
   @Column({

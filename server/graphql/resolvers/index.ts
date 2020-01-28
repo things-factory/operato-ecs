@@ -4,6 +4,7 @@ import * as BoardSetting from './board-setting'
 import * as Product from './product'
 import * as SaleOrder from './sale-order'
 import * as WorkOrder from './work-order'
+import * as Tool from './tool'
 
 
 export const queries = [
@@ -12,7 +13,8 @@ export const queries = [
   BoardSetting.Query,
   Product.Query,
   SaleOrder.Query,
-  WorkOrder.Query
+  WorkOrder.Query,
+  Tool.Query
 ]
 
 export const mutations = [
@@ -20,7 +22,8 @@ export const mutations = [
   Stock.Mutation,
   Product.Mutation,
   SaleOrder.Mutation,
-  WorkOrder.Mutation
+  WorkOrder.Mutation,
+  Tool.Mutation
 ]
 
 // export const subscriptions = [Scenario.Subscription]
