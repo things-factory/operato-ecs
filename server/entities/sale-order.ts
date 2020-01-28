@@ -28,6 +28,11 @@ export class SaleOrder {
   })
   description: string
 
+  @Column({
+    nullable: true
+  })
+  posNo: string
+
   @Column('float')
   qty: number
 

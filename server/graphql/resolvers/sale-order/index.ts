@@ -3,6 +3,7 @@ import { saleOrderDetails } from './sale-order-details'
 
 import { createSaleOrder } from './create-sale-order'
 import { createSaleOrderDetail } from './create-sale-order-details'
+import { saleOrderSplit } from './sale-order-split'
 
 export const Query = {
   ...saleOrders,
@@ -12,4 +13,5 @@ export const Query = {
 export const Mutation = {
   ...createSaleOrder,
   ...createSaleOrderDetail,
+  ...saleOrderSplit
 }

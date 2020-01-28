@@ -14,7 +14,7 @@ import { SaleOrder } from './sale-order'
 import { Product } from './product'
 
 @Entity('sale_order_details')
-// @Index('ix_sale_order_detail_0', (sod: SaleOrderDetail) => [sod.domain, sod.saleOrder, sod.product], { unique: true }) // FIXME: comment for test
+@Index('ix_sale_order_detail_0', (sod: SaleOrderDetail) => [sod.domain, sod.saleOrder, sod.product], { unique: true })
 export class SaleOrderDetail {
   @PrimaryGeneratedColumn('uuid')
   id: string
@@ -30,6 +30,9 @@ export class SaleOrderDetail {
 
   @Column('float')
   qty: number
+
+  @Column()
+  status: string
 
   @CreateDateColumn()
   createdAt: Date

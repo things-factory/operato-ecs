@@ -38,16 +38,24 @@ export class WorkOrder {
   @Column()
   status: string
 
-  @Column() // robot number
+  @Column({
+    nullable: true
+  }) // robot number
   owner: string
 
-  @Column('float')
+  @Column('float', {
+    nullable: true
+  })
   planProcessTime: number
   
-  @Column()
+  @Column({
+    nullable: true
+  })
   startTime: Date
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   finishTime: Date
 
   @CreateDateColumn()

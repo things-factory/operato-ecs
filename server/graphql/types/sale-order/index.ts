@@ -15,6 +15,9 @@ export const Mutation = `
   createSaleOrderDetail (
     saleOrderDetail: NewSaleOrderDetail!
   ): SaleOrderDetail
+  saleOrderSplit (
+    params: NewSaleOrder!
+  ): SaleOrder
 `
 
 // export const Mutation = ``

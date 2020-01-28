@@ -73,6 +73,7 @@
     "@things-scene/table": "*",
     "@things-scene/visualizer": "*",
     "@things-scene/wheel-sorter": "*",
+    "node-cache": "^5.1.0",
     "promise-socket": "^6.0.2"
   },
   "devDependencies": {

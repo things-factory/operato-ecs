@@ -5,13 +5,15 @@ import { getRepository } from 'typeorm'
 import { ListParam, convertListParams, pubsub } from '@things-factory/shell'
 
 import { SaleOrder, SaleOrderDetail, WorkOrder } from '../../../entities'
-import { createWorkOrder } from '../work-order/create-work-order'
-
 
 export const saleOrderSplit = {
-  async saleOrderSplit(_, params: ListParam, context: any) {
+  async saleOrderSplit(_, params: ListParam, context: any) {  // params: saleOrderId: 123123
     // get sale order
-    const convertedParams = convertListParams(params, context.state.domain.id)
+    var convertedParams = convertListParams(params, context.state.domain.id)
+    convertedParams = {
+      ...convertedParams,
+      status: 'INIT'
+    }
     const [items, total] = await getRepository(SaleOrderDetail).findAndCount({
       ...convertedParams,
       relations: ['domain', 'material', 'scenario', 'updater']
@@ -23,13 +25,14 @@ export const saleOrderSplit = {
     }
 
     let wos = []
-    const dateStr = new Date().toISOString().substring(0, 10).replace('-', '')
-    items.forEach(async (so) => {
-      let random = (Math.random().toString(36).substring(2, 6) + Math.random().toString(36).substring(2, 6)).toUpperCase()
+    items.forEach(async (sod) => {
+      let random = (Math.random().toString(36).substring(2, 6) + Math.random().toString(36).substring(2, 4)).toUpperCase()
+      let soName = sod.saleOrder.name.substring(2)
       let wo = {
-        ...so,
-        name: `ORD${dateStr}${so.product.code}${random}`,
-        status: 'INIT'
+        ...sod,
+        name: `WO${soName}${sod.product.code}${random}`,
+        status: 'INIT',
+        qty: 1
       }
 
       // create work order  // TODO TRANSACTION
@@ -37,7 +40,7 @@ export const saleOrderSplit = {
       wos.push(wo)
     });
 
-    this.publishData('workorder', { items: wos })
+    // this.publishData('workorder', { items: wos })
   },
 
   async createWorkOrder(wo: WorkOrder) {
@@ -50,12 +53,12 @@ export const saleOrderSplit = {
     return await repository.save(newWorkOrder)
   },
 
-  publishData(tag='workorder', data={}) {
-    pubsub.publish('publish-data', {
-      publishData: {
-        tag,
-        data
-      }
-    })
-  }
+  // publishData(tag='workorder', data={}) {
+  //   pubsub.publish('publish-data', {
+  //     publishData: {
+  //       tag,
+  //       data
+  //     }
+  //   })
+  // }
 }
