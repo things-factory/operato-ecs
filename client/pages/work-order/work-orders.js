@@ -5,7 +5,7 @@ import { client, CustomAlert, gqlBuilder, isMobileDevice, PageView } from '@thin
 import { i18next, localize } from '@things-factory/i18n-base'
 import { css, html } from 'lit-element'
 
-class Products extends localize(i18next)(PageView) {
+class WorkOrders extends localize(i18next)(PageView) {
   static get properties() {
     return {
       // _searchFields: Array,
@@ -51,19 +51,19 @@ class Products extends localize(i18next)(PageView) {
 
   get context() {
     return {
-      title: i18next.t('title.product'),
+      title: i18next.t('title.workorder'),
       actions: [
         {
           title: i18next.t('button.save'),
-          action: this._saveProduct.bind(this)
+          action: this._saveWorkOrder.bind(this)
         },
         {
           title: i18next.t('button.delete'),
-          action: this._deleteProduct.bind(this)
+          action: this._deleteWorkOrder.bind(this)
         }
       ],
       exportable: {
-        name: i18next.t('title.product'),
+        name: i18next.t('title.workorder'),
         data: this._exportableData.bind(this)
       },
       // importable: {
@@ -75,7 +75,7 @@ class Products extends localize(i18next)(PageView) {
   async pageInitialized() {
     this._searchFields = [
       {
-        label: i18next.t('field.product'),
+        label: i18next.t('field.workorder'),
         name: 'code',
         type: 'text',
         props: { searchOper: 'i_like' }
@@ -85,23 +85,12 @@ class Products extends localize(i18next)(PageView) {
     this.config = {
       rows: { selectable: { multiple: true } },
       list: {
-        fields: ['code', 'name', 'description', 'group1', 'group2', 'type', 'updatedAt', 'updater']
+        fields: ['id', 'name', 'qty', 'saleOrder', 'product', 'status', 'updatedAt', 'updater']
       },
       columns: [
         { type: 'gutter', gutterName: 'dirty' },
         { type: 'gutter', gutterName: 'sequence' },
         { type: 'gutter', gutterName: 'row-selector', multiple: true },
-        {
-          type: 'string',
-          name: 'code',
-          header: i18next.t('field.code'),
-          sortable: true,
-          width: 120,
-          record: {
-            align: 'center',
-            editable: true
-          }
-        },
         {
           type: 'string',
           name: 'name',
@@ -115,54 +104,41 @@ class Products extends localize(i18next)(PageView) {
         },
         {
           type: 'string',
-          name: 'description',
-          header: i18next.t('field.description'),
+          name: 'qty',
+          header: i18next.t('field.qty'),
           sortable: true,
-          width: 180,
+          width: 60,
+          // hidden: true,
           record: {
             align: 'center',
             editable: true
           }
         },
         {
-          type: 'string',
-          name: 'group1',
-          header: i18next.t('field.group1'),
-          sortable: true,
-          width: 60,
+          type: 'object',
+          name: 'updater',
+          header: i18next.t('field.saleOrder'),
           hidden: true,
           record: {
-            align: 'center',
-            editable: true
-          }
+            editable: false
+          },
+          width: 120
+        },
+        {
+          type: 'object',
+          name: 'updater',
+          header: i18next.t('field.product'),
+          record: {
+            editable: false
+          },
+          width: 120
         },
         {
           type: 'string',
-          name: 'group2',
-          header: i18next.t('field.group2'),
+          name: 'status',
+          header: i18next.t('field.status'),
           sortable: true,
-          width: 120,
-          record: {
-            align: 'center',
-            editable: true
-          }
-        },
-        {
-          type: 'string',
-          name: 'type',
-          header: i18next.t('field.type'),
-          sortable: true,
-          width: 60,
-          record: {
-            align: 'center',
-            editable: true
-          }
-        },
-        {
-          type: 'boolean',
-          name: 'active',
-          header: i18next.t('field.active'),
-          width: 50,
+          width: 100,
           record: {
             align: 'center',
             editable: true
@@ -204,20 +180,26 @@ class Products extends localize(i18next)(PageView) {
     const response = await client.query({
       query: gql`
         query {
-          products(${gqlBuilder.buildArgs({
+          workOrders(${gqlBuilder.buildArgs({
             filters: this.searchForm.queryFilters,
             pagination: { page, limit },
             sortings: sorters
           })}) {
             items {
               id
-              code
               name
-              description
-              group1
-              group2
-              type
-              active
+              qty
+              status
+              saleOrder {
+                id
+                name
+                description
+              }
+              product {
+                id
+                name
+                description
+              }
               updater {
                 id
                 name
@@ -238,25 +220,21 @@ class Products extends localize(i18next)(PageView) {
     }
 
     return {
-      total: response.data.products.total || 0,
-      records: response.data.products.items || []
+      total: response.data.workOrders.total || 0,
+      records: response.data.workOrders.items || []
     }
   }
 
-  async _saveProduct() {
+  async _saveWorkOrder() {
     let patches = this.dataGrist.exportPatchList({ flagName: 'cuFlag' })
     if (patches && patches.length) {
       const response = await client.query({
         query: gql`
           mutation {
-            updateMultipleProduct(${gqlBuilder.buildArgs({
+            updateMultipleWorkOrder(${gqlBuilder.buildArgs({
               patches
             })}) {
-              code
               name
-              description
-              type
-              active
             }
           }
         `
@@ -275,7 +253,7 @@ class Products extends localize(i18next)(PageView) {
     }
   }
 
-  async _deleteProduct() {
+  async _deleteWorkOrder() {
     CustomAlert({
       title: i18next.t('text. are_you_sure'),
       text: i18next.t('text.you_want_be_able_to_revert_this'),
@@ -289,7 +267,7 @@ class Products extends localize(i18next)(PageView) {
             const response = await client.query({
               query: gql`
                 mutaion {
-                  deleteProduct(${gqlBuilder.buildArgs({ ids })})
+                  deleteWorkOrder(${gqlBuilder.buildArgs({ ids })})
                 }
               `
             })
@@ -360,4 +338,4 @@ class Products extends localize(i18next)(PageView) {
   }
 }
 
-window.customElements.define('product-page', Products)
+window.customElements.define('workorder-page', WorkOrders)

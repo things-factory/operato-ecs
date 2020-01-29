@@ -30,5 +30,13 @@ export default function route(page) {
     case 'products':
       import('./pages/product/products')
       return page
+
+    case 'sale-orders':
+      import('./pages/sale-order/sale-orders')
+      return page
+
+    case 'work-orders':
+      import('./pages/work-order/work-orders')
+      return page
   }
 }

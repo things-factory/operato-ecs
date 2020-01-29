@@ -7,6 +7,8 @@ export const Product = gql`
     code: String!
     name: String!
     description: String
+    group1: String
+    group2: String
     type: String
     active: Boolean
     updater: User

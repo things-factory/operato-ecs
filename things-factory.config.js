@@ -31,6 +31,14 @@ export default {
     {
       tagname: 'product-page',
       page: 'products'
+    },
+    {
+      tagname: 'saleorder-page',
+      page: 'sale-orders'
+    },
+    {
+      tagname: 'workorder-page',
+      page: 'work-orders'
     }
   ],
   route
