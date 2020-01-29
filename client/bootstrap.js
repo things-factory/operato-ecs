@@ -15,14 +15,6 @@ import dashboard from './reducers/dashboard-settings'
 import { UPDATE_DASHBOARD_SETTINGS } from './actions/dashboard-settings'
 import { fetchDashboardSettings } from './viewparts/fetch-dashboard-settings'
 
-import { registerEditor, registerRenderer, TextRenderer } from '@things-factory/grist-ui'
-
-// import { ConnectorSelector } from '@things-factory/integration-ui'
-// import { ConnectionSelector } from '@things-factory/integration-ui'
-// import { TaskTypeSelector } from '@things-factory/integration-ui'
-// import { JsonGristEditor } from '@things-factory/integration-ui'
-// import { ParametersEditor } from '@things-factory/integration-ui'
-
 console.log(`
 ▄▄▄▄                         ▄▄▄▄▄  ▄▄▄     
 ▓   ▓      ▄         ▄       ▓     ▓   ▀
