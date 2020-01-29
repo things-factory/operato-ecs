@@ -151,7 +151,11 @@ export class TcpListnerConnector implements Connector {
         if (products) {
           product = products[detail['PROD_CD']]
         } else {
-          throw 'product code not found'
+          var productRepo = trxMgr.getRepository(Product)
+          product = await productRepo.findOne({ code: detail['PROD_CD'] })
+          if (!product) {
+            throw 'product code not found'
+          }
         }
 
         sod.saleOrder = so
