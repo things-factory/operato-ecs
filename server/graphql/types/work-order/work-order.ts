@@ -2,9 +2,9 @@ import gql from 'graphql-tag'
 
 export const WorkOrder = gql`
   type WorkOrder {
-    id: String!
+    id: String
     domain: Domain
-    name: String!
+    name: String
     qty: Float
     status: String
     saleOrder: SaleOrder

@@ -2,14 +2,18 @@ import { getRepository } from 'typeorm'
 import { WorkOrder } from '../../../entities'
 
 export const updateWorkOrder = {
-  async updateWorkOrder(_, { id, patch }) {
+  async updateWorkOrder(_, { id, patch }, context: any) {
     const repository = getRepository(WorkOrder)
 
-    const product = await repository.findOne({ id })
+    const workorder = await repository.findOne({ id })
+    if (!workorder) {
+      return {}
+    }
 
     return await repository.save({
-      ...product,
-      ...patch
+      ...workorder,
+      ...patch,
+      updater: context.state.user
     })
   }
 }
