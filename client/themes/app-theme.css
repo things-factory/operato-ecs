@@ -1,12 +1,12 @@
 body {
   /* common style */
-  --primary-color: #6e7ebd;
+  --primary-color-rgb: 110, 126, 189;
+  --primary-color: rgb(var(--primary-color-rgb));
   --secondary-color: #4c526b;
   --focus-color: #fff;
   --primary-background-color: var(--secondary-color);
   --secondary-background-color: #4c567f;
   --main-section-background-color: #f4f7fb;
-  --primary-color-rgb: 110, 126, 189;
 
   --focus-background-color: var(--primary-color);
   --primary-text-color: var(--secondary-color);
