@@ -38,7 +38,8 @@
     "@things-factory/export-ui": "^2.0.0",
     "@things-factory/grist-ui": "^2.0.0",
     "@things-factory/i18n-ui": "^2.0.0",
-    "@things-factory/integration-ui": "^2.0.0",
+    "@things-factory/integration-base": "git+https://github.com/things-factory/integration-base.git#start-scenario-with-initdata",
+    "@things-factory/integration-ui": "^2.0.6",
     "@things-factory/more-ui": "^2.0.0",
     "@things-factory/resource-ui": "^2.0.0",
     "@things-factory/setting-base": "^2.0.0",
@@ -72,6 +73,7 @@
     "@things-scene/table": "*",
     "@things-scene/visualizer": "*",
     "@things-scene/wheel-sorter": "*",
+    "node-cache": "^5.1.0",
     "promise-socket": "^6.0.2"
   },
   "devDependencies": {
