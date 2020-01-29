@@ -30,6 +30,21 @@ export class Product {
   })
   description: string
 
+  @Column({
+    nullable: true
+  })
+  group1: string
+
+  @Column({
+    nullable: true
+  })
+  group2: string
+
+  @Column({
+    nullable: true
+  })
+  group3: string
+
   @Column()
   type: string  // R(robot), H(Human)
 
@@ -42,6 +57,11 @@ export class Product {
     nullable: true
   })
   uom: string
+
+  @Column('float', {
+    nullable: true
+  })
+  price: number
 
   @CreateDateColumn()
   createdAt: Date
