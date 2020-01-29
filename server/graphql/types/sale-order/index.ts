@@ -16,7 +16,7 @@ export const Mutation = `
     saleOrderDetail: NewSaleOrderDetail!
   ): SaleOrderDetail
   saleOrderSplit (
-    params: NewSaleOrder!
+    saleOrderId: String!
   ): SaleOrder
 `
 

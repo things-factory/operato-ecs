@@ -7,16 +7,15 @@ import { ListParam, convertListParams, pubsub } from '@things-factory/shell'
 import { SaleOrder, SaleOrderDetail, WorkOrder } from '../../../entities'
 
 export const saleOrderSplit = {
-  async saleOrderSplit(_, params: ListParam, context: any) {  // params: saleOrderId: 123123
+  async saleOrderSplit(_, { saleOrderId }, context: any) {  // params: saleOrderId: 123123
     // get sale order
-    var convertedParams = convertListParams(params, context.state.domain.id)
-    convertedParams = {
-      ...convertedParams,
+    var params = {
+      saleOrderId,
       status: 'INIT'
     }
     const [items, total] = await getRepository(SaleOrderDetail).findAndCount({
-      ...convertedParams,
-      relations: ['domain', 'material', 'scenario', 'updater']
+      ...params,
+      relations: ['domain', 'saleOrder', 'product', 'updater']
     })
 
     // split
@@ -25,32 +24,30 @@ export const saleOrderSplit = {
     }
 
     let wos = []
-    items.forEach(async (sod) => {
-      let random = (Math.random().toString(36).substring(2, 6) + Math.random().toString(36).substring(2, 4)).toUpperCase()
-      let soName = sod.saleOrder.name.substring(2)
-      let wo = {
-        ...sod,
-        name: `WO${soName}${sod.product.code}${random}`,
-        status: 'INIT',
-        qty: 1
+    const repository = getRepository(WorkOrder)
+    items.forEach(async sod => {
+      for (let i = 0; i < sod.qty; i++) {
+        let random = (Math.random().toString(36).substring(2, 6) + Math.random().toString(36).substring(2, 4)).toUpperCase()
+        let soName = sod.saleOrder.name.substring(2)
+        let wo = {
+          ...sod,
+          name: `WO${soName}${sod.product.code}${random}`,
+          status: 'INIT',
+          qty: 1
+        }
+  
+        // create work order  // TODO TRANSACTION
+        let newWorkOrder = {
+          ...wo,
+          id: uuid(),
+        }
+  
+        await repository.save(newWorkOrder)
+        wos.push(newWorkOrder)
       }
-
-      // create work order  // TODO TRANSACTION
-      await this.createWorkOrder(wo)
-      wos.push(wo)
     });
 
     // this.publishData('workorder', { items: wos })
-  },
-
-  async createWorkOrder(wo: WorkOrder) {
-    const repository = getRepository(WorkOrder)
-    const newWorkOrder = {
-      id: uuid(),
-      ...wo
-    }
-
-    return await repository.save(newWorkOrder)
   },
 
   // publishData(tag='workorder', data={}) {
