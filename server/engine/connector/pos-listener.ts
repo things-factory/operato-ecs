@@ -19,41 +19,41 @@ export class TcpListnerConnector implements Connector {
         socket.on('data', async data => {
           logger.warn('tcpListener: ')
           logger.warn(data.toString())
-          var messageString = data.toString().replace(/(\r\n|\n|\r)/gm,"")
-					var lastIdx = messageString.lastIndexOf("}")
-					var firstIdx = messageString.indexOf("{")
-					var dataString = messageString.substring(firstIdx, lastIdx+1)
-          
+          var messageString = data.toString().replace(/(\r\n|\n|\r)/gm, '')
+          var lastIdx = messageString.lastIndexOf('}')
+          var firstIdx = messageString.indexOf('{')
+          var dataString = messageString.substring(firstIdx, lastIdx + 1)
+
           try {
             var jsonData = JSON.parse(dataString)
-          } catch(ex) {
+          } catch (ex) {
             logger.error('tcpListener: jsonParse: ')
             logger.error(ex.stack)
-            socket.write("error")
+            socket.write('error')
           }
 
           try {
             await this.processSaleOrder(jsonData)
-            socket.write("success")
-          } catch(ex) {
+            socket.write('success')
+          } catch (ex) {
             console.log('processSaleOrder: error')
             logger.error('tcpListener: processSaleOrder: ')
             logger.error(ex.stack)
-            socket.write("error")
+            socket.write('error')
           }
         })
 
         socket.on('end', () => {
           // FIXME
-          console.log('client disconnected');
+          console.log('client disconnected')
           logger.warn('tcpListener: client disconnected')
-        });
+        })
 
         socket.on('error', ex => {
           // FIXME
           logger.error('tcpListener: error: ')
           console.log(ex.stack)
-        });
+        })
       })
 
       server.listen(CONFIG.port, async () => {
@@ -65,13 +65,13 @@ export class TcpListnerConnector implements Connector {
       })
     })
   }
-  
+
   async connect(connection) {
     let socket = new PromiseSocket(new net.Socket())
     let [host, port = 13766] = connection.endpoint.split(':')
     let { timeout = 30000 } = connection.params || {}
 
-    socket.setTimeout(timeout)
+    socket.setTimeout(Number(timeout))
     await socket.connect(port, host)
     Connections.addConnection(connection.name, socket)
   }
@@ -97,12 +97,12 @@ export class TcpListnerConnector implements Connector {
     await getManager().transaction(async (trxMgr: EntityManager) => {
       // TODO cancel
 
-      var details = data.PRODUCT;
-      var date = new Date();
+      var details = data.PRODUCT
+      var date = new Date()
       var month: any = date.getMonth() + 1
       month = month < 10 ? `0${month}` : month
-      var name = `SO${data.SALE_DATE}${data.ORG_BILL_NO}${data.BILL_NO}`;
-      
+      var name = `SO${data.SALE_DATE}${data.ORG_BILL_NO}${data.BILL_NO}`
+
       var _cache = config._CACHE
 
       var domains = _cache.get('DOMAIN')
@@ -130,17 +130,17 @@ export class TcpListnerConnector implements Connector {
       so.domain = domain
       // so.description = `POS_NO: ${}`
       so.posNo = data.POS_NO
-      so.status  = 'INIT'
+      so.status = 'INIT'
       so.qty = 0
       so.creator = user
       so.updater = user
       var saleOrderRepo = getRepository(SaleOrder)
       await saleOrderRepo.save(so)
-      
+
       let saleOrderDetailRepo = getRepository(SaleOrderDetail)
       details.forEach(async detail => {
         qty += parseFloat(detail.SALE_QTY)
-        
+
         let sod = new SaleOrderDetail()
         sod.id = uuid()
         sod.domain = domain
@@ -169,11 +169,12 @@ export class TcpListnerConnector implements Connector {
 
       // so.qty = qty // FIXME
       // saleOrderRepo.save(so)
-      await trxMgr.createQueryBuilder()
+      await trxMgr
+        .createQueryBuilder()
         .update(SaleOrder)
         .set({ qty: qty })
-        .where("id = :id", { id: so.id })
-        .execute();
+        .where('id = :id', { id: so.id })
+        .execute()
     })
   }
 }
