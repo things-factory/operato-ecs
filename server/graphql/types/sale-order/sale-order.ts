@@ -8,6 +8,7 @@ export const SaleOrder = gql`
     description: String
     qty: Float
     status: String
+    details: [SaleOrderDetail]
     updater: User
     creator: User
     updatedAt: String

@@ -1,4 +1,5 @@
 import { SingleColumnFormStyles } from '@things-factory/form-ui'
+import { openPopup } from '@things-factory/layout-base'
 import '@things-factory/grist-ui'
 import gql from 'graphql-tag'
 import { client, CustomAlert, gqlBuilder, isMobileDevice, PageView } from '@things-factory/shell'
@@ -101,7 +102,7 @@ class SaleOrders extends localize(i18next)(PageView) {
               if (!record.id) return
               openPopup(
                 html`
-                  <saleorder-detail .saleorder=${record}></saleorder-detail>
+                  <sale-order-detail .saleorder=${record}></sale-order-detail>
                 `,
                 {
                   backdrop: true,
@@ -110,6 +111,18 @@ class SaleOrders extends localize(i18next)(PageView) {
                 }
               )
             }
+          }
+        },
+        {
+          type: 'string',
+          name: 'id',
+          header: i18next.t('field.id'),
+          sortable: true,
+          width: 150,
+          hidden: true,
+          record: {
+            align: 'center',
+            editable: true
           }
         },
         {

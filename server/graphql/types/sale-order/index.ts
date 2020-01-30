@@ -23,8 +23,9 @@ export const Mutation = `
 // export const Mutation = ``
 
 export const Query = `
-  saleOrderDetails(filters: [Filter], pagination: Pagination, sortings: [Sorting]): SaleOrderDetailList
+  saleOrderDetails(saleOrderId: String!): SaleOrderDetailList
   saleOrders(filters: [Filter], pagination: Pagination, sortings: [Sorting]): SaleOrderList
+  saleOrder(id: String!): SaleOrder
 `
 
 export const Types = [Filter, Pagination, Sorting, SaleOrder, SaleOrderList, SaleOrderDetail, SaleOrderDetailList, NewSaleOrder, NewSaleOrderDetail]

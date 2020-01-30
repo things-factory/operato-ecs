@@ -5,10 +5,12 @@ import {
   Index,
   Column,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm'
 import { Domain } from '@things-factory/shell'
 import { User } from '@things-factory/auth-base'
+import { SaleOrderDetail } from '.'
 
 
 @Entity('sale_orders')
@@ -38,6 +40,12 @@ export class SaleOrder {
 
   @Column()
   status: string
+
+  @OneToMany(
+    type => SaleOrderDetail,
+    saleOrderDetail => saleOrderDetail.saleOrder
+  )
+  details: SaleOrderDetail[]
 
   @CreateDateColumn()
   createdAt: Date

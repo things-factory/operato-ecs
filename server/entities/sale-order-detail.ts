@@ -22,7 +22,16 @@ export class SaleOrderDetail {
   @ManyToOne(type => Domain)
   domain: Domain
 
-  @ManyToOne(type => SaleOrder)
+  @Column({ // FIXME notnull
+    nullable: true
+  })
+  name: string
+
+  @ManyToOne(
+    type => SaleOrder,
+    saleOrder => saleOrder.details,
+    { onDelete: 'CASCADE' }
+  )
   saleOrder: SaleOrder
 
   @ManyToOne(type => Product)
