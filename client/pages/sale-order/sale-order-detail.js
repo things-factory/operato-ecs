@@ -51,8 +51,8 @@ class SaleOrderDetail extends localize(i18next)(LitElement) {
         .fetchHandler=${this.fetchHandler.bind(this)}
       ></data-grist>
       <div class="button-container">
-        <mwc-button @click=${this._updateSteps.bind(this)}>${i18next.t('button.save')}</mwc-button>
-        <mwc-button @click=${this._deleteSteps.bind(this)}>${i18next.t('button.delete')}</mwc-button>
+        <mwc-button @click=${this._updateSaleOrderDetails.bind(this)}>${i18next.t('button.save')}</mwc-button>
+        <mwc-button @click=${this._deleteSaleOrderDetails.bind(this)}>${i18next.t('button.delete')}</mwc-button>
       </div>
     `
   }
@@ -78,6 +78,7 @@ class SaleOrderDetail extends localize(i18next)(LitElement) {
           type: 'string',
           name: 'name',
           header: i18next.t('field.name'),
+          hidden: true,
           record: {
             editable: true
           },
@@ -164,15 +165,10 @@ class SaleOrderDetail extends localize(i18next)(LitElement) {
     const response = await client.query({
       query: gql`
         query {
-          saleOrderDetails(id: "${this.saleOrder.id}") {
-            items {
+          saleOrder(id: "${this.saleOrder.id}") {
+            details {
               id
               name
-              saleOrder {
-                id
-                name
-                qty
-              }
               product {
                 id
                 code
@@ -188,12 +184,12 @@ class SaleOrderDetail extends localize(i18next)(LitElement) {
     })
 
     return {
-      total: response.data.length || 0,
-      records: response.data.items || []
+      total: response.data.saleOrder.details.length || 0,
+      records: response.data.saleOrder.details || []
     }
   }
 
-  async _updateSteps() {
+  async _updateDetails() {
     let patches = this.dataGrist._data.records
     if (patches && patches.length) {
       patches = patches.map(patch => {
@@ -212,7 +208,7 @@ class SaleOrderDetail extends localize(i18next)(LitElement) {
       const response = await client.query({
         query: gql`
           mutation {
-            updateMultipleStep(scenarioId: "${this.scenario.id}", ${gqlBuilder.buildArgs({
+            updateMultipleSaleOrderDetail(saleOrderId: "${this.saleOrder.id}", ${gqlBuilder.buildArgs({
           patches
         })}) {
               name
@@ -225,7 +221,11 @@ class SaleOrderDetail extends localize(i18next)(LitElement) {
     }
   }
 
-  async _deleteSteps() {
+  async _updateSaleOrderDetails() {
+
+  }
+
+  async _deleteSaleOrderDetails() {
     if (
       confirm(
         i18next.t('text.sure_to_x', {

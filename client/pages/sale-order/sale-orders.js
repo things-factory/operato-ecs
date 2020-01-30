@@ -102,7 +102,7 @@ class SaleOrders extends localize(i18next)(PageView) {
               if (!record.id) return
               openPopup(
                 html`
-                  <sale-order-detail .saleorder=${record}></sale-order-detail>
+                  <sale-order-detail .saleOrder=${record}></sale-order-detail>
                 `,
                 {
                   backdrop: true,

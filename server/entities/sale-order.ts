@@ -10,7 +10,7 @@ import {
 } from 'typeorm'
 import { Domain } from '@things-factory/shell'
 import { User } from '@things-factory/auth-base'
-import { SaleOrderDetail } from '.'
+import { SaleOrderDetail } from './sale-order-detail'
 
 
 @Entity('sale_orders')

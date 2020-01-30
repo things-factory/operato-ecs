@@ -3,9 +3,12 @@ import { SaleOrder } from '../../../entities'
 
 export const saleOrder = {
   async saleOrder(_, { id }, context: any) {
-    const repository = getRepository(SaleOrder)
-
-    // return repository.findOne({ domain: context.state.domain, id })
-    return repository.findOne({ id })
+    var saleOrder = await getRepository(SaleOrder).findOne({
+      // where: { domain: context.state.domain, id },
+      where: { id },
+      relations: ['domain', 'details', 'details.product', 'creator', 'updater']
+    })
+    
+    return saleOrder
   }
 }

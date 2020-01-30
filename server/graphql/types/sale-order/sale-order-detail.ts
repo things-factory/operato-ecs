@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 
 export const SaleOrderDetail = gql`
   type SaleOrderDetail {
-    id: String!
+    id: String
     name: String
     saleOrder: SaleOrder
     product: Product
