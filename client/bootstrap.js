@@ -157,7 +157,7 @@ export default function bootstrap() {
     type: ADD_MORENDA,
     morenda: {
       icon: html`
-        <mwc-icon>view_list</mwc-icon>
+        <mwc-icon>card_giftcard</mwc-icon>
       `,
       name: html`
         <i18n-msg msgid="text.product"></i18n-msg>
@@ -172,7 +172,7 @@ export default function bootstrap() {
     type: ADD_MORENDA,
     morenda: {
       icon: html`
-        <mwc-icon>view_list</mwc-icon>
+        <mwc-icon>credit_card</mwc-icon>
       `,
       name: html`
         <i18n-msg msgid="text.saleorder"></i18n-msg>
@@ -187,7 +187,7 @@ export default function bootstrap() {
     type: ADD_MORENDA,
     morenda: {
       icon: html`
-        <mwc-icon>view_list</mwc-icon>
+        <mwc-icon>ballot</mwc-icon>
       `,
       name: html`
         <i18n-msg msgid="text.workorder"></i18n-msg>
