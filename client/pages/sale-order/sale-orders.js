@@ -4,6 +4,7 @@ import gql from 'graphql-tag'
 import { client, CustomAlert, gqlBuilder, isMobileDevice, PageView } from '@things-factory/shell'
 import { i18next, localize } from '@things-factory/i18n-base'
 import { css, html } from 'lit-element'
+import './sale-order-detail'
 
 class SaleOrders extends localize(i18next)(PageView) {
   static get properties() {
@@ -159,7 +160,7 @@ class SaleOrders extends localize(i18next)(PageView) {
           name: 'updatedAt',
           header: i18next.t('field.updated_at'),
           sortable: true,
-          width: 150
+          width: 180
         },
       ]
     }

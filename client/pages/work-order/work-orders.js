@@ -96,7 +96,7 @@ class WorkOrders extends localize(i18next)(PageView) {
           name: 'name',
           header: i18next.t('field.name'),
           sortable: true,
-          width: 150,
+          width: 240,
           record: {
             align: 'center',
             editable: true
@@ -116,7 +116,7 @@ class WorkOrders extends localize(i18next)(PageView) {
         },
         {
           type: 'object',
-          name: 'updater',
+          name: 'saleOrder',
           header: i18next.t('field.saleOrder'),
           hidden: true,
           record: {
@@ -126,12 +126,12 @@ class WorkOrders extends localize(i18next)(PageView) {
         },
         {
           type: 'object',
-          name: 'updater',
+          name: 'product',
           header: i18next.t('field.product'),
           record: {
             editable: false
           },
-          width: 120
+          width: 200
         },
         {
           type: 'string',
@@ -149,6 +149,7 @@ class WorkOrders extends localize(i18next)(PageView) {
           name: 'updater',
           header: i18next.t('field.updater'),
           record: {
+            align: 'center',
             editable: false
           },
           width: 120
@@ -158,7 +159,7 @@ class WorkOrders extends localize(i18next)(PageView) {
           name: 'updatedAt',
           header: i18next.t('field.updated_at'),
           sortable: true,
-          width: 150
+          width: 180
         },
       ]
     }

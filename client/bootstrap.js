@@ -175,7 +175,7 @@ export default function bootstrap() {
         <mwc-icon>view_list</mwc-icon>
       `,
       name: html`
-        <i18n-msg msgid="text.sale_order"></i18n-msg>
+        <i18n-msg msgid="text.saleorder"></i18n-msg>
       `,
       action: () => {
         navigate('sale-orders')
@@ -190,7 +190,7 @@ export default function bootstrap() {
         <mwc-icon>view_list</mwc-icon>
       `,
       name: html`
-        <i18n-msg msgid="text.work_order"></i18n-msg>
+        <i18n-msg msgid="text.workorder"></i18n-msg>
       `,
       action: () => {
         navigate('work-orders')
