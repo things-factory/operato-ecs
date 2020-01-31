@@ -149,6 +149,17 @@ class Products extends localize(i18next)(PageView) {
         },
         {
           type: 'string',
+          name: 'group2',
+          header: i18next.t('field.group3'),
+          sortable: true,
+          width: 80,
+          record: {
+            align: 'center',
+            editable: true
+          }
+        },
+        {
+          type: 'string',
           name: 'type',
           header: i18next.t('field.type'),
           sortable: true,
