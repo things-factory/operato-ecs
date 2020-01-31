@@ -10,7 +10,7 @@ import { Connections, Connector } from '@things-factory/integration-base'
 import { SaleOrder, Product, SaleOrderDetail } from '../../entities'
 import { sleep } from '../utils'
 
-export class TcpListnerConnector implements Connector {
+export class OkPOS implements Connector {
   ready(connectionConfigs) {
     const CONFIG = config.get('tcpListener')
 
@@ -179,4 +179,4 @@ export class TcpListnerConnector implements Connector {
   }
 }
 
-Connections.registerConnector('tcp-listener', new TcpListnerConnector())
+Connections.registerConnector('okpos', new OkPOS())
