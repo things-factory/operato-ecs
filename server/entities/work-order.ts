@@ -40,7 +40,7 @@ export class WorkOrder {
 
   @Column({
     nullable: true
-  }) // robot number
+  })
   owner: string
 
   @Column('float', {
