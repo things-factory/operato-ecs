@@ -10,7 +10,7 @@ class Products extends localize(i18next)(PageView) {
     return {
       // _searchFields: Array,
       // config: Object,
-      data: Object,
+      data: Object
       // importHandler: Object
     }
   }
@@ -39,8 +39,8 @@ class Products extends localize(i18next)(PageView) {
 
   render() {
     return html`
-    <search-form id="search-form" .fields=${this._searchFields} @submit=${e => this.dataGrist.fetch()}></search-form>
-    
+      <search-form id="search-form" .fields=${this._searchFields} @submit=${e => this.dataGrist.fetch()}></search-form>
+
       <data-grist
         .mode=${isMobileDevice() ? 'LIST' : 'GRID'}
         .config=${this.config}
@@ -65,7 +65,7 @@ class Products extends localize(i18next)(PageView) {
       exportable: {
         name: i18next.t('title.product'),
         data: this._exportableData.bind(this)
-      },
+      }
       // importable: {
       //   handler: this._importableData.bind(this)
       // }
@@ -85,7 +85,7 @@ class Products extends localize(i18next)(PageView) {
     this.config = {
       rows: { selectable: { multiple: true } },
       list: {
-        fields: ['code', 'name', 'description', 'group1', 'group2', 'type', 'updatedAt', 'updater']
+        fields: ['code', 'name', 'description', 'group1', 'group2', 'group3', 'type', 'updatedAt', 'updater']
       },
       columns: [
         { type: 'gutter', gutterName: 'dirty' },
@@ -125,37 +125,40 @@ class Products extends localize(i18next)(PageView) {
           }
         },
         {
-          type: 'string',
+          type: 'select',
           name: 'group1',
           header: i18next.t('field.group1'),
           sortable: true,
-          width: 60,
-          hidden: true,
+          width: 100,
+          // hidden: true,
           record: {
             align: 'center',
-            editable: true
+            editable: true,
+            options: ['', '롸버트치킨']
           }
         },
         {
-          type: 'string',
+          type: 'select',
           name: 'group2',
           header: i18next.t('field.group2'),
           sortable: true,
           width: 120,
           record: {
             align: 'center',
-            editable: true
+            editable: true,
+            options: ['', '치킨', '사이드', '음료수', '주류', '순살치킨']
           }
         },
         {
-          type: 'string',
-          name: 'group2',
+          type: 'select',
+          name: 'group3',
           header: i18next.t('field.group3'),
           sortable: true,
           width: 80,
           record: {
             align: 'center',
-            editable: true
+            editable: true,
+            options: ['', '뼈', '순살']
           }
         },
         {
@@ -194,7 +197,7 @@ class Products extends localize(i18next)(PageView) {
           header: i18next.t('field.updated_at'),
           sortable: true,
           width: 150
-        },
+        }
       ]
     }
   }
@@ -216,10 +219,10 @@ class Products extends localize(i18next)(PageView) {
       query: gql`
         query {
           products(${gqlBuilder.buildArgs({
-            filters: this.searchForm.queryFilters,
-            pagination: { page, limit },
-            sortings: sorters
-          })}) {
+        filters: this.searchForm.queryFilters,
+        pagination: { page, limit },
+        sortings: sorters
+      })}) {
             items {
               id
               code
@@ -227,6 +230,7 @@ class Products extends localize(i18next)(PageView) {
               description
               group1
               group2
+              group3
               type
               active
               updater {
@@ -261,8 +265,8 @@ class Products extends localize(i18next)(PageView) {
         query: gql`
           mutation {
             updateMultipleProduct(${gqlBuilder.buildArgs({
-              patches
-            })}) {
+          patches
+        })}) {
               code
               name
               description
@@ -344,7 +348,7 @@ class Products extends localize(i18next)(PageView) {
             record[column.imex.key] = column.imex.key
               .split('.')
               .reduce((obj, key) => (obj && obj[key] !== 'undefined' ? obj[key] : undefined), item)
-            
+
             return record
           }, {})
       }
