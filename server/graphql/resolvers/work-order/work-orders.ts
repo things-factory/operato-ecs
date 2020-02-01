@@ -4,7 +4,8 @@ import { WorkOrder } from '../../../entities'
 
 export const workOrders = {
   async workOrders(_: any, params: ListParam, context: any) {
-    const convertedParams = convertListParams(params, context.state.domain.id)
+    // const convertedParams = convertListParams(params, context.state.domain.id)
+    const convertedParams = convertListParams(params)
     const [items, total] = await getRepository(WorkOrder).findAndCount({
       ...convertedParams,
       relations: ['domain', 'saleOrder', 'product', 'creator', 'updater']
