@@ -14,7 +14,7 @@ export const updateSaleOrderStatus = {
         // relations: ['domain', 'details', 'details.product', 'creator', 'updater']
       })
       so.status = patch.status
-      soRepo.save(so)
+      await soRepo.save(so)
       
       // if (so.status == ORDER_STATE.CANCELED) {
       if (so.status == 'CANCELED') {
@@ -24,9 +24,9 @@ export const updateSaleOrderStatus = {
           // where: { domain: context.state.domain, id },
           where: { id },
         })
-        sods.forEach((sod) => {
+        sods.forEach(async (sod) => {
           sod.status = patch.status
-          sodRepo.save(sod)
+          await sodRepo.save(sod)
         })
 
         // update wo status
@@ -37,9 +37,9 @@ export const updateSaleOrderStatus = {
           // relations: ['domain', 'details', 'details.product', 'creator', 'updater']
         })
 
-        wos.forEach((wo) => {
+        wos.forEach(async (wo) => {
           wo.status = patch.status
-          woRepo.save(wo)
+          await woRepo.save(wo)
         })
       }
     })
