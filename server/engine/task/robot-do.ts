@@ -1,5 +1,4 @@
-import { Connections } from '@things-factory/integration-base'
-import { TaskRegistry } from '@things-factory/integration-base'
+import { Connections, TaskRegistry } from '@things-factory/integration-base'
 
 /* TODO Not implemented yet */
 async function robot_do(step, { logger }) {
