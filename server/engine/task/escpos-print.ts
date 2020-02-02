@@ -43,8 +43,8 @@ const COMMANDS = {
       includeParity : boolean that defined if the parityBit shall be calculated to EAN13/EAN8 printers. default: true
       position : ABOVE | BELOW(default) | BOTH | OFF
   */
-  table: STRING_ARRAY,
-  tableCustom: OBJECT,
+  table: STRING_ARRAY /* IMPLEMENT-ME Not implemented yet. */,
+  tableCustom: OBJECT /* IMPLEMENT-ME Not implemented yet. */,
   qrimage: STRING_ARRAY,
   cut: STRING_ARRAY /* mode - mode set a full or partial cut. Default: full Partial cut is not implemented in all printers.*/,
   cashdraw: NUMBER_ARRAY /* numeric value which defines the pin to be used to send the pulse, it could be 2 or 5. */,
