@@ -1,5 +1,4 @@
-import { Connections } from '@things-factory/integration-base'
-import { TaskRegistry } from '@things-factory/integration-base'
+import { Connections, TaskRegistry } from '@things-factory/integration-base'
 
 async function robot_home(step, { logger }) {
   var { connection } = step

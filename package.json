@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/res-app",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -72,6 +72,7 @@
     "@things-scene/table": "*",
     "@things-scene/visualizer": "*",
     "@things-scene/wheel-sorter": "*",
+    "escpos": "^2.5.2",
     "node-cache": "^5.1.0",
     "promise-socket": "^6.0.2"
   },

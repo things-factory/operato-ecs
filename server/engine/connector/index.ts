@@ -2,3 +2,4 @@
 import './mitsubishi-plc'
 import './indi-robot'
 import './okpos'
+import './usb-device'
