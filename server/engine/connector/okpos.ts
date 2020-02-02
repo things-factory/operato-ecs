@@ -3,8 +3,10 @@ import PromiseSocket from 'promise-socket'
 import uuid from 'uuid/v4'
 import { getRepository, getManager, EntityManager } from 'typeorm'
 
+import { Domain, client } from '@things-factory/shell'
+import gql from 'graphql-tag'
+
 import { config, logger } from '@things-factory/env'
-import { Domain } from '@things-factory/shell'
 import { User } from '@things-factory/auth-base'
 import { Connections, Connector } from '@things-factory/integration-base'
 import { SaleOrder, Product, SaleOrderDetail } from '../../entities'
@@ -95,47 +97,52 @@ export class OkPOS implements Connector {
   async processSaleOrder(data) {
     logger.info('processSaleOrder: start')
     await getManager().transaction(async (trxMgr: EntityManager) => {
-      // TODO cancel
-
-      var details = data.PRODUCT
-      var date = new Date()
-      var month: any = date.getMonth() + 1
-      month = month < 10 ? `0${month}` : month
-      var name = `SO${data.SALE_DATE}${data.ORG_BILL_NO}${data.BILL_NO}`
-
       var _cache = config._CACHE
 
       var domains = _cache.get('DOMAIN')
       if (domains) {
         var domain = domains['SYSTEM']
       } else {
-        var domainRepo = trxMgr.getRepository(Domain)
+        let domainRepo = trxMgr.getRepository(Domain)
         var domain = await domainRepo.findOne({ name: 'SYSTEM' })
       }
-      // var domain = new Domain()
-      // domain.id = 'ab1e2212-792c-4586-a2b1-014d5de0b0e7'  // FIXME: from buffer
+
+      var details = data.PRODUCT
+      // var date = new Date()
+      // var month: any = date.getMonth() + 1
+      // month = month < 10 ? `0${month}` : month
+      var name = `SO${data.SALE_DATE}${data.BILL_NO}`
+      var saleOrderRepo = getRepository(SaleOrder)
+      // 해당 name으로 so가 존재하면 처리 안함.
+      let so = saleOrderRepo.findOne({
+        where: { domain: domain, name:  name },
+        relations: ['domain', 'details', 'details.product', 'creator', 'updater']
+      })
+      if (so) {
+        logger.info(`so: ${name} is exist!`)
+        return
+      }
 
       var users = _cache.get('USER')
       if (users) {
         var user = users['admin@hatiolab.com']
       } else {
-        var userRepo = trxMgr.getRepository(User)
+        let userRepo = trxMgr.getRepository(User)
         var user = await userRepo.findOne({ email: 'admin@hatiolab.com' })
       }
 
       var qty = 0
-      var so = new SaleOrder()
-      so.id = uuid()
-      so.name = name
-      so.domain = domain
-      // so.description = `POS_NO: ${}`
-      so.posNo = data.POS_NO
-      so.status = 'INIT'
-      so.qty = 0
-      so.creator = user
-      so.updater = user
-      var saleOrderRepo = getRepository(SaleOrder)
-      await saleOrderRepo.save(so)
+      var newSo = new SaleOrder()
+      newSo.id = uuid()
+      newSo.name = name
+      newSo.domain = domain
+      // newSo.description = `POS_NO: ${}`
+      newSo.posNo = data.POS_NO
+      newSo.status = 'INIT'
+      newSo.qty = 0
+      newSo.creator = user
+      newSo.updater = user
+      await saleOrderRepo.save(newSo)
 
       let saleOrderDetailRepo = getRepository(SaleOrderDetail)
       details.forEach(async detail => {
@@ -158,7 +165,7 @@ export class OkPOS implements Connector {
           }
         }
 
-        sod.saleOrder = so
+        sod.saleOrder = newSo
         sod.product = product
         sod.qty = parseFloat(detail.SALE_QTY)
         sod.status = 'INIT'
@@ -173,8 +180,38 @@ export class OkPOS implements Connector {
         .createQueryBuilder()
         .update(SaleOrder)
         .set({ qty: qty })
-        .where('id = :id', { id: so.id })
+        .where('id = :id', { id: newSo.id })
         .execute()
+
+      // 취소오더 처리.
+      // 중복오더 위에서 return됨, ORG_BILL_NO값이 있으면 취소 오더로 간주됨.
+      var orgBillNo = data.ORG_BILL_NO
+      if (orgBillNo && orgBillNo != '') {
+        let name = `SO${data.SALE_DATE}${data.ORG_BILL_NO}`
+        let so = await saleOrderRepo.findOne({
+          where: { domain: domain, name: name },
+          relations: ['domain', 'details', 'details.product', 'creator', 'updater']
+        })
+        
+        client.query({  // transaction? // FIXME
+          query: gql`
+            mutation {
+              updateSaleOrderStatus(
+                id: "${so.id}"
+                patch: {
+                  status: "CANCELED"
+                }
+              ) {
+                code
+                name
+                description
+                type
+                active
+              }
+            }
+          `
+        })
+      }
     })
   }
 }
