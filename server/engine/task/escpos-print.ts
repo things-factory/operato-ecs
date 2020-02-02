@@ -116,15 +116,17 @@ async function ESCPOSPrint(step, context: { logger; publish; data }) {
     throw new Error(`connection '${connectionName}' is not established.`)
   }
 
-  const options = { encoding }
+  /* TODO string interpolation 기능 제공시 security hole 문제를 해결할 수 있도록 DSL 방식으로 제공할 것 */
+  const interpolatedCommand = new Function(`return \`${command}\`;`).apply(context)
 
   /* 
     TODO escpos 모듈의 device adapter 호환 connection을 전제로 하고 있으나, connection 명세를 별도로 정의해서 제공하도록 해야한다.
   */
-  const printer = Printer2(new Printer(connection, options)) /* promisified Printer */
+  /* promisified Printer */
+  const printer = Printer2(new Printer(connection, { encoding } /* options */))
 
   connection.open()
-  await executeCommand(printer, command, context)
+  await executeCommand(printer, interpolatedCommand, context)
   connection.close()
 
   return {
@@ -151,7 +153,7 @@ ESCPOSPrint.parameterSpec = [
       SIZE 1, 1
       TEXT It aint over till it's over
       TEXT 敏捷的棕色狐狸跳过懒狗, GB18030
-      TEXT 안녕하세요, EUC-KR
+      TEXT 안녕하세요 ${this.data.abc}, EUC-KR
       BARCODE 1234567, EAN8
       QRIMAGE https://github.com/song940/node-escpos
       TEXT 마무리합니다. 이상 끝.
