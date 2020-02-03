@@ -150,7 +150,7 @@ class Products extends localize(i18next)(PageView) {
               {
                 display: "", value: ""
               }, {
-                display: "치킨", value: "CHICKEN"
+                display: "치킨", value: "BCHK"
               }, {
                 display: "사이드", value: "SDD"
               }, {
@@ -158,7 +158,7 @@ class Products extends localize(i18next)(PageView) {
               }, {
                 display: "주류", value: "ALC"
               }, {
-                display: "순살치킨", value: "BNLCHK"
+                display: "순살치킨", value: "PCHK"
               }
             ]
           }
