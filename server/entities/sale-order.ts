@@ -41,6 +41,11 @@ export class SaleOrder {
   @Column()
   status: string
 
+  @Column({
+    nullable: true
+  })
+  type: string
+
   @OneToMany(
     type => SaleOrderDetail,
     saleOrderDetail => saleOrderDetail.saleOrder

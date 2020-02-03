@@ -22,7 +22,7 @@ export const updateSaleOrderStatus = {
         let sodRepo = trxMgr.getRepository(SaleOrderDetail)
         let [sods, sodTotal] = await sodRepo.findAndCount({
           // where: { domain: context.state.domain, id },
-          where: { id },
+          where: { saleOrder: so },
         })
         sods.forEach(async (sod) => {
           sod.status = patch.status
@@ -33,17 +33,22 @@ export const updateSaleOrderStatus = {
         let woRepo = trxMgr.getRepository(WorkOrder)
         let [wos, woTotal] = await woRepo.findAndCount({
           // where: { domain: context.state.domain, id },
-          where: { id },
+          where: { saleOrder: so },
           // relations: ['domain', 'details', 'details.product', 'creator', 'updater']
         })
+
+        if (!wos || wos.length == 0) {
+          return so
+        }
 
         wos.forEach(async (wo) => {
           wo.status = patch.status
           await woRepo.save(wo)
         })
       }
+
+      return so
     })
 
-    return
   }
 }

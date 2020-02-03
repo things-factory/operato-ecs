@@ -149,14 +149,15 @@ class SaleOrders extends localize(i18next)(PageView) {
           }
         },
         {
-          type: 'string',
+          type: 'select',
           name: 'status',
           header: i18next.t('field.status'),
           sortable: true,
           width: 100,
           record: {
             align: 'center',
-            editable: true
+            editable: true,
+            options: [{ display: "", value: "" }, { display: "접수", value: "INIT" }, { display: "시작", value: "STARTED" }, { display: "완료", value: "FINISHED" }, { display: "취소", value: "CANCELED" }]
           }
         },
         {
@@ -196,10 +197,10 @@ class SaleOrders extends localize(i18next)(PageView) {
       query: gql`
         query {
           saleOrders(${gqlBuilder.buildArgs({
-            filters: this.searchForm.queryFilters,
-            pagination: { page, limit },
-            sortings: sorters
-          })}) {
+        filters: this.searchForm.queryFilters,
+        pagination: { page, limit },
+        sortings: sorters
+      })}) {
             items {
               id
               name
@@ -237,8 +238,8 @@ class SaleOrders extends localize(i18next)(PageView) {
         query: gql`
           mutation {
             updateMultipleSaleOrder(${gqlBuilder.buildArgs({
-              patches
-            })}) {
+          patches
+        })}) {
               name
             }
           }
@@ -316,7 +317,7 @@ class SaleOrders extends localize(i18next)(PageView) {
             record[column.imex.key] = column.imex.key
               .split('.')
               .reduce((obj, key) => (obj && obj[key] !== 'undefined' ? obj[key] : undefined), item)
-            
+
             return record
           }, {})
       }

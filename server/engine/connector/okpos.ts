@@ -9,7 +9,7 @@ import gql from 'graphql-tag'
 import { config, logger } from '@things-factory/env'
 import { User } from '@things-factory/auth-base'
 import { Connections, Connector } from '@things-factory/integration-base'
-import { SaleOrder, Product, SaleOrderDetail } from '../../entities'
+import { Product, SaleOrder, SaleOrderDetail, WorkOrder } from '../../entities'
 import { sleep } from '../utils'
 
 export class OkPOS implements Connector {
@@ -114,7 +114,7 @@ export class OkPOS implements Connector {
       var name = `SO${data.SALE_DATE}${data.BILL_NO}`
       var saleOrderRepo = getRepository(SaleOrder)
       // 해당 name으로 so가 존재하면 처리 안함.
-      let so = saleOrderRepo.findOne({
+      let so = await saleOrderRepo.findOne({
         where: { domain: domain, name:  name },
         relations: ['domain', 'details', 'details.product', 'creator', 'updater']
       })
@@ -138,7 +138,12 @@ export class OkPOS implements Connector {
       newSo.domain = domain
       // newSo.description = `POS_NO: ${}`
       newSo.posNo = data.POS_NO
-      newSo.status = 'INIT'
+      if (data.ORG_BILL_NO && data.ORG_BILL_NO != '') {
+        newSo.status = 'CANCELED'
+        newSo.type = 'C'
+      } else {
+        newSo.status = 'INIT'
+      }
       newSo.qty = 0
       newSo.creator = user
       newSo.updater = user
@@ -149,7 +154,6 @@ export class OkPOS implements Connector {
         qty += parseFloat(detail.SALE_QTY)
 
         let sod = new SaleOrderDetail()
-        sod.id = uuid()
         sod.domain = domain
         // let product = new Product()
         // product.id = 'PRD001' // FIXME: name-id relation from buffer
@@ -168,7 +172,11 @@ export class OkPOS implements Connector {
         sod.saleOrder = newSo
         sod.product = product
         sod.qty = parseFloat(detail.SALE_QTY)
-        sod.status = 'INIT'
+        if (newSo.status = 'CANCELED') {
+          sod.status = 'CANCELED'
+        } else {
+          // sod.status = 'INIT'
+        }
         sod.creator = user
         sod.updater = user
         await saleOrderDetailRepo.save(sod)
@@ -193,25 +201,66 @@ export class OkPOS implements Connector {
           relations: ['domain', 'details', 'details.product', 'creator', 'updater']
         })
         
-        client.query({  // transaction? // FIXME
-          query: gql`
-            mutation {
-              updateSaleOrderStatus(
-                id: "${so.id}"
-                patch: {
-                  status: "CANCELED"
-                }
-              ) {
-                code
-                name
-                description
-                type
-                active
-              }
-            }
-          `
-        })
+        try {
+          this.processCancel(trxMgr, so)
+        } catch(ex) {
+          logger.error('processCancel: ')
+          logger.error(ex.stack)
+        }
+
+        // await client.query({  // transaction? // TODO
+        //   query: gql`
+        //     mutation {
+        //       updateSaleOrderStatus(
+        //         id: "${so.id}"
+        //         patch: {
+        //           status: "CANCELED"
+        //         }
+        //       ) {
+        //         code
+        //         name
+        //         description
+        //         type
+        //         active
+        //       }
+        //     }
+        //   `
+        // })
       }
+    })
+  }
+
+  async processCancel(trxMgr: EntityManager, so: SaleOrder) {
+    let soRepo = trxMgr.getRepository(SaleOrder)
+    so.status = 'CANCELED'
+    await soRepo.save(so)
+    
+    // update sod status
+    let sodRepo = trxMgr.getRepository(SaleOrderDetail)
+    let [sods, sodTotal] = await sodRepo.findAndCount({
+      // where: { domain: context.state.domain, id },
+      where: { saleOrder: so },
+    })
+    sods.forEach(async (sod) => {
+      sod.status = so.status
+      await sodRepo.save(sod)
+    })
+
+    // update wo status
+    let woRepo = trxMgr.getRepository(WorkOrder)
+    let [wos, woTotal] = await woRepo.findAndCount({
+      // where: { domain: context.state.domain, id },
+      where: { saleOrder: so },
+      // relations: ['domain', 'details', 'details.product', 'creator', 'updater']
+    })
+
+    if (!wos || wos.length == 0) {
+      return
+    }
+
+    wos.forEach(async (wo) => {
+      wo.status = so.status
+      await woRepo.save(wo)
     })
   }
 }

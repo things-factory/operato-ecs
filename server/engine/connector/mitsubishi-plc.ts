@@ -3,6 +3,7 @@ import PromiseSocket from 'promise-socket'
 
 import { logger } from '@things-factory/env'
 import { Connections, Connector } from '@things-factory/integration-base'
+import { sleep } from '../utils'
 
 const subHeader = '5000'
 const networkNumber = '00'
@@ -100,7 +101,27 @@ export class MitsubishiPLCConnector implements Connector {
   }
 
   async connect(connection) {
-    let socket = new PromiseSocket(new net.Socket())
+    let netsocket = new net.Socket()
+    netsocket.on('error', async () => {
+      logger.error('plc client error')
+
+      let socket = Connections.removeConnection(connection.name)
+      if (socket) {
+        try {
+          await this.disconnect(connection.name)  // TODO test  // FIXME
+        } catch(ex) {
+          logger.error('plc disconnect error')
+        }
+      }
+      await this.connect(connection)
+    })
+
+    netsocket.on('end', async () => {
+      // console.log('plc client end')
+      logger.info('plc client end')
+    })
+
+    let socket = new PromiseSocket(netsocket)
     let [host, port] = connection.endpoint.split(':')
     let { timeout = 30000 } = connection.params || {}
 
@@ -109,7 +130,7 @@ export class MitsubishiPLCConnector implements Connector {
     Connections.addConnection(connection.name, socket)
   }
 
-  async disconnect(name) {
+  async disconnect(name: String) {
     let socket = Connections.removeConnection(name)
 
     await socket.destroy()
