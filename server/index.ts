@@ -12,7 +12,7 @@ import { initCache } from './cache'
 
 import { logger } from '@things-factory/env'
 
-process.on('bootstrap-module-start' as any, async (app, config) => {
+process.on('bootstrap-module-start' as any, async ({ app, config, client }: any) => {
   console.log('%%%%%%%%%%%%%%%% TASK ENGINE - BEGIN %%%%%%%%%%%%%%%%')
   try {
     await Connections.ready()
