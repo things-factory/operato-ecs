@@ -104,8 +104,15 @@ export class MitsubishiPLCConnector implements Connector {
     let netsocket = new net.Socket()
     netsocket.on('error', async () => {
       logger.error('plc client error')
-      sleep(10)
-      await this.disconnect(connection.name)  // TODO test  // FIXME
+
+      let socket = Connections.removeConnection(connection.name)
+      if (socket) {
+        try {
+          await this.disconnect(connection.name)  // TODO test  // FIXME
+        } catch(ex) {
+          logger.error('plc disconnect error')
+        }
+      }
       await this.connect(connection)
     })
 
