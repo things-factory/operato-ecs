@@ -134,7 +134,7 @@ class Products extends localize(i18next)(PageView) {
           record: {
             align: 'center',
             editable: true,
-            options: ['', '롸버트치킨']
+            options: [{ display: "", value: "" }, { display: "롸버트치킨", value: 'RCHK' }]
           }
         },
         {
@@ -146,7 +146,21 @@ class Products extends localize(i18next)(PageView) {
           record: {
             align: 'center',
             editable: true,
-            options: ['', '치킨', '사이드', '음료수', '주류', '순살치킨']
+            options: [
+              {
+                display: "", value: ""
+              }, {
+                display: "치킨", value: "CHICKEN"
+              }, {
+                display: "사이드", value: "SDD"
+              }, {
+                display: "음료수", value: "DRK"
+              }, {
+                display: "주류", value: "ALC"
+              }, {
+                display: "순살치킨", value: "BNLCHK"
+              }
+            ]
           }
         },
         {
@@ -158,7 +172,7 @@ class Products extends localize(i18next)(PageView) {
           record: {
             align: 'center',
             editable: true,
-            options: ['', '뼈', '순살']
+            options: [{ display: "", value: "" }, { display: "뼈", value: "BONE" }, { display: "순살", value: "BNL" }]
           }
         },
         {

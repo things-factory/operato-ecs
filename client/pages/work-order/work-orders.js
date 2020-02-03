@@ -134,14 +134,15 @@ class WorkOrders extends localize(i18next)(PageView) {
           width: 200
         },
         {
-          type: 'string',
+          type: 'select',
           name: 'status',
           header: i18next.t('field.status'),
           sortable: true,
           width: 100,
           record: {
             align: 'center',
-            editable: true
+            editable: true,
+            options: [{ display: "", value: "" }, { display: "준비완료", value: "INIT" }, { display: "시작", value: "STARTED" }, { display: "정지", value: "PAUSED" }, { display: "완료", value: "FINISHED" }, { display: "취소", value: "CANCELED" }]
           }
         },
         {
@@ -182,10 +183,10 @@ class WorkOrders extends localize(i18next)(PageView) {
       query: gql`
         query {
           workOrders(${gqlBuilder.buildArgs({
-            filters: this.searchForm.queryFilters,
-            pagination: { page, limit },
-            sortings: sorters
-          })}) {
+        filters: this.searchForm.queryFilters,
+        pagination: { page, limit },
+        sortings: sorters
+      })}) {
             items {
               id
               name
@@ -233,8 +234,8 @@ class WorkOrders extends localize(i18next)(PageView) {
         query: gql`
           mutation {
             updateMultipleWorkOrder(${gqlBuilder.buildArgs({
-              patches
-            })}) {
+          patches
+        })}) {
               name
             }
           }
@@ -312,7 +313,7 @@ class WorkOrders extends localize(i18next)(PageView) {
             record[column.imex.key] = column.imex.key
               .split('.')
               .reduce((obj, key) => (obj && obj[key] !== 'undefined' ? obj[key] : undefined), item)
-            
+
             return record
           }, {})
       }

@@ -7,6 +7,9 @@ export const ProductPatch = gql`
     name: String
     description: String
     type: String
+    group1: String
+    group2: String
+    group3: String
     active: Boolean
     cuFlag: String
   }
