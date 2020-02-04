@@ -5,6 +5,6 @@ export const productResolver = {
   async product(_, { id }, context, info) {
     const repository = getRepository(Product)
 
-    return repository.findOne({ domain: context.state.domain, id })
+    return await repository.findOne({ domain: context.state.domain, id })
   }
 }

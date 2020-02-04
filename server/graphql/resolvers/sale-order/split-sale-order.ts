@@ -11,17 +11,20 @@ export const splitSaleOrder = {
   async splitSaleOrder(_, { saleOrderId }, context: any) {  // params: saleOrderId: 123123
     await getManager().transaction(async (trxMgr: EntityManager) => {
       // get sale order
-      var params = {
-        saleOrderId,
-        status: 'INIT'
-      }
-      const [items, total] = await getRepository(SaleOrderDetail).findAndCount({
-        ...params,
-        relations: ['domain', 'saleOrder', 'product', 'updater']
+      let soRepo = getRepository(SaleOrder)
+      var so = await soRepo.findOne({ 
+        where: { id: saleOrderId },
+        relations: ['domain', 'details', 'details.product', 'creator', 'updater']
       })
 
+      if (!so) {
+        return
+      }
+
+      const items = so.details
+
       // split
-      if (total == 0) {
+      if (!items || items.length == 0) {
         return;
       }
 
@@ -30,7 +33,7 @@ export const splitSaleOrder = {
       items.forEach(async sod => {
         for (let i = 0; i < sod.qty; i++) {
           let random = (Math.random().toString(36).substring(2, 6) + Math.random().toString(36).substring(2, 4)).toUpperCase()
-          let soName = sod.saleOrder.name.substring(2)
+          let soName = so.name.substring(2)
           let wo = {
             ...sod,
             name: `WO${soName}${sod.product.code}${random}`,
@@ -45,18 +48,11 @@ export const splitSaleOrder = {
             id: uuid(),
           }
     
+          newWorkOrder.saleOrder = so
           await repository.save(newWorkOrder)
           wos.push(newWorkOrder)
         }
       });
-
-      // update so.status = 'STARTED'
-      let soRepo = getRepository(SaleOrder)
-      let so = await soRepo.findOne({
-        // where: { domain: context.state.domain, id },
-        where: { id: saleOrderId },
-        relations: ['domain', 'details', 'details.product', 'creator', 'updater']
-      })
 
       if (!so) {
         throw `SaleOrder:${saleOrderId} was not found`

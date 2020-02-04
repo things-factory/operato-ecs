@@ -169,6 +169,7 @@ export class OkPOS implements Connector {
           }
         }
 
+        sod.name = `${newSo.name}${product.code}`
         sod.saleOrder = newSo
         sod.product = product
         sod.qty = parseFloat(detail.SALE_QTY)
