@@ -34,21 +34,19 @@ export const splitSaleOrder = {
         for (let i = 0; i < sod.qty; i++) {
           let random = (Math.random().toString(36).substring(2, 6) + Math.random().toString(36).substring(2, 4)).toUpperCase()
           let soName = so.name.substring(2)
-          let wo = {
+          let newWorkOrder = {
             ...sod,
+            id: uuid(),
+            domain: so.domain,
             name: `WO${soName}${sod.product.code}${random}`,
             status: 'INIT',
             owner: ' ',
-            qty: 1
-          }
-    
-          // create work order  // TODO TRANSACTION
-          let newWorkOrder = {
-            ...wo,
-            id: uuid(),
+            qty: 1,
+            saleOrder: so
           }
     
           newWorkOrder.saleOrder = so
+
           await repository.save(newWorkOrder)
           wos.push(newWorkOrder)
         }
