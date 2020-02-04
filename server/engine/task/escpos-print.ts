@@ -4,7 +4,7 @@
 
 import { Connections, TaskRegistry } from '@things-factory/integration-base'
 import { Printer, Printer2 /* promisifier */ } from 'escpos'
-import camelcase from 'lodash/camelcase'
+import camelcase from 'lodash/camelCase'
 import { promisify } from 'util'
 
 const STRING_ARRAY = s => (s ? s.split(/\s*,\s*/) : [])
