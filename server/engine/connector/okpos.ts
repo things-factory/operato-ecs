@@ -172,10 +172,10 @@ export class OkPOS implements Connector {
         sod.saleOrder = newSo
         sod.product = product
         sod.qty = parseFloat(detail.SALE_QTY)
-        if (newSo.status = 'CANCELED') {
+        if (newSo.status == 'CANCELED') {
           sod.status = 'CANCELED'
         } else {
-          // sod.status = 'INIT'
+          sod.status = 'INIT'
         }
         sod.creator = user
         sod.updater = user
