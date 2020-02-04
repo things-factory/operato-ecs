@@ -77,8 +77,8 @@ class SaleOrders extends localize(i18next)(PageView) {
   async pageInitialized() {
     this._searchFields = [
       {
-        label: i18next.t('field.saleorder'),
-        name: 'code',
+        label: i18next.t('field.name'),
+        name: 'name',
         type: 'text',
         props: { searchOper: 'i_like' }
       }
