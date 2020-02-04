@@ -7,6 +7,7 @@ export const WorkOrder = gql`
     name: String
     qty: Float
     status: String
+    owner: String
     saleOrder: SaleOrder
     product: Product
     updater: User
