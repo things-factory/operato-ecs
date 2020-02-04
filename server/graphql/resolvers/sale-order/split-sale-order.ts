@@ -35,6 +35,7 @@ export const splitSaleOrder = {
             ...sod,
             name: `WO${soName}${sod.product.code}${random}`,
             status: 'INIT',
+            owner: ' ',
             qty: 1
           }
     
@@ -53,7 +54,7 @@ export const splitSaleOrder = {
       let soRepo = getRepository(SaleOrder)
       let so = await soRepo.findOne({
         // where: { domain: context.state.domain, id },
-        where: { id: saleOrderId, status: 'INIT' },
+        where: { id: saleOrderId },
         relations: ['domain', 'details', 'details.product', 'creator', 'updater']
       })
 
