@@ -6,13 +6,33 @@ import { getRepository, getManager, EntityManager } from 'typeorm'
 import { Domain, client } from '@things-factory/shell'
 import gql from 'graphql-tag'
 
-import { config, logger } from '@things-factory/env'
+import { config } from '@things-factory/env'
 import { User } from '@things-factory/auth-base'
 import { Connections, Connector } from '@things-factory/integration-base'
 import { Product, SaleOrder, SaleOrderDetail, WorkOrder } from '../../entities'
 import { sleep } from '../utils'
 
+import { createLogger, format, transports } from 'winston'
+const { combine, timestamp, splat, printf } = format
+
+var logger = createLogger({
+  format: combine(timestamp(), splat(), printf(({ level, message, timestamp }) => {
+    return `${timestamp} ${level}: ${message}`
+  })),
+  transports: [
+    new (transports as any).DailyRotateFile({
+      filename: `logs/if-order-%DATE%.log`,
+      datePattern: 'YYYY-MM-DD-HH',
+      zippedArchive: false,
+      maxSize: '20m',
+      maxFiles: '14d',
+      level: 'info'
+    })
+  ]
+})
+
 export class OkPOS implements Connector {
+
   ready(connectionConfigs) {
     const CONFIG = config.get('tcpListener')
 
