@@ -146,9 +146,22 @@ class WorkOrders extends localize(i18next)(PageView) {
           }
         },
         {
+          type: 'select',
+          name: 'owner',
+          header: i18next.t('field.owner'),
+          sortable: true,
+          width: 100,
+          record: {
+            align: 'center',
+            editable: false,
+            options: [{ display: "", value: "" }, { display: "로봇", value: "ROBOT" }, { display: "사람", value: "HUMAN" }]
+          }
+        },
+        {
           type: 'object',
           name: 'updater',
           header: i18next.t('field.updater'),
+          hidden: true,
           record: {
             align: 'center',
             editable: false
@@ -192,6 +205,7 @@ class WorkOrders extends localize(i18next)(PageView) {
               name
               qty
               status
+              owner
               saleOrder {
                 id
                 name
