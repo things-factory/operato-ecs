@@ -131,7 +131,7 @@ export class OkPOS implements Connector {
       // var date = new Date()
       // var month: any = date.getMonth() + 1
       // month = month < 10 ? `0${month}` : month
-      var name = `SO${data.SALE_DATE}${data.BILL_NO}${data.POS_NO}`
+      var name = `SO${data.SALE_DATE}${data.POS_NO}${data.BILL_NO}`
       var saleOrderRepo = getRepository(SaleOrder)
       // 해당 name으로 so가 존재하면 처리 안함.
       let so = await saleOrderRepo.findOne({
@@ -170,11 +170,10 @@ export class OkPOS implements Connector {
       await saleOrderRepo.save(newSo)
 
       let saleOrderDetailRepo = getRepository(SaleOrderDetail)
+      let sods = {}
       details.forEach(async detail => {
         qty += parseFloat(detail.SALE_QTY)
 
-        let sod = new SaleOrderDetail()
-        sod.domain = domain
         // let product = new Product()
         // product.id = 'PRD001' // FIXME: name-id relation from buffer
         var products = _cache.get('PRODUCT')
@@ -189,19 +188,35 @@ export class OkPOS implements Connector {
           }
         }
 
-        sod.name = `${newSo.name}${product.code}`
-        sod.saleOrder = newSo
-        sod.product = product
-        sod.qty = parseFloat(detail.SALE_QTY)
-        if (newSo.status == 'CANCELED') {
-          sod.status = 'CANCELED'
+        // TODO sale order details 제품명 중복
+        let name = `${newSo.name}${product.code}`
+        let soDetail = sods[name]
+        if (soDetail) {
+          soDetail.qty += parseFloat(detail.SALE_QTY)
         } else {
-          sod.status = 'INIT'
+          let sod = new SaleOrderDetail()
+          sod.domain = domain
+          sod.name = name
+          sod.saleOrder = newSo
+          sod.product = product
+          sod.qty = parseFloat(detail.SALE_QTY)
+          if (newSo.status == 'CANCELED') {
+            sod.status = 'CANCELED'
+          } else {
+            sod.status = 'INIT'
+          }
+          sod.creator = user
+          sod.updater = user
+          
+          sods[sod.name] = sod
         }
-        sod.creator = user
-        sod.updater = user
+      })
+
+      Object.keys(sods).forEach(async (name) => {
+        let sod = sods[name]
         await saleOrderDetailRepo.save(sod)
       })
+      
 
       // so.qty = qty // FIXME
       // saleOrderRepo.save(so)
@@ -216,7 +231,7 @@ export class OkPOS implements Connector {
       // 중복오더 위에서 return됨, ORG_BILL_NO값이 있으면 취소 오더로 간주됨.
       var orgBillNo = data.ORG_BILL_NO
       if (orgBillNo && orgBillNo != '') {
-        let name = `SO${data.SALE_DATE}${data.ORG_BILL_NO}${data.ORG_POS_NO}`
+        let name = `SO${data.SALE_DATE}${data.ORG_POS_NO}${data.ORG_BILL_NO}`
         let cancelSo = await saleOrderRepo.findOne({
           where: { domain: domain, name: name },
           relations: ['domain', 'details', 'details.product', 'creator', 'updater']
