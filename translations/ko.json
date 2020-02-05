@@ -13,6 +13,7 @@
   "field.group1": "그룹",
   "field.group2": "카테고리",
   "field.group3": "유형",
+  "field.owner": "작업유형",
   "button.commit": "저장",
   "button.delete": "삭제",
   "button.reload": "수정취소",
