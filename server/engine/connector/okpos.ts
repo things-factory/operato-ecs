@@ -39,8 +39,8 @@ export class OkPOS implements Connector {
     return new Promise((resolve, reject) => {
       var server = net.createServer(socket => {
         socket.on('data', async data => {
-          logger.warn('tcpListener: ')
-          logger.warn(data.toString())
+          logger.info('tcpListener: ')
+          logger.info(data.toString())
           var messageString = data.toString().replace(/(\r\n|\n|\r)/gm, '')
           var lastIdx = messageString.lastIndexOf('}')
           var firstIdx = messageString.indexOf('{')
@@ -74,7 +74,7 @@ export class OkPOS implements Connector {
         socket.on('error', ex => {
           // FIXME
           logger.error('tcpListener: error: ')
-          console.log(ex.stack)
+          console.log(ex)
         })
       })
 
@@ -131,7 +131,7 @@ export class OkPOS implements Connector {
       // var date = new Date()
       // var month: any = date.getMonth() + 1
       // month = month < 10 ? `0${month}` : month
-      var name = `SO${data.SALE_DATE}${data.BILL_NO}`
+      var name = `SO${data.SALE_DATE}${data.BILL_NO}${data.POS_NO}`
       var saleOrderRepo = getRepository(SaleOrder)
       // 해당 name으로 so가 존재하면 처리 안함.
       let so = await saleOrderRepo.findOne({
@@ -216,14 +216,14 @@ export class OkPOS implements Connector {
       // 중복오더 위에서 return됨, ORG_BILL_NO값이 있으면 취소 오더로 간주됨.
       var orgBillNo = data.ORG_BILL_NO
       if (orgBillNo && orgBillNo != '') {
-        let name = `SO${data.SALE_DATE}${data.ORG_BILL_NO}`
-        let so = await saleOrderRepo.findOne({
+        let name = `SO${data.SALE_DATE}${data.ORG_BILL_NO}${data.ORG_POS_NO}`
+        let cancelSo = await saleOrderRepo.findOne({
           where: { domain: domain, name: name },
           relations: ['domain', 'details', 'details.product', 'creator', 'updater']
         })
         
         try {
-          this.processCancel(trxMgr, so)
+          this.processCancel(trxMgr, cancelSo)
         } catch(ex) {
           logger.error('processCancel: ')
           logger.error(ex.stack)

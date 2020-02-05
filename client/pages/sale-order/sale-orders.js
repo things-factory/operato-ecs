@@ -149,6 +149,18 @@ class SaleOrders extends localize(i18next)(PageView) {
           }
         },
         {
+          type: 'string',
+          name: 'posNo',
+          header: i18next.t('field.posno'),
+          sortable: true,
+          width: 60,
+          // hidden: true,
+          record: {
+            align: 'center',
+            editable: true
+          }
+        },
+        {
           type: 'select',
           name: 'status',
           header: i18next.t('field.status'),
@@ -205,7 +217,8 @@ class SaleOrders extends localize(i18next)(PageView) {
               id
               name
               qty
-              status
+              status  
+              posNo
               updater {
                 id
                 name
