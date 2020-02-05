@@ -1,23 +1,12 @@
 {
   "text.sheet management": "sheet management",
   "text.user management": "user management",
-  "text.connection": "connection",
-  "text.scenario": "scenario",
-  "text.sure_to_x": "Sure to {x}?",
-  "text.info_x_successfully": "{x} success.",
-  "text.delete": "delete",
   "field.board": "board",
-  "field.type": "type",
-  "field.endpoint": "endpoint",
-  "field.task": "task",
-  "field.params": "parameters",
-  "field.connection": "connection",
   "button.commit": "commit",
   "button.delete": "delete",
   "button.reload": "reload",
   "label.plcAddress": "PLC address",
   "label.expected value": "expected value",
   "title.dashboard setting": "dashboard setting",
-  "title.home dashboard": "home dashboard",
-  "title.scenario-detail": "scenario detail"
+  "title.home dashboard": "home dashboard"
 }

@@ -1,23 +1,12 @@
 {
   "text.sheet management": "[zh]sheet management",
   "text.user management": "[zh]user management",
-  "text.connection": "[zh]connection",
-  "text.scenario": "[zh]scenario",
-  "text.sure_to_x": "[zh]Sure to {x}?",
-  "text.info_x_successfully": "[zh]{x} success.",
-  "text.delete": "[zh]delete",
   "field.board": "[zh]board",
-  "field.type": "[zh]type",
-  "field.endpoint": "[zh]endpoint",
-  "field.task": "[zh]task",
-  "field.params": "[zh]parameters",
-  "field.connection": "[zh]connection",
   "button.commit": "[zh]commit",
   "button.delete": "[zh]delete",
   "button.reload": "[zh]reload",
   "label.plcAddress": "[zh]PLC address",
   "label.expected value": "[zh]expected value",
   "title.dashboard setting": "[zh]dashboard setting",
-  "title.home dashboard": "[zh]home dashboard",
-  "title.scenario-detail": "[zh]scenario detail"
+  "title.home dashboard": "[zh]home dashboard"
 }
