@@ -3,7 +3,7 @@
  */
 
 import { Connections, TaskRegistry } from '@things-factory/integration-base'
-import { Printer, Printer2 /* promisifier */ } from 'escpos'
+import { Printer } from 'escpos'
 import camelcase from 'lodash/camelCase'
 import { promisify } from 'util'
 
@@ -53,6 +53,7 @@ const COMMANDS = {
     n - number of buzzer times
     t - buzzer sound length in (t * 100) milliseconds
    */
+  drawLine: NONE,
   flush: NONE,
   close: NONE
 }
@@ -86,6 +87,7 @@ function parseCommands(command) {
 
 async function executeCommand(printer, commands, { logger, publish, data }) {
   var executes = parseCommands(commands)
+  var needSleep = true
 
   logger.info(JSON.stringify(executes, null, 2))
 
@@ -94,15 +96,29 @@ async function executeCommand(printer, commands, { logger, publish, data }) {
 
     logger.info(`command(${command}) params(${JSON.stringify(params, null, 2)})`)
 
+    if (command == 'qrimage') {
+      needSleep = false
+    }
+
     if (~COMMANDS_PROMISIFY.indexOf(command)) {
       await promisify(printer[command]).apply(printer, params)
     } else {
-      await printer[command].apply(printer, params)
+      printer[command].apply(printer, params)
     }
   }
 
-  await printer.flush()
-  await printer.close()
+  /* 
+    FIXME - escpos 소스 분석과정에서 200ms 의 sleep 동작이 없으면, 프린터 출력에 문제가 있음을 발견함.
+    Promisify로 해결될 문제가 아님.
+  */
+  needSleep &&
+    (await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(true)
+      }, 200)
+    }))
+
+  await promisify(printer.flush).apply(printer)
 }
 
 async function ESCPOSPrint(step, context: { logger; publish; data }) {
@@ -123,7 +139,7 @@ async function ESCPOSPrint(step, context: { logger; publish; data }) {
     TODO escpos 모듈의 device adapter 호환 connection을 전제로 하고 있으나, connection 명세를 별도로 정의해서 제공하도록 해야한다.
   */
   /* promisified Printer */
-  const printer = Printer2(new Printer(connection, { encoding } /* options */))
+  const printer = new Printer(connection, { encoding } /* options */)
 
   connection.open()
   await executeCommand(printer, interpolatedCommand, context)
