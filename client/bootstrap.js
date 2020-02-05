@@ -16,12 +16,20 @@ import { UPDATE_DASHBOARD_SETTINGS } from './actions/dashboard-settings'
 import { fetchDashboardSettings } from './viewparts/fetch-dashboard-settings'
 
 console.log(`
-▄▄▄▄                         ▄▄▄▄▄  ▄▄▄     
-▓   ▓      ▄         ▄       ▓     ▓   ▀
-▓▓▓▓   ▄▄  ▓▄▄   ▄▄  ▓▄▄  ▄  ▓▓▓▓  ▀▀▄▄ 
-▓   ▓ ▓  ▓ ▓  ▓ ▓  ▓ ▓       ▓     ▄   ▓
-▀    ▀ ▀▀  ▀▀▀   ▀▀  ▀▀▀     ▀▀▀▀▀  ▀▀▀ 
+ ▄▄  ▄▄▄  ▄▄▄ ▄▄▄   ▄▄  ▄▄▄  ▄▄     ▄▄▄▄▄  ▄▄▄  ▄▄▄ 
+▓  ▓ ▓  ▓ ▓   ▓  ▓ ▓  ▓  ▓  ▓  ▓    ▓     ▓    ▓   ▀
+▓  ▓ ▓▀▀  ▓▀▀ ▓▀▀▄ ▓▀▀▓  ▓  ▓  ▓ ▀▀ ▓▓▓▓  ▓    ▀▀▄▄ 
+▓  ▓ ▓    ▓   ▓  ▓ ▓  ▓  ▓  ▓  ▓    ▓     ▓    ▄   ▓
+ ▀▀  ▀    ▀▀▀ ▀  ▀ ▀  ▀  ▀   ▀▀     ▀▀▀▀▀  ▀▀▀  ▀▀▀ 
 `)
+
+// console.log(`
+// ▄▄▄▄                         ▄▄▄▄▄  ▄▄▄
+// ▓   ▓      ▄         ▄       ▓     ▓   ▀
+// ▓▓▓▓   ▄▄  ▓▄▄   ▄▄  ▓▄▄  ▄  ▓▓▓▓  ▀▀▄▄
+// ▓   ▓ ▓  ▓ ▓  ▓ ▓  ▓ ▓       ▓     ▄   ▓
+// ▀    ▀ ▀▀  ▀▀▀   ▀▀  ▀▀▀     ▀▀▀▀▀  ▀▀▀
+// `)
 
 export default function bootstrap() {
   store.addReducers({
