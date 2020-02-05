@@ -53,14 +53,14 @@ class WorkOrders extends localize(i18next)(PageView) {
     return {
       title: i18next.t('title.workorder'),
       actions: [
-        {
-          title: i18next.t('button.save'),
-          action: this._saveWorkOrder.bind(this)
-        },
-        {
-          title: i18next.t('button.delete'),
-          action: this._deleteWorkOrder.bind(this)
-        }
+        // {
+        //   title: i18next.t('button.save'),
+        //   action: this._saveWorkOrder.bind(this)
+        // },
+        // {
+        //   title: i18next.t('button.delete'),
+        //   action: this._deleteWorkOrder.bind(this)
+        // }
       ],
       exportable: {
         name: i18next.t('title.workorder'),
@@ -90,11 +90,21 @@ class WorkOrders extends localize(i18next)(PageView) {
       columns: [
         { type: 'gutter', gutterName: 'dirty' },
         { type: 'gutter', gutterName: 'sequence' },
-        { type: 'gutter', gutterName: 'row-selector', multiple: true },
+        // { type: 'gutter', gutterName: 'row-selector', multiple: true },
+        {
+          type: 'object',
+          name: 'saleOrder',
+          header: i18next.t('field.saleorder'),
+          // hidden: true,
+          record: {
+            editable: false
+          },
+          width: 120
+        },
         {
           type: 'string',
           name: 'name',
-          header: i18next.t('field.name'),
+          header: i18next.t('field.workorder'),
           sortable: true,
           width: 240,
           record: {
@@ -113,16 +123,6 @@ class WorkOrders extends localize(i18next)(PageView) {
             align: 'center',
             editable: true
           }
-        },
-        {
-          type: 'object',
-          name: 'saleOrder',
-          header: i18next.t('field.saleOrder'),
-          hidden: true,
-          record: {
-            editable: false
-          },
-          width: 120
         },
         {
           type: 'object',
@@ -170,9 +170,18 @@ class WorkOrders extends localize(i18next)(PageView) {
         },
         {
           type: 'datetime',
+          name: 'createdAt',
+          header: i18next.t('field.created_at'),
+          sortable: true,
+          // hidden: true,
+          width: 180
+        },
+        {
+          type: 'datetime',
           name: 'updatedAt',
           header: i18next.t('field.updated_at'),
           sortable: true,
+          hidden: true,
           width: 180
         },
       ]
@@ -191,7 +200,7 @@ class WorkOrders extends localize(i18next)(PageView) {
     return this.config.columns
   }
 
-  async fetchHandler({ page, limit, sorters = [] }) {
+  async fetchHandler({ page, limit, sorters = [ {name: 'createdAt', desc: true} ] }) {
     const response = await client.query({
       query: gql`
         query {
@@ -221,6 +230,7 @@ class WorkOrders extends localize(i18next)(PageView) {
                 name
                 description
               }
+              createdAt
               updatedAt
             }
           }
