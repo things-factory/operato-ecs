@@ -15,13 +15,16 @@ import dashboard from './reducers/dashboard-settings'
 import { UPDATE_DASHBOARD_SETTINGS } from './actions/dashboard-settings'
 import { fetchDashboardSettings } from './viewparts/fetch-dashboard-settings'
 
-console.log(`
- ▄▄  ▄▄▄  ▄▄▄ ▄▄▄   ▄▄  ▄▄▄  ▄▄     ▄▄▄▄▄  ▄▄▄  ▄▄▄ 
-▓  ▓ ▓  ▓ ▓   ▓  ▓ ▓  ▓  ▓  ▓  ▓    ▓     ▓    ▓   ▀
-▓  ▓ ▓▀▀  ▓▀▀ ▓▀▀▄ ▓▀▀▓  ▓  ▓  ▓ ▀▀ ▓▓▓▓  ▓    ▀▀▄▄ 
-▓  ▓ ▓    ▓   ▓  ▓ ▓  ▓  ▓  ▓  ▓    ▓     ▓    ▄   ▓
- ▀▀  ▀    ▀▀▀ ▀  ▀ ▀  ▀  ▀   ▀▀     ▀▀▀▀▀  ▀▀▀  ▀▀▀ 
-`)
+console.log(
+  `%c
+  ▄▄  ▄▄▄  ▄▄▄ ▄▄▄   ▄▄  ▄▄▄  ▄▄     ▄▄▄▄▄  ▄▄▄  ▄▄▄  
+ ▓  ▓ ▓  ▓ ▓   ▓  ▓ ▓  ▓  ▓  ▓  ▓    ▓     ▓    ▓   ▀ 
+ ▓  ▓ ▓▀▀  ▓▀▀ ▓▀▀▄ ▓▀▀▓  ▓  ▓  ▓ ▀▀ ▓▀▀▀  ▓    ▀▀▄▄  
+ ▓  ▓ ▓    ▓   ▓  ▓ ▓  ▓  ▓  ▓  ▓    ▓     ▓    ▄   ▓ 
+  ▀▀  ▀    ▀▀▀ ▀  ▀ ▀  ▀  ▀   ▀▀     ▀▀▀▀▀  ▀▀▀  ▀▀▀  
+`,
+  'background: #222; color: #bada55'
+)
 
 // console.log(`
 // ▄▄▄▄                         ▄▄▄▄▄  ▄▄▄
