@@ -163,49 +163,4 @@ export default function bootstrap() {
       `
     }
   })
-
-  store.dispatch({
-    type: ADD_MORENDA,
-    morenda: {
-      icon: html`
-        <mwc-icon>card_giftcard</mwc-icon>
-      `,
-      name: html`
-        <i18n-msg msgid="text.product"></i18n-msg>
-      `,
-      action: () => {
-        navigate('products')
-      }
-    }
-  })
-
-  store.dispatch({
-    type: ADD_MORENDA,
-    morenda: {
-      icon: html`
-        <mwc-icon>credit_card</mwc-icon>
-      `,
-      name: html`
-        <i18n-msg msgid="text.saleorder"></i18n-msg>
-      `,
-      action: () => {
-        navigate('sale-orders')
-      }
-    }
-  })
-
-  store.dispatch({
-    type: ADD_MORENDA,
-    morenda: {
-      icon: html`
-        <mwc-icon>ballot</mwc-icon>
-      `,
-      name: html`
-        <i18n-msg msgid="text.workorder"></i18n-msg>
-      `,
-      action: () => {
-        navigate('work-orders')
-      }
-    }
-  })
 }
