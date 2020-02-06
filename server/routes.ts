@@ -1,5 +1,4 @@
 import koaBodyParser from 'koa-bodyparser'
-import { SaleOrder } from './entities/sale-order'
 import { getConnection, getRepository } from 'typeorm'
 
 process.on('bootstrap-module-history-fallback' as any, (app, fallbackOption) => {

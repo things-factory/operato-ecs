@@ -8,8 +8,6 @@ export * from './engine'
 import './routes'
 import './engine'
 
-import { initCache } from './cache'
-
 import { logger } from '@things-factory/env'
 
 process.on('bootstrap-module-start' as any, async ({ app, config, client }: any) => {
@@ -22,6 +20,4 @@ process.on('bootstrap-module-start' as any, async ({ app, config, client }: any)
     logger.error(ex)
   }
   console.log('%%%%%%%%%%%%%%%% TASK ENGINE - END %%%%%%%%%%%%%%%%')
-
-  initCache()
 })
