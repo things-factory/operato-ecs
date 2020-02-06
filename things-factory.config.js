@@ -27,18 +27,6 @@ export default {
     {
       tagname: 'res-board-viewer-page',
       page: 'board-viewer'
-    },
-    {
-      tagname: 'product-page',
-      page: 'products'
-    },
-    {
-      tagname: 'saleorder-page',
-      page: 'sale-orders'
-    },
-    {
-      tagname: 'workorder-page',
-      page: 'work-orders'
     }
   ],
   route
