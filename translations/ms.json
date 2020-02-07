@@ -5,8 +5,6 @@
   "button.commit": "[ms]commit",
   "button.delete": "[ms]delete",
   "button.reload": "[ms]reload",
-  "label.plcAddress": "[ms]PLC address",
-  "label.expected value": "[ms]expected value",
   "title.dashboard setting": "[ms]dashboard setting",
   "title.home dashboard": "[ms]home dashboard"
 }
