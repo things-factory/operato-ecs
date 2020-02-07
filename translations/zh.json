@@ -5,8 +5,6 @@
   "button.commit": "[zh]commit",
   "button.delete": "[zh]delete",
   "button.reload": "[zh]reload",
-  "label.plcAddress": "[zh]PLC address",
-  "label.expected value": "[zh]expected value",
   "title.dashboard setting": "[zh]dashboard setting",
   "title.home dashboard": "[zh]home dashboard"
 }
