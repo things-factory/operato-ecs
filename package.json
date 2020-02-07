@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/operato-ecs",
-  "version": "2.0.15",
+  "version": "2.0.16",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -58,6 +58,7 @@
     "@things-scene/grist": "*",
     "@things-scene/half-roundrect": "*",
     "@things-scene/indoor-map": "*",
+    "@things-scene/integration": "*",
     "@things-scene/label": "*",
     "@things-scene/legend": "*",
     "@things-scene/marker": "*",
@@ -69,6 +70,7 @@
     "@things-scene/switch": "*",
     "@things-scene/tab": "*",
     "@things-scene/table": "*",
+    "@things-scene/timer": "*",
     "@things-scene/visualizer": "*",
     "@things-scene/wheel-sorter": "*"
   },
