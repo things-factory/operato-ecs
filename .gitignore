@@ -9,5 +9,6 @@ package-lock.json
 .vscode
 platforms
 plugins
+db.sqlite
 
 www/js/index.js*
