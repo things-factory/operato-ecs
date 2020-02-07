@@ -3,10 +3,8 @@ import { Connections } from '@things-factory/integration-base'
 export * from './entities'
 export * from './graphql'
 export * from './migrations'
-export * from './engine'
 
 import './routes'
-import './engine'
 
 import { logger } from '@things-factory/env'
 
