@@ -25,7 +25,7 @@ export default {
       page: 'scenario'
     },
     {
-      tagname: 'res-board-viewer-page',
+      tagname: 'ecs-board-viewer-page',
       page: 'board-viewer'
     }
   ],

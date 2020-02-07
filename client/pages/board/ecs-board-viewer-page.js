@@ -1,6 +1,6 @@
 import { BoardViewerPage } from '@things-factory/board-ui'
 
-export class ResBoardViewerPage extends BoardViewerPage {
+export class ECSBoardViewerPage extends BoardViewerPage {
   get context() {
     return {
       title: this.lifecycle.params['title'] || super.context.title
@@ -8,4 +8,4 @@ export class ResBoardViewerPage extends BoardViewerPage {
   }
 }
 
-customElements.define('res-board-viewer-page', ResBoardViewerPage)
+customElements.define('ecs-board-viewer-page', ECSBoardViewerPage)
