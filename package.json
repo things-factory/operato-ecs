@@ -1,5 +1,5 @@
 {
-  "name": "@things-factory/res-app",
+  "name": "@things-factory/operato-ecs",
   "version": "2.0.14",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
@@ -7,8 +7,8 @@
   "license": "MIT",
   "author": "heartyoh",
   "scripts": {
-    "serve": "things-factory res-app",
-    "serve:dev": "npm run build:server && things-factory-dev res-app",
+    "serve": "things-factory operato-ecs",
+    "serve:dev": "npm run build:server && things-factory-dev operato-ecs",
     "start:app": "things-factory-app",
     "start:app:android": "things-factory-app --platform=android",
     "emulate:app": "things-factory-app --emulate",
@@ -27,7 +27,7 @@
     "migration:run": "node ./node_modules/typeorm/cli.js migration:run",
     "migration:revert": "node ./node_modules/typeorm/cli.js migration:revert",
     "stop:dev": "kill $(lsof -t -i:3000,3001)",
-    "stop": "things-factory-stop res-app"
+    "stop": "things-factory-stop operato-ecs"
   },
   "dependencies": {
     "@things-factory/apptool-ui": "^2.0.0",
@@ -63,7 +63,6 @@
     "@things-scene/marker": "*",
     "@things-scene/mqtt": "*",
     "@things-scene/news-ticker": "*",
-    "@things-scene/person": "*",
     "@things-scene/progressbar": "*",
     "@things-scene/random": "*",
     "@things-scene/restful": "*",
@@ -71,11 +70,7 @@
     "@things-scene/tab": "*",
     "@things-scene/table": "*",
     "@things-scene/visualizer": "*",
-    "@things-scene/wheel-sorter": "*",
-    "escpos": "^2.5.2",
-    "lodash": "^4.17.15",
-    "node-cache": "^5.1.0",
-    "promise-socket": "^6.0.2"
+    "@things-scene/wheel-sorter": "*"
   },
   "devDependencies": {
     "@things-factory/board-test": "^2.0.0"
