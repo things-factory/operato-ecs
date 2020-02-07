@@ -1,6 +1,7 @@
-## RES
+## Operato ECS
 
-- Robot Execution System
+- Operato : Solution family brand of hatiolab.com(http://www.hatiolab.com)
+- ECS : Equipment Control System (Automation Solution)
 
 ## prerequisites
 
