@@ -26,14 +26,6 @@ console.log(
   'background: #222; color: #bada55'
 )
 
-// console.log(`
-// ▄▄▄▄                         ▄▄▄▄▄  ▄▄▄
-// ▓   ▓      ▄         ▄       ▓     ▓   ▀
-// ▓▓▓▓   ▄▄  ▓▄▄   ▄▄  ▓▄▄  ▄  ▓▓▓▓  ▀▀▄▄
-// ▓   ▓ ▓  ▓ ▓  ▓ ▓  ▓ ▓       ▓     ▄   ▓
-// ▀    ▀ ▀▀  ▀▀▀   ▀▀  ▀▀▀     ▀▀▀▀▀  ▀▀▀
-// `)
-
 export default function bootstrap() {
   store.addReducers({
     sheets,
