@@ -5,6 +5,7 @@ export * from './graphql'
 export * from './migrations'
 
 import './routes'
+import './engine'
 
 import { logger } from '@things-factory/env'
 

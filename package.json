@@ -72,7 +72,10 @@
     "@things-scene/table": "*",
     "@things-scene/timer": "*",
     "@things-scene/visualizer": "*",
-    "@things-scene/wheel-sorter": "*"
+    "@things-scene/wheel-sorter": "*",
+    "jsmodbus": "^4.0.2",
+    "mcprotocol": "^0.1.1",
+    "serialport": "^8.0.7"
   },
   "devDependencies": {
     "@things-factory/board-test": "^2.0.0"
