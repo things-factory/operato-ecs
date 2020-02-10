@@ -1,4 +1,3 @@
-import { logger } from '@things-factory/env'
 import { Connections, Connector } from '@things-factory/integration-base'
 import net from 'net'
 import * as modbus from 'jsmodbus'
@@ -7,7 +6,7 @@ export class ModbusTCPServer implements Connector {
   async ready(connectionConfigs) {
     await Promise.all(connectionConfigs.map(this.connect))
 
-    logger.info('modbus-tcp-servers are ready')
+    Connections.logger.info('modbus-tcp-servers are ready')
   }
 
   async connect(config) {
