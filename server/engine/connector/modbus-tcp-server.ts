@@ -28,6 +28,8 @@ export class ModbusTCPServer implements Connector {
     client['__server__'] = server
 
     Connections.addConnection(config.name, client)
+
+    Connections.logger.info(`modbus-tcp-server connection(${config.name}:${config.endpoint}) is connected`)
   }
 
   async disconnect(name: String) {
@@ -36,6 +38,8 @@ export class ModbusTCPServer implements Connector {
 
     client.socket.end()
     server && server._server.close()
+
+    Connections.logger.info(`modbus-tcp-server connection(${name}) is disconnected`)
   }
 
   get parameterSpec() {

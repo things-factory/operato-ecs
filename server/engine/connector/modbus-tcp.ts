@@ -19,12 +19,16 @@ export class ModbusTCPConnector implements Connector {
     clientSocket.connect({ host, port })
 
     Connections.addConnection(config.name, client)
+
+    Connections.logger.info(`modbus-tcp connection(${config.name}:${config.endpoint}) is connected`)
   }
 
   async disconnect(name: String) {
     var client = Connections.removeConnection(name)
 
     client.socket.end()
+
+    Connections.logger.info(`modbus-tcp connection(${name}) is disconnected`)
   }
 
   get parameterSpec() {

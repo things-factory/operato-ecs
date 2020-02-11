@@ -25,6 +25,8 @@ export class MelsecConnector implements Connector {
       ])
 
       Connections.addConnection(connection.name, conn)
+
+      Connections.logger.info(`melsec-connector connection(${connection.name}:${connection.endpoint}) is connected`)
     } catch (e) {
       Connections.logger.error(e)
     }
@@ -34,6 +36,8 @@ export class MelsecConnector implements Connector {
     let conn = Connections.removeConnection(name)
 
     await conn.dropConnection()
+
+    Connections.logger.info(`melsec-connector connection(${name}) is disconnected`)
   }
 
   get parameterSpec() {
