@@ -43,6 +43,7 @@
     "@things-factory/resource-ui": "^2.0.0",
     "@things-factory/setting-base": "^2.0.0",
     "@things-factory/setting-ui": "^2.0.0",
+    "@things-factory/shell": "^2.0.0",
     "@things-factory/system-ui": "^2.0.0",
     "@things-scene/chartjs": "*",
     "@things-scene/clock": "*",
