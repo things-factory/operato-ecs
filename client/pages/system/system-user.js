@@ -171,6 +171,15 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
           width: 200
         },
         {
+          type: 'string',
+          name: 'status',
+          header: i18next.t('field.status'),
+          record: {
+            editable: true
+          },
+          width: 100
+        },
+        {
           type: 'object',
           name: 'updater',
           header: i18next.t('field.updater'),
@@ -224,6 +233,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
               description
               email
               password
+              status
               updater {
                 id
                 name
@@ -270,7 +280,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
         const response = await client.query({
           query: gql`
                 mutation {
-                  deleteUser(${gqlBuilder.buildArgs({ emails })})
+                  deleteUsers(${gqlBuilder.buildArgs({ emails })})
                 }
               `
         })

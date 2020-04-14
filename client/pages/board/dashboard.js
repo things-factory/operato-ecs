@@ -15,7 +15,7 @@ class Dashboard extends BoardViewerPage {
   stateChanged(state) {
     super.stateChanged(state)
 
-    this._boardId = (state.dashboard[HOME_BOARD] || { board: {} }).board.id
+    this._boardId = (state?.dashboard?.[HOME_BOARD] || { board: {} })?.board?.id
   }
 
   get oopsNote() {
