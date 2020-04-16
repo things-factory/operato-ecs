@@ -6,8 +6,8 @@ import { ScrollbarStyles } from '@things-factory/styles'
 import gql from 'graphql-tag'
 import { css, html } from 'lit-element'
 import { connect } from 'pwa-helpers/connect-mixin'
-import './system-create-user'
-import './system-user-detail'
+// import './system-create-user'
+// import './system-user-detail'
 
 class SystemUser extends connect(store)(localize(i18next)(PageView)) {
   static get properties() {
@@ -178,11 +178,11 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
             editable: true,
             options: [
               {
-                display: i18next.t('label.common'),
+                display: i18next.t('label.common-user'),
                 value: 'common'
               },
               {
-                display: i18next.t('label.admin'),
+                display: i18next.t('label.admin-user'),
                 value: 'admin'
               }
             ]
@@ -197,23 +197,23 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
             editable: true,
             options: [
               {
-                display: i18next.t('label.activated'),
+                display: i18next.t('label.activated-user'),
                 value: 'activated'
               },
               {
-                display: i18next.t('label.inactive'),
+                display: i18next.t('label.inactive-user'),
                 value: 'inactive'
               },
               {
-                display: i18next.t('label.deleted'),
+                display: i18next.t('label.deleted-user'),
                 value: 'deleted'
               },
               {
-                display: i18next.t('label.locked'),
+                display: i18next.t('label.locked-user'),
                 value: 'locked'
               },
               {
-                display: i18next.t('label.banned'),
+                display: i18next.t('label.banned-user'),
                 value: 'banned'
               }
             ]

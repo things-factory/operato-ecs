@@ -1,10 +1,20 @@
 {
-  "text.sheet management": "sheet management",
-  "text.user management": "user management",
-  "field.board": "board",
   "button.commit": "commit",
   "button.delete": "delete",
   "button.reload": "reload",
+  "field.board": "board",
+  "field.qty": "qty",
+  "field.status": "status",
+  "field.user-type": "user type",
+  "label.activated-user": "activated",
+  "label.admin-user": "admin",
+  "label.banned-user": "banned",
+  "label.common-user": "common",
+  "label.deleted-user": "deleted",
+  "label.inactive-user": "inactive",
+  "label.locked-user": "locked",
+  "text.sheet management": "sheet management",
+  "text.user management": "user management",
   "title.dashboard setting": "dashboard setting",
   "title.home dashboard": "home dashboard"
 }
