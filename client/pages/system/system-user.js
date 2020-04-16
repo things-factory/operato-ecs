@@ -171,22 +171,54 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
           width: 200
         },
         {
-          type: 'string',
+          type: 'select',
+          name: 'userType',
+          header: i18next.t('field.user-type'),
+          record: {
+            editable: true,
+            options: [
+              {
+                display: i18next.t('label.common'),
+                value: 'common'
+              },
+              {
+                display: i18next.t('label.admin'),
+                value: 'admin'
+              }
+            ]
+          },
+          width: 70
+        },
+        {
+          type: 'select',
           name: 'status',
           header: i18next.t('field.status'),
           record: {
-            editable: true
+            editable: true,
+            options: [
+              {
+                display: i18next.t('label.activated'),
+                value: 'activated'
+              },
+              {
+                display: i18next.t('label.inactive'),
+                value: 'inactive'
+              },
+              {
+                display: i18next.t('label.deleted'),
+                value: 'deleted'
+              },
+              {
+                display: i18next.t('label.locked'),
+                value: 'locked'
+              },
+              {
+                display: i18next.t('label.banned'),
+                value: 'banned'
+              }
+            ]
           },
           width: 100
-        },
-        {
-          type: 'object',
-          name: 'updater',
-          header: i18next.t('field.updater'),
-          record: {
-            editable: true
-          },
-          width: 180
         },
         {
           type: 'datetime',
@@ -234,6 +266,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
               email
               password
               status
+              userType
               updater {
                 id
                 name
@@ -251,6 +284,22 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
       total: response.data.users.total || 0,
       records: response.data.users.items || []
     }
+  }
+
+  async fetchDefaultDomain() {
+    const response = await client.query({
+      query: gql`
+        query {
+          domain(name: "SYSTEM") {
+            id
+            name
+            description
+          }
+        }
+      `
+    })
+
+    return response?.data?.domain
   }
 
   _conditionParser() {
@@ -308,6 +357,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
 
   async _updateUsers() {
     let patches = this.dataGrist.dirtyRecords
+    const defaultDomain = await this.fetchDefaultDomain()
     if (patches && patches.length) {
       patches = patches.map(user => {
         let patchField = user.id ? { id: user.id } : {}
@@ -317,7 +367,10 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
         }
         patchField.cuFlag = user.__dirty__
 
-        return patchField
+        return {
+          domain: defaultDomain,
+          ...patchField
+        }
       })
 
       const response = await client.query({
