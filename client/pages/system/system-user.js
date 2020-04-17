@@ -151,7 +151,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
           record: {
             editable: true
           },
-          width: 150
+          width: 250
         },
         {
           type: 'string',
@@ -177,6 +177,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
           name: 'userType',
           header: i18next.t('field.user-type'),
           record: {
+            align: 'center',
             editable: true,
             options: [
               {
@@ -196,6 +197,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
           name: 'status',
           header: i18next.t('field.status'),
           record: {
+            align: 'center',
             editable: true,
             options: [
               {
@@ -226,9 +228,6 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
           type: 'datetime',
           name: 'updatedAt',
           header: i18next.t('field.updated_at'),
-          record: {
-            editable: true
-          },
           width: 180
         }
       ]
