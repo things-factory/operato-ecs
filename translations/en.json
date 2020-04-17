@@ -1,10 +1,18 @@
 {
-  "text.sheet management": "sheet management",
-  "text.user management": "user management",
-  "field.board": "board",
   "button.commit": "commit",
   "button.delete": "delete",
   "button.reload": "reload",
+  "field.board": "board",
+  "field.status": "status",
+  "field.user-type": "user type",
+  "label.activated": "activated",
+  "label.banned": "banned",
+  "label.common-user": "common user",
+  "label.deleted": "deleted",
+  "label.inactive": "inactive",
+  "label.locked": "locked",
+  "text.sheet management": "sheet management",
+  "text.user management": "user management",
   "title.dashboard setting": "dashboard setting",
   "title.home dashboard": "home dashboard"
 }

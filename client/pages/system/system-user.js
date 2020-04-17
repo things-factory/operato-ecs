@@ -132,7 +132,8 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
               queryName: 'domains'
             }
           },
-          width: 250
+          width: 250,
+          hidden: true
         },
         {
           type: 'string',
@@ -159,7 +160,8 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
           record: {
             editable: true
           },
-          width: 200
+          width: 200,
+          hidden: true
         },
         {
           type: 'password',
@@ -178,7 +180,7 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
             editable: true,
             options: [
               {
-                display: i18next.t('label.common'),
+                display: i18next.t('label.common-user'),
                 value: 'common'
               },
               {
@@ -369,6 +371,8 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
 
         return {
           domain: defaultDomain,
+          status: 'activated',
+          userType: 'common',
           ...patchField
         }
       })
