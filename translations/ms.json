@@ -1,10 +1,20 @@
 {
-  "text.sheet management": "[ms]sheet management",
-  "text.user management": "[ms]user management",
-  "field.board": "[ms]board",
   "button.commit": "[ms]commit",
   "button.delete": "[ms]delete",
   "button.reload": "[ms]reload",
+  "field.board": "[ms]board",
+  "field.qty": "[ms]qty",
+  "field.status": "[ms]status",
+  "field.user-type": "[ms]user type",
+  "label.activated-user": "[ms]activated",
+  "label.admin-user": "[ms]admin",
+  "label.banned-user": "[ms]banned",
+  "label.common-user": "[ms]common",
+  "label.deleted-user": "[ms]deleted",
+  "label.inactive-user": "[ms]inactive",
+  "label.locked-user": "[ms]locked",
+  "text.sheet management": "[ms]sheet management",
+  "text.user management": "[ms]user management",
   "title.dashboard setting": "[ms]dashboard setting",
   "title.home dashboard": "[ms]home dashboard"
 }
