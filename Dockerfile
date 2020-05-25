@@ -8,7 +8,10 @@ WORKDIR /app
 
 # Copy the current directory contents into the container at /app
 COPY . /app
+RUN apt-get update -o Acquire::CompressionTypes::Order::=gz
+RUN apt-get upgrade -y
 
+RUN echo "deb http://ftp.de.debian.org/debian sid main" > /etc/apt/sources.list
 
 RUN apt-get update
 # install nodejs@10
@@ -17,6 +20,8 @@ RUN apt-get update
 
 # RUN apt-get -y install nodejs
 # RUN apt-get -y install wget
+
+RUN apt-get install -y chromium
 
 RUN apt-get install -y libcups2-dev 
 RUN apt-get install -y libavahi-compat-libdnssd-dev 
