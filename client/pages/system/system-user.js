@@ -84,14 +84,6 @@ class SystemUser extends connect(store)(localize(i18next)(PageView)) {
   async pageInitialized() {
     this._searchFields = [
       {
-        name: 'domain',
-        type: 'text',
-        props: {
-          placeholder: i18next.t('field.domain'),
-          searchOper: 'like'
-        }
-      },
-      {
         name: 'name',
         type: 'text',
         props: {
