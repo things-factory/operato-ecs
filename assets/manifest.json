@@ -1,7 +1,7 @@
 {
-  "name": "Things Factory",
-  "short_name": "Things Factory",
-  "description": "Things Factory",
+  "name": "Operato ECS",
+  "short_name": "Operato ECS",
+  "description": "Operato ECS",
   "icons": [
     {
       "src": "manifest/icon-192x192.png",
