@@ -34,6 +34,10 @@ export class ModbusTCPConnector implements Connector {
   get parameterSpec() {
     return []
   }
+
+  get taskPrefixes() {
+    return ['modbus']
+  }
 }
 
 Connections.registerConnector('modbus-tcp', new ModbusTCPConnector())
