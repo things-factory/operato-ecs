@@ -7,8 +7,6 @@ import { isMobileDevice, gqlBuilder } from '@things-factory/utils'
 import { i18next, localize } from '@things-factory/i18n-base'
 import { getRenderer, getEditor } from '@things-factory/grist-ui'
 
-import '@things-factory/grist-ui'
-
 class LiteMenu extends connect(store)(localize(i18next)(PageView)) {
   static get properties() {
     return {
