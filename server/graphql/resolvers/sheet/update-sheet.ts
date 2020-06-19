@@ -9,19 +9,22 @@ export const updateSheet = {
       where: { domain: context.state.domain, name }
     })
 
-    var board = sheet.board
+    // if(sheet.type == 'board') {
 
-    if ('boardId' in patch) {
-      board = await getRepository(Board).findOne({ id: patch.boardId })
-      delete patch.boardId
-    }
+    // }
+    // var board = sheet.value
+
+    // if ('boardId' in patch) {
+    //   board = await getRepository(Board).findOne({ id: patch.boardId })
+    //   delete patch.boardId
+    // }
 
     return await repository.save({
       creater: context.state.user,
       domain: context.state.domain,
       ...sheet,
       ...patch,
-      board,
+      // board,
       updater: context.state.user
     })
   }

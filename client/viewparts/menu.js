@@ -54,7 +54,7 @@ export class MenuPart extends connect(store)(LitElement) {
   static get properties() {
     return {
       sheets: Array,
-      boardId: String,
+      resource: String,
       user: Object
     }
   }
@@ -68,13 +68,15 @@ export class MenuPart extends connect(store)(LitElement) {
       </div>
 
       ${sheets.map(sheet => {
-        var board = sheet.board || {}
-
         return html`
-          <div ?active=${this.boardId == board.id}>
-            <a href="board-viewer/${board.id}?title=${sheet.name}" viewer
-              ><mwc-icon>description</mwc-icon> ${sheet.name}</a
-            >
+          <div ?active=${this.resource == sheet.value}>
+            ${sheet.type == 'board'
+              ? html`
+                  <a href="board-viewer/${sheet.value}?title=${sheet.name}" viewer
+                    ><mwc-icon>description</mwc-icon> ${sheet.name}</a
+                  >
+                `
+              : html` <a href="${sheet.value}?title=${sheet.name}"><mwc-icon>description</mwc-icon> ${sheet.name}</a> `}
           </div>
         `
       })}
@@ -102,11 +104,8 @@ export class MenuPart extends connect(store)(LitElement) {
               name
               description
               active
-              board {
-                id
-                name
-                description
-              }
+              type
+              value
             }
             total
           }
@@ -122,7 +121,7 @@ export class MenuPart extends connect(store)(LitElement) {
   }
 
   stateChanged(state) {
-    this.boardId = state.route.resourceId
+    this.resource = state.route.resourceId
     this.sheets = state.sheets.sheets
     this.user = state.auth.user
   }

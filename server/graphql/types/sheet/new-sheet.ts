@@ -4,7 +4,8 @@ export const NewSheet = gql`
   input NewSheet {
     name: String!
     description: String
-    boardId: String
+    type: String
+    value: String
     active: Boolean
   }
 `

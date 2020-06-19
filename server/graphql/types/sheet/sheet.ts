@@ -5,6 +5,8 @@ export const Sheet = gql`
     id: String
     name: String
     description: String
+    type: String
+    value: String
     board: Board
     active: Boolean
     domain: Domain

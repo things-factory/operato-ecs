@@ -4,7 +4,8 @@ export const SheetPatch = gql`
   input SheetPatch {
     name: String
     description: String
-    boardId: String
+    type: String
+    value: String
     active: Boolean
   }
 `

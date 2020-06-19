@@ -10,7 +10,6 @@ import {
 } from 'typeorm'
 import { Domain } from '@things-factory/shell'
 import { User } from '@things-factory/auth-base'
-import { Board } from '@things-factory/board-service'
 
 @Entity('sheets')
 @Index('ix_sheet_0', (sheet: Sheet) => [sheet.domain, sheet.name], { unique: true })
@@ -29,10 +28,15 @@ export class Sheet {
   })
   description: string
 
-  @ManyToOne(type => Board, {
+  @Column({
     nullable: true
   })
-  board: Board
+  type: string
+
+  @Column({
+    nullable: true
+  })
+  value: string
 
   @Column({
     nullable: true,

@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 import { store, PageView, client } from '@things-factory/shell'
 import { isMobileDevice, gqlBuilder } from '@things-factory/utils'
 import { i18next, localize } from '@things-factory/i18n-base'
+import { getRenderer, getEditor } from '@things-factory/grist-ui'
 
 import '@things-factory/grist-ui'
 
@@ -89,7 +90,8 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
           name: record.name,
           description: record.description,
           active: record.active,
-          boardId: record.board && record.board.id
+          type: record.type,
+          value: record.value
         }
 
         return await client.mutate({
@@ -115,7 +117,8 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
           name: record.name,
           description: record.description,
           active: record.active,
-          boardId: record.board && record.board.id
+          type: record.type,
+          value: record.value
         }
 
         return await client.mutate({
@@ -209,13 +212,31 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
           width: 200
         },
         {
-          type: 'board',
-          name: 'board',
-          header: i18next.t('field.board'),
+          type: 'select',
+          name: 'type',
+          header: i18next.t('field.type'),
           record: {
             align: 'center',
             editable: true,
-            options: {}
+            options: ['board', 'page']
+          },
+          width: 80
+        },
+        {
+          type: 'string',
+          name: 'value',
+          header: i18next.t('field.value'),
+          record: {
+            align: 'center',
+            editable: true,
+            editor: function (value, column, record, rowIndex, field) {
+              var type = record.type == 'page' ? 'string' : record.type
+              return getEditor(type)(value, column, record, rowIndex, field)
+            },
+            renderer: function (value, column, record, rowIndex, field) {
+              var type = record.type == 'page' ? 'string' : record.type
+              return getRenderer(type)(value, column, record, rowIndex, field)
+            }
           },
           width: 240
         },
@@ -301,6 +322,8 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
               id
               name
               description
+              type
+              value
               board {
                 id
                 name
