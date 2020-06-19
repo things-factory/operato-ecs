@@ -45,7 +45,7 @@ export class MenuPart extends connect(store)(LitElement) {
         color: var(--menu-active-color);
       }
 
-      [viewer] {
+      [menu] {
         flex: 1;
       }
     `
@@ -64,7 +64,7 @@ export class MenuPart extends connect(store)(LitElement) {
 
     return html`
       <div ?active=${this.isHome()}>
-        <a @click=${e => this.navigateToHome()} viewer><mwc-icon>home</mwc-icon> home</a>
+        <a @click=${e => this.navigateToHome()} menu><mwc-icon>home</mwc-icon> home</a>
       </div>
 
       ${sheets.map(sheet => {
@@ -72,11 +72,13 @@ export class MenuPart extends connect(store)(LitElement) {
           <div ?active=${this.resource == sheet.value}>
             ${sheet.type == 'board'
               ? html`
-                  <a href="board-viewer/${sheet.value}?title=${sheet.name}" viewer
+                  <a href="board-viewer/${sheet.value}?title=${sheet.name}" menu
                     ><mwc-icon>description</mwc-icon> ${sheet.name}</a
                   >
                 `
-              : html` <a href="${sheet.value}?title=${sheet.name}"><mwc-icon>description</mwc-icon> ${sheet.name}</a> `}
+              : html`
+                  <a href="${sheet.value}?title=${sheet.name}" menu><mwc-icon>description</mwc-icon> ${sheet.name}</a>
+                `}
           </div>
         `
       })}
