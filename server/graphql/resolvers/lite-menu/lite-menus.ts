@@ -1,17 +1,16 @@
 import { buildQuery, ListParam } from '@things-factory/shell'
 import { getRepository } from 'typeorm'
-import { Sheet } from '../../../entities'
+import { LiteMenu } from '../../../entities'
 import { Board } from '@things-factory/board-service'
 
-export const sheetsResolver = {
-  async sheets(_: any, params: ListParam, context: any) {
-    const queryBuilder = getRepository(Sheet).createQueryBuilder()
+export const liteMenusResolver = {
+  async liteMenus(_: any, params: ListParam, context: any) {
+    const queryBuilder = getRepository(LiteMenu).createQueryBuilder()
     buildQuery(queryBuilder, params, context)
     var [items, total] = await queryBuilder
-      .leftJoinAndSelect('Sheet.domain', 'Domain')
-      // .leftJoinAndSelect('Sheet.board', 'Board')
-      .leftJoinAndSelect('Sheet.creator', 'Creator')
-      .leftJoinAndSelect('Sheet.updater', 'Updater')
+      .leftJoinAndSelect('LiteMenu.domain', 'Domain')
+      .leftJoinAndSelect('LiteMenu.creator', 'Creator')
+      .leftJoinAndSelect('LiteMenu.updater', 'Updater')
       .getManyAndCount()
 
     var cvtItems = await Promise.all(

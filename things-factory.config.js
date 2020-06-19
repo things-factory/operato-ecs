@@ -9,8 +9,8 @@ export default {
       page: 'dashboard'
     },
     {
-      tagname: 'sheet-page',
-      page: 'sheet'
+      tagname: 'lite-menu-page',
+      page: 'lite-menu'
     },
     {
       tagname: 'system-user',

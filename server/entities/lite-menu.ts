@@ -11,9 +11,10 @@ import {
 import { Domain } from '@things-factory/shell'
 import { User } from '@things-factory/auth-base'
 
-@Entity('sheets')
-@Index('ix_sheet_0', (sheet: Sheet) => [sheet.domain, sheet.name], { unique: true })
-export class Sheet {
+@Entity('liteMenus')
+@Index('ix_lite_menu_0', (liteMenu: LiteMenu) => [liteMenu.domain, liteMenu.name], { unique: true })
+@Index('ix_lite_menu_1', (liteMenu: LiteMenu) => [liteMenu.domain, liteMenu.rank], { unique: true })
+export class LiteMenu {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -27,6 +28,11 @@ export class Sheet {
     nullable: true
   })
   description: string
+
+  @Column({
+    nullable: true
+  })
+  rank: number
 
   @Column({
     nullable: true

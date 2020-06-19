@@ -1,10 +1,11 @@
 import gql from 'graphql-tag'
 
-export const Sheet = gql`
-  type Sheet {
+export const LiteMenu = gql`
+  type LiteMenu {
     id: String
     name: String
     description: String
+    rank: Int
     type: String
     value: String
     board: Board

@@ -9,7 +9,7 @@ import { getRenderer, getEditor } from '@things-factory/grist-ui'
 
 import '@things-factory/grist-ui'
 
-class Sheet extends connect(store)(localize(i18next)(PageView)) {
+class LiteMenu extends connect(store)(localize(i18next)(PageView)) {
   static get properties() {
     return {
       config: Object
@@ -32,7 +32,7 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
 
   get context() {
     return {
-      title: i18next.t('text.sheet management'),
+      title: i18next.t('text.lite-menu management'),
       actions: [
         {
           title: i18next.t('button.reload'),
@@ -55,7 +55,7 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
       ],
       exportable: {
         accept: ['json'],
-        name: 'sheet-list',
+        name: 'lite-menu-list',
         data: () => {
           return this.grist.data
         }
@@ -89,6 +89,7 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
         var patch = {
           name: record.name,
           description: record.description,
+          rank: record.rank,
           active: record.active,
           type: record.type,
           value: record.value
@@ -96,8 +97,8 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
 
         return await client.mutate({
           mutation: gql`
-            mutation($name: String!, $patch: SheetPatch!) {
-              updateSheet(name: $name, patch: $patch) {
+            mutation($name: String!, $patch: LiteMenuPatch!) {
+              updateLiteMenu(name: $name, patch: $patch) {
                 id
                 name
               }
@@ -113,9 +114,10 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
 
     await Promise.all(
       addedList.map(async record => {
-        var sheet = {
+        var liteMenu = {
           name: record.name,
           description: record.description,
+          rank: record.rank,
           active: record.active,
           type: record.type,
           value: record.value
@@ -123,15 +125,15 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
 
         return await client.mutate({
           mutation: gql`
-            mutation($sheet: NewSheet!) {
-              createSheet(sheet: $sheet) {
+            mutation($liteMenu: NewLiteMenu!) {
+              createLiteMenu(liteMenu: $liteMenu) {
                 id
                 name
               }
             }
           `,
           variables: {
-            sheet
+            liteMenu
           }
         })
       })
@@ -156,7 +158,7 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
         return await client.mutate({
           mutation: gql`
             mutation($name: String!) {
-              deleteSheet(name: $name)
+              deleteLiteMenu(name: $name)
             }
           `,
           variables: {
@@ -212,13 +214,24 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
           width: 200
         },
         {
+          type: 'number',
+          name: 'rank',
+          header: i18next.t('field.rank'),
+          record: {
+            align: 'right',
+            editable: true
+          },
+          sortable: true,
+          width: 60
+        },
+        {
           type: 'select',
           name: 'type',
           header: i18next.t('field.type'),
           record: {
             align: 'center',
             editable: true,
-            options: ['board', 'page']
+            options: ['', 'page', 'board']
           },
           width: 80
         },
@@ -280,8 +293,8 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
       },
       sorters: [
         {
-          name: 'name',
-          desc: true
+          name: 'rank',
+          desc: false
         }
       ],
       pagination: {
@@ -310,7 +323,7 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
       await client.query({
         query: gql`
         {
-          sheets(${gqlBuilder.buildArgs({
+          liteMenus(${gqlBuilder.buildArgs({
             filters: [],
             pagination: {
               page,
@@ -322,6 +335,7 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
               id
               name
               description
+              rank
               type
               value
               board {
@@ -347,11 +361,11 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
         }
       `
       })
-    ).data.sheets
+    ).data.liteMenus
 
     store.dispatch({
-      type: 'UPDATE_SHEETS',
-      sheets: response.items
+      type: 'UPDATE_LITE_MENUS',
+      liteMenus: response.items
     })
 
     return {
@@ -361,4 +375,4 @@ class Sheet extends connect(store)(localize(i18next)(PageView)) {
   }
 }
 
-window.customElements.define('sheet-page', Sheet)
+window.customElements.define('lite-menu-page', LiteMenu)

@@ -1,5 +1,5 @@
-import { Sheet } from './sheet'
+import { LiteMenu } from './lite-menu'
 
-export const entities = [Sheet]
+export const entities = [LiteMenu]
 
-export { Sheet }
+export { LiteMenu }

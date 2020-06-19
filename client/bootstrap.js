@@ -9,7 +9,7 @@ import { auth } from '@things-factory/auth-base'
 import './viewparts/menu'
 import './viewparts/dashboard-setting-let'
 
-import sheets from './reducers/sheets'
+import liteMenus from './reducers/lite-menus'
 import dashboard from './reducers/dashboard-settings'
 
 import { UPDATE_DASHBOARD_SETTINGS } from './actions/dashboard-settings'
@@ -30,7 +30,7 @@ export default function bootstrap() {
   /* 사용자 signin/signout 에 따라서, setting 변경 */
   auth.on('profile', async ({ credential }) => {
     store.addReducers({
-      sheets,
+      liteMenus,
       dashboard
     })
 
@@ -84,14 +84,14 @@ export default function bootstrap() {
 
     if (credential.userType != 'admin') return
 
-    /* add sheet management page morenda */
+    /* add lite-menu management page morenda */
     store.dispatch({
       type: ADD_MORENDA,
       morenda: {
         icon: html` <mwc-icon>view_list</mwc-icon> `,
-        name: html` <i18n-msg msgid="text.sheet management"></i18n-msg> `,
+        name: html` <i18n-msg msgid="text.lite-menu management"></i18n-msg> `,
         action: () => {
-          navigate('sheet')
+          navigate('lite-menu')
         }
       }
     })

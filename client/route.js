@@ -3,8 +3,8 @@ export default function route(page) {
     case '':
       return '/dashboard'
 
-    case 'sheet':
-      import('./pages/sheet')
+    case 'lite-menu':
+      import('./pages/lite-menu')
       return page
 
     case 'dashboard':

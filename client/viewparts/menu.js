@@ -53,31 +53,37 @@ export class MenuPart extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      sheets: Array,
+      liteMenus: Array,
       resource: String,
       user: Object
     }
   }
 
   render() {
-    var sheets = (this.sheets || []).filter(sheet => sheet.active)
+    var liteMenus = (this.liteMenus || [])
+      .filter(liteMenu => liteMenu.active)
+      .sort((m1, m2) => {
+        return m1.rank - m2.rank
+      })
 
     return html`
       <div ?active=${this.isHome()}>
         <a @click=${e => this.navigateToHome()} menu><mwc-icon>home</mwc-icon> home</a>
       </div>
 
-      ${sheets.map(sheet => {
+      ${liteMenus.map(liteMenu => {
         return html`
-          <div ?active=${this.resource == sheet.value}>
-            ${sheet.type == 'board'
+          <div ?active=${this.resource == liteMenu.value}>
+            ${liteMenu.type == 'board'
               ? html`
-                  <a href="board-viewer/${sheet.value}?title=${sheet.name}" menu
-                    ><mwc-icon>description</mwc-icon> ${sheet.name}</a
+                  <a href="board-viewer/${liteMenu.value}?title=${liteMenu.name}" menu
+                    ><mwc-icon>description</mwc-icon> ${liteMenu.name}</a
                   >
                 `
               : html`
-                  <a href="${sheet.value}?title=${sheet.name}" menu><mwc-icon>description</mwc-icon> ${sheet.name}</a>
+                  <a href="${liteMenu.value}?title=${liteMenu.name}" menu
+                    ><mwc-icon>description</mwc-icon> ${liteMenu.name}</a
+                  >
                 `}
           </div>
         `
@@ -87,16 +93,16 @@ export class MenuPart extends connect(store)(LitElement) {
 
   updated(changes) {
     if (changes.has('user') && this.user) {
-      this.fetchSheets()
+      this.fetchLiteMenus()
     }
   }
 
-  async fetchSheets() {
-    var sheets = (
+  async fetchLiteMenus() {
+    var liteMenus = (
       await client.query({
         query: gql`
         {
-          sheets(${gqlBuilder.buildArgs({
+          liteMenus(${gqlBuilder.buildArgs({
             filters: [],
             pagination: {},
             sortings: []
@@ -105,6 +111,7 @@ export class MenuPart extends connect(store)(LitElement) {
               id
               name
               description
+              rank
               active
               type
               value
@@ -114,17 +121,17 @@ export class MenuPart extends connect(store)(LitElement) {
         }
       `
       })
-    ).data.sheets.items
+    ).data.liteMenus.items
 
     store.dispatch({
-      type: 'UPDATE_SHEETS',
-      sheets: sheets
+      type: 'UPDATE_LITE_MENUS',
+      liteMenus: liteMenus
     })
   }
 
   stateChanged(state) {
     this.resource = state.route.resourceId
-    this.sheets = state.sheets.sheets
+    this.liteMenus = state.liteMenus.liteMenus
     this.user = state.auth.user
   }
 
