@@ -1,6 +1,5 @@
 {
   "button.commit": "commit",
-  "button.delete": "delete",
   "button.reload": "reload",
   "field.board": "board",
   "field.qty": "qty",
