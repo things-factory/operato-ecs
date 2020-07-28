@@ -27,6 +27,10 @@ export default {
     {
       tagname: 'ecs-board-viewer-page',
       page: 'board-viewer'
+    },
+    {
+      tagname: 'printable-board-viewer-page',
+      page: 'printable-board-viewer'
     }
   ],
   route

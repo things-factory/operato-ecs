@@ -18,5 +18,9 @@ export default function route(page) {
     case 'board-viewer':
       import('./pages/board/ecs-board-viewer-page')
       return page
+
+    case 'printable-board-viewer':
+      import('./pages/board/printable-board-viewer-page')
+      return page
   }
 }
