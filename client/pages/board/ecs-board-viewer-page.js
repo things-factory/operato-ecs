@@ -9,6 +9,19 @@ function serialize(obj) {
   return str.join('&')
 }
 
+function readFileAsync(file) {
+  return new Promise((resolve, reject) => {
+    let reader = new FileReader()
+
+    reader.onload = () => {
+      resolve(reader.result)
+    }
+
+    reader.onerror = reject
+    reader.readAsDataURL(file)
+  })
+}
+
 export class ECSBoardViewerPage extends BoardViewerPage {
   get context() {
     return {
@@ -26,7 +39,7 @@ export class ECSBoardViewerPage extends BoardViewerPage {
   }
 
   async fetchImage() {
-    const modelId = '27b9fe64-1f38-4893-ab5f-6fd8e10691dd'
+    const modelId = this._boardId
     const data = {
       title: 'ABCDEFG'
     }
@@ -34,8 +47,7 @@ export class ECSBoardViewerPage extends BoardViewerPage {
     const url = `${location.origin}/screenshot/${modelId}${queryString ? '?' + queryString : ''}`
 
     const response = await fetch(url)
-    const image = await response.blob()
-    return URL.createObjectURL(image)
+    return await readFileAsync(await response.blob())
   }
 }
 
