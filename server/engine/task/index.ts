@@ -2,3 +2,5 @@
 // import './modbus-write-single'
 // import './melsec-write'
 // import './melsec-read'
+import './indicator-publish'
+import './indicator-subscribe'
